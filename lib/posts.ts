@@ -73,7 +73,7 @@ export async function getPostsMeta(): Promise<Meta[] | undefined> {
 
   if (!res.ok) return undefined
 
-  const repoFiletree.: Filetree = await res.json()
+  const repoFiletree: Filetree = await res.json()
 
   const filesArray = repoFiletree.tree.map(obj => obj.path).filter(path => path.endsWith('.mdx'))
 
