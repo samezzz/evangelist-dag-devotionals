@@ -9,9 +9,19 @@ export default async function Posts() {
   }
 
   return (
-    <section className="container mx-auto flex flex-wrap md:gap-x-5">
-    <p className="text-sm px-2 text-center mb-8">
-        This is a blog where I share my personal journey of continuous learning and growth. As a student, I have come to appreciate the value of knowledge, and I believe that sharing what I learn with others can help us all achieve greater heights. Through this blog, I'll be posting articles, study tips, and thought-provoking discussions about various academic subjects. Additionally, I'll be sharing insights about Bishop Dag Heward-Mills and his ministry, which has inspired and transformed countless lives around the world. Join me on this collective learning adventure as we expand our knowledge horizons and explore the intersection of academic wisdom and spiritual revelation.
+    <section className="container mx-auto flex flex-wrap md:gap-x-3">
+    <p className="text-sm px-2 pt-2 text-center mb-8">
+        This is a website dedicated to sharing daily devotionals by the esteemed evangelist, Bishop Dag Heward Mills. This platform is created out of a deep love and admiration for his profound teachings, unwavering faith, and passion for spreading the gospel.
+        
+    <p>
+        Our mission is to provide a space where individuals seeking spiritual growth and enlightenment can find solace, inspiration, and practical guidance. We believe that Bishop Dag's teachings have the power to ignite transformation, foster a deeper connection with God, and positively impact lives.
+    </p>
+        
+    <p>
+        Each day, we curate and present a carefully selected devotional from Bishop Dag Heward Mills. These devotionals offer insightful reflections, biblical teachings, and personal anecdotes that speak directly to the challenges and triumphs of the Christian journey. We aim to encourage, uplift, and empower individuals to live out their faith in a meaningful and purposeful way.
+    </p>
+
+        Bishop Dag's teachings are characterized by his unique ability to simplify complex spiritual concepts and make them relatable to people from all walks of life. His messages are filled with wisdom, love, and practical applications that resonate with believers across the globe. Through his ministry, Bishop Dag has touched countless lives, helping individuals develop a deeper understanding of their faith and equipping them to fulfill their God-given purpose.
       </p>
       <h2 className="text-4xl font-bold dark:text-white/90 ml-2">
         Insights

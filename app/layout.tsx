@@ -6,8 +6,11 @@ import { Metadata } from 'next'
 
 
 export const metadata: Metadata = {
-  title: "evangelistdagdevotionals",
-  description: 'Welcome to Mindshare Memoirs, where knowledge meets divine inspiration. Let us embark on a collective learning adventure together and expand our knowledge horizons. Discover a harmonious fusion of academic wisdom and spiritual revelation as we embark on a transformative quest for knowledge and divine enlightenment'
+  title: "Daily Devotionals by Evangelist Dag Heward Mills",
+  description: 'Immerse yourself in daily devotionals by renowned evangelist Dag Heward Mills, offering profound insights and inspirational messages for your spiritual growth. Explore a rich collection of thought-provoking reflections, biblical teachings, and practical guidance to deepen your faith, foster personal transformation, and draw closer to God. Join our community and embark on a meaningful journey of spiritual enlightenment and empowerment.',
+  icons: {
+    icon: './favicon.ico',
+  },
 }
 
 const inter = Inter({
