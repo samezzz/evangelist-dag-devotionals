@@ -9,6 +9,7 @@ module.exports = {
       fontFamily: {
         'inter': ["var(--font-inter)", "sans-serif"],
         'manuale': ["var(--font-manuale)", "sans-serif"],
+        'bodoni_moda': ["var(--font-bodoni_moda)", "sans-serif"],
       },
     },
   },
