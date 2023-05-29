@@ -45,7 +45,7 @@ pnpm install
 
 - Open the .env.local file and add the following configuration variables:
 
-MY_SECRET_TOKEN=any_phrase_or_word_of_choice
+MY_SECRET_TOKEN=any_phrase_or_word_of_choice  
 GITHUB_TOKEN=your-github_token
 
 ## Development
