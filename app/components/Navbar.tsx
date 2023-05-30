@@ -18,13 +18,13 @@ export default function Navbar() {
       </div>
       <div className="flex flex-row justify-center items-center align-middle gap-4 text-4xl lg:text-5xl">
         <Link href="https://www.youtube.com/@DagHewardMillsvideos">
-          <FaYoutube className="w-8 h-8 text-[#c4302b]" />
+          <FaYoutube className="w-6 h-6 text-[#c4302b] dark:text-gray-100" />
         </Link>
         <Link href="https://facebook.com/daghewardmills.org">
-          <FaFacebook className="w-7 h-7 text-[#3b5998]" />
+          <FaFacebook className="w-5 h-5 text-[#3b5998] dark:text-gray-100" />
         </Link>
         <Link href="https://twitter.com/EvangelistDag">
-          <FaTwitter className="w-7 h-7 text-[#1DA1F2]" />
+          <FaTwitter className="w-5 h-5 text-[#1DA1F2] dark:text-gray-100" />
         </Link>
       </div>
     </nav>
