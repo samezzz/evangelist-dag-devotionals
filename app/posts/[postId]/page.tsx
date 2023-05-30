@@ -34,7 +34,6 @@ export async function generateMetadata({ params: { postId }}: Props) {
   return {
     title: post.meta.title,
   }
-  
 }
 
 export default async function Post({ params: { postId }}: Props) {

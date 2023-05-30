@@ -1,11 +1,11 @@
 import Link from "next/link"
 import getFormattedDate from "@/lib/getFormattedDate"
-import { Bodoni_Moda } from 'next/font/google';
+import { Domine } from 'next/font/google';
 
-const bodoni_moda = Bodoni_Moda({
+const domine = Domine({
   subsets: ['latin'],
   weight: '600',
-  variable: '--font-bodoni_moda',
+  variable: '--font-domine',
 })
 
 
@@ -19,7 +19,7 @@ export default function ListItem({ post }: Props) {
 
   return (
     <li className="mt-4 text-2xl dark:text-white/90 w-full bg-gray-200 dark:bg-[#1c1c1c] px-3 pt-3 pb-1 rounded-xl" key={id}>
-      <Link href={`/posts/${id}`} className={`${bodoni_moda.variable} font-bodoni_moda underline-offset-4 text-gray-900 dark:text-gray-100 hover:text-blue-400 mt-2 truncate`}>{title}</Link>
+      <Link href={`/posts/${id}`} className={`${domine.variable} font-domine no-underline text-gray-900 dark:text-gray-100 hover:text-blue-400 mt-2 truncate`}>{title}</Link>
       <br />
       <p className="text-xs mt-1">
         {formattedDate}
