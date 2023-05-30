@@ -4,7 +4,7 @@ import { Domine } from 'next/font/google';
 
 const domine = Domine({
   subsets: ['latin'],
-  weight: '600',
+  weight: '400',
   variable: '--font-domine',
 })
 
