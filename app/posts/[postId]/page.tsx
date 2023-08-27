@@ -68,7 +68,7 @@ export default async function Post({ params: { postId }}: Props) {
         </div>
       </section>
       <p className="mb-10">
-        <Link href="/" className="no-underline bg-orange-400 hover:bg-orange-500 dark:bg-gray-600 dark:hover:bg-gray-700 py-2 px-3 rounded-2xl">Back to home</Link>
+        <Link href="/" className="no-underline bg-orange-400 hover:bg-orange-500 dark:bg-gray-600 dark:hover:bg-gray-700 py-2 px-3 rounded-2xl">Back</Link>
       </p>
     </>
   )
