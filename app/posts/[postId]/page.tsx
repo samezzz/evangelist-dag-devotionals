@@ -46,7 +46,7 @@ export default async function Post({ params: { postId }}: Props) {
 
   const pubDate = getFormattedDate(meta.date)
 
-  const tags = meta.tags.map((tag, i) => (
+  const tags = meta.tags.map((tag:any, i:any) => (
     <Link key={i} href={`/tags/${tag}`}>{tag}</Link>
   ))
 
