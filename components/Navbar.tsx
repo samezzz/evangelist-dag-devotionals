@@ -4,8 +4,23 @@ import { FaTwitter, FaYoutube, FaFacebook } from "react-icons/fa"
 
 export default function Navbar() {
   return (
-    <nav className="px-3 py-3 flex justify-between sticky top-0 drop-shadow-xl z-10 backdrop-blur-md border-b-[0.1px] border-b-gray-400 dark:border-b-[#302e2e]">
-        <div className="text-3xl font-bold text-white grid w-[12vw] h-full rounded-lg">
+    <nav className="w-full flex py-6">
+        <div className="flex gap-x-2 mx-auto items-center">
+          <p>
+            HOME
+          </p>
+          <p>
+            ABOUT
+          </p>
+        </div>
+    </nav>
+  )
+}
+
+
+
+
+{/* <div className="text-3xl font-bold text-white grid w-[12vw] h-full rounded-lg">
           <Link href="/" className="block h-8 w-8 overflow-hidden">
           <Image
             src="/quietTime.jpeg"
@@ -26,7 +41,4 @@ export default function Navbar() {
         <Link href="https://twitter.com/EvangelistDag">
           <FaTwitter className="w-5 h-5 text-[#1DA1F2] dark:text-gray-100" />
         </Link>
-      </div>
-    </nav>
-  )
-}
+      </div> */}
