@@ -4,6 +4,7 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
 import Video from '@/components/Video'
 import CustomImage from '@/components/CustomImage'
+import { DailyDevotional, Meta } from '@/types'
 
 type Filetree = {
   "tree": [

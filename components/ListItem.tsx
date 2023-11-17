@@ -1,6 +1,7 @@
 import Link from "next/link"
 import getFormattedDate from "@/lib/getFormattedDate"
 import { Domine } from 'next/font/google';
+import { Meta } from "@/types";
 
 const domine = Domine({
   subsets: ['latin'],
