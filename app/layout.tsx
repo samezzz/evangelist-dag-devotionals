@@ -1,6 +1,5 @@
 import "./globals.css";
 import { GeistSans } from "geist/font/sans";
-import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -22,17 +21,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cn(GeistSans.className, "min-h-screen antialiased")}>
+      <body className={cn(GeistSans.className, "min-h-screen min-w-[430px] antialiased m-0 p-o box-border")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <header className="sticky top-0 z-40 ">
-              <Navbar />
-          </header>
-          <div className="container">{children}</div>
+          <Navbar />
+          {children}
         </ThemeProvider>
       </body>
     </html>

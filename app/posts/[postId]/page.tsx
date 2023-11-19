@@ -52,23 +52,23 @@ export default async function Post({ params: { postId }}: Props) {
 
   return (
     <>
-      <h2 className="text-3xl mt-4 mb-0 text-gray-900 dark:text-gray-100">
+      <h2 className="">
         {meta.title}
       </h2>
-      <p className="mt-0 text-sm">
+      <p className="">
         {pubDate}
       </p>
       <article>
         {content}
       </article>
-      <section className="mb-0">
+      <section className="">
         <h3>Related</h3>
-        <div className="flex flex-row gap-4 no-underline hover:text-blue-500"> 
+        <div className=""> 
           {tags}
         </div>
       </section>
-      <p className="mb-10">
-        <Link href="/" className="no-underline bg-orange-400 hover:bg-orange-500 dark:bg-gray-600 dark:hover:bg-gray-700 py-2 px-3 rounded-2xl">Back</Link>
+      <p className="">
+        <Link href="/" className="">Back</Link>
       </p>
     </>
   )

@@ -1,26 +1,71 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { FaTwitter, FaYoutube, FaFacebook } from "react-icons/fa"
+import { ModeToggle } from "./ModeToggle";
+import { Button } from "./ui/button";
+import { nav } from "@/constants";
+import { MobileNav } from "./MobileNav";
+import React, { useState } from "react";
+import { Icons } from "./Icons";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Navbar() {
+  const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
+
+  const handleClick = () => {
+    setShowMobileMenu((prev) => !prev); // Close the mobile menu when a link is clicked
+  };
+
   return (
-    <nav className="w-full flex py-6">
-        <div className="flex gap-x-2 mx-auto items-center">
-          <p>
-            HOME
-          </p>
-          <p>
-            ABOUT
-          </p>
-        </div>
+    <nav className="flex items-center justify-between mx-auto max-w-[1440px]; px-6 lg:px-20 3xl:px-0 py-5">
+      <Avatar>
+        <AvatarImage src="/quietTime.jpeg" alt="@evangelistdagdevotionals" />
+        <AvatarFallback>DC</AvatarFallback>
+      </Avatar>
+
+      <ul className="hidden h-full gap-12 md:flex">
+        {nav.map((link, index) => (
+          <Link
+            href={link.href}
+            key={index}
+            className=" text-gray-50 flex items-center justify-center cursor-pointer pb-1.5 transition-all hover:font-bold duration-500 ease-in-out hover:text-primary"
+          >
+            {link.name}
+          </Link>
+        ))}
+      </ul>
+
+      <div className="md:flex items-center justify-center hidden gap-x-3">
+        <ModeToggle />
+        <Button>Posts</Button>
+      </div>
+      <div className="md:hidden flex items-center gap-x-3">
+        <ModeToggle />
+        <button
+          className="flex items-center space-x-2 md:hidden"
+          onClick={() => setShowMobileMenu((prev) => !prev)}
+        >
+          {showMobileMenu ? <Icons.close /> : <Icons.menu />}
+        </button>
+        {showMobileMenu && nav && (
+          <MobileNav items={nav} closeMenu={handleClick} />
+        )}
+      </div>
+
+      {/* <Image 
+        src="menu.svg"
+        alt="menu"
+        width={32}
+        height={32}
+        className="inline-block cursor-pointer lg:hidden"
+      /> */}
     </nav>
-  )
+  );
 }
 
-
-
-
-{/* <div className="text-3xl font-bold text-white grid w-[12vw] h-full rounded-lg">
+{
+  /* <div className="text-3xl font-bold text-white grid w-[12vw] h-full rounded-lg">
           <Link href="/" className="block h-8 w-8 overflow-hidden">
           <Image
             src="/quietTime.jpeg"
@@ -41,4 +86,5 @@ export default function Navbar() {
         <Link href="https://twitter.com/EvangelistDag">
           <FaTwitter className="w-5 h-5 text-[#1DA1F2] dark:text-gray-100" />
         </Link>
-      </div> */}
+      </div> */
+}
