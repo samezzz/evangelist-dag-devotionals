@@ -46,7 +46,7 @@ export default function Navbar() {
           className="flex items-center space-x-2 md:hidden"
           onClick={() => setShowMobileMenu((prev) => !prev)}
         >
-          {showMobileMenu ? <Icons.close /> : <Icons.menu />}
+          {showMobileMenu ? <Icons.close className="border border-border p-1 rounded-md h-[36px] w-[36px] hover:bg-secondary"  /> : <Icons.menu className="border border-border p-1 rounded-md h-[36px] w-[36px] hover:bg-secondary transition-all" />}
         </button>
         {showMobileMenu && nav && (
           <MobileNav items={nav} closeMenu={handleClick} />

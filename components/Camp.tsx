@@ -29,7 +29,7 @@ const CampSite = ({ backgroundImage, title, subtitle, peopleJoined }: CampProps)
       </div>
 
       <div className="flex items-center justify-center gap-6">
-        <span className="flex -space-x-4 overflow-hidden">
+        <span className="flex -space-x-4">
           {/* {PEOPLE_URL.map((url) => (
             <Image 
               className="inline-block h-10 w-10 rounded-full"
@@ -51,8 +51,8 @@ const CampSite = ({ backgroundImage, title, subtitle, peopleJoined }: CampProps)
 
 const Camp = () => {
   return (
-    <section className="2xl:mx-auto max-w-[1440px]; relative flex flex-col py-10 lg:mb-10 lg:py-20 xl:mb-20">
-      <div className="hide-scrollbar flex h-[340px] w-full items-start justify-start gap-8 overflow-x-auto lg:h-[400px] xl:h-[640px]">
+    <section className="2xl:mx-auto max-w-[1440px]; flex flex-col py-10 lg:mb-10 lg:py-20 xl:mb-20">
+      <div className="hide-scrollbar flex h-[340px] w-full items-start justify-start gap-8 lg:h-[400px] xl:h-[640px]">
         <CampSite 
           backgroundImage="bg-bg-img-1"
           title="Putuk Truno Camp"
@@ -68,7 +68,7 @@ const Camp = () => {
       </div>
 
       <div className="flex items-center justify-end mt-10 px-6 lg:-mt-60 lg:mr-6">
-        <div className="bg-green-50 p-8 lg:max-w-[500px] xl:max-w-[734px] xl:rounded-5xl xl:px-16 xl:py-20 relative w-full overflow-hidden rounded-3xl">
+        <div className="bg-green-50 p-8 lg:max-w-[500px] xl:max-w-[734px] xl:rounded-5xl xl:px-16 xl:py-20 w-full  rounded-3xl">
           <h2 className=" capitalize text-white">
             <strong>Feeling Lost</strong> And Not Knowing The Way?
           </h2>
@@ -80,7 +80,7 @@ const Camp = () => {
             alt="camp-2"
             width={186}
             height={219}
-            className="absolute -right-6 bottom-4 w-[140px] lg:bottom-10 xl:-right-8 xl:w-[186px] 3xl:right-0"
+            className="-right-6 bottom-4 w-[140px] lg:bottom-10 xl:-right-8 xl:w-[186px] 3xl:right-0"
           />
         </div>
       </div>

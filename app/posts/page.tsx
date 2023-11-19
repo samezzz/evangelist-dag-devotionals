@@ -5,8 +5,9 @@ import Posts from '@/components/Posts'
 
 const PostsPage = () => {
   return (
-    <div>{/* @ts-expect-error Server Component */}
-    <Posts /></div>
+    <div className="max-w-[1440px]">{/* @ts-expect-error Server Component */}
+    <Posts />
+    </div>
   )
 }
 

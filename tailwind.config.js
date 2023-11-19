@@ -13,7 +13,7 @@ module.exports = {
       padding: "2rem",
       screens: {
         "2xl": "1400px",
-        xs: '400px',
+         xs: '400px',
         '3xl': '1680px',
         '4xl': '2200px',
       },
@@ -79,13 +79,6 @@ module.exports = {
       },
       borderRadius: {
         '5xl': '40px',
-      },
-      backgroundImage: {
-        'bg-img-1': "url('/img-1.png')",
-        'bg-img-2': "url('/img-2.png')",
-        'feature-bg': "url('/feature-bg.png')",
-        pattern: "url('/pattern.png')",
-        'pattern-2': "url('/pattern-bg.png')",
       },
       borderRadius: {
         lg: "var(--radius)",

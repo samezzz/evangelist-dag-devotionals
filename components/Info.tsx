@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 
-const Guide = () => {
+const Info = () => {
   return (
     <section className="flex items-center justify-center flex-col">
       <div className="px-6 lg:px-20 3xl:px-0 mx-auto max-w-[1440px]; w-full pb-24">
@@ -15,7 +15,7 @@ const Guide = () => {
         </div>
       </div>
 
-      <div className="fflex items-center justify-center mx-auto max-w-[1440px]; relative w-full">
+      <div className="fflex items-center justify-center mx-auto max-w-[1440px]; w-full">
         {/* <Image 
           src="/boat.png"
           alt="boat"
@@ -24,7 +24,7 @@ const Guide = () => {
           className="w-full object-cover object-center 2xl:rounded-5xl"
         /> */}
 
-        <div className="absolute flex bg-white py-8 pl-5 pr-7 gap-3 rounded-3xl border shadow-md md:left-[5%] lg:top-20">
+        <div className="flex bg-white py-8 pl-5 pr-7 gap-3 rounded-3xl border shadow-md md:left-[5%] lg:top-20">
           {/* <Image 
             src="/meter.svg"
             alt="meter"
@@ -52,4 +52,4 @@ const Guide = () => {
   )
 }
 
-export default Guide
+export default Info
