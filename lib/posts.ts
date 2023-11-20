@@ -31,8 +31,8 @@ export async function getPostByName(fileName: string): Promise<DailyDevotional |
   const { frontmatter, content } = await compileMDX<{
     title: string,
     date: string,
-    tags: string[],
     imgSrc: string,
+    tags: string[],
   }>({
     source: rawMDX,
     components: {
@@ -92,3 +92,5 @@ export async function getPostsMeta(): Promise<Meta[] | undefined> {
 
   return posts.sort((a, b) => a.date < b.date ? 1 : -1)
 }
+
+
