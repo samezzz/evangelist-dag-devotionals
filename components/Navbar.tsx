@@ -18,7 +18,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="flex items-center justify-between mx-auto max-w-[1440px]; px-6 lg:px-20 3xl:px-0 py-5">
+    <nav className="flex items-center justify-between mx-auto px-6 lg:px-20 3xl:px-0 py-5 relative z-50">
       <Avatar>
         <AvatarImage src="/quietTime.jpeg" alt="@evangelistdagdevotionals" />
         <AvatarFallback>DC</AvatarFallback>
@@ -38,7 +38,7 @@ export default function Navbar() {
 
       <div className="md:flex items-center justify-center hidden gap-x-3">
         <ModeToggle />
-        <Button>Posts</Button>
+        {/* <Button>Posts</Button> */}
       </div>
       <div className="md:hidden flex items-center gap-x-3">
         <ModeToggle />

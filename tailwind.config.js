@@ -74,6 +74,9 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      gridTemplateColumns: {
+        'gallery': 'repeat(auto-fit, minmax(250px, 1fr))',
+      },  
       maxWidth: {
         '10xl': '1512px',
       },

@@ -1,5 +1,5 @@
 import { getPostsMeta } from "@/lib/posts"
-import ListItem from "@/components/ListItem"
+import PostItem from "@/components/PostItem"
 import Link from "next/link"
 
 export const revalidate = 86400
@@ -53,7 +53,7 @@ export default async function TagPostList({ params: { tag }}: Props) {
         <ul className="w-full list-none p-0">
           {
             tagPosts.map(post => (
-              <ListItem key={post.id} post={post} />
+              <PostItem key={post.id} post={post} />
             ))
           }
         </ul>
