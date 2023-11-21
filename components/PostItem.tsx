@@ -53,7 +53,7 @@ export default function PostItem({ post }: Props) {
                 alt={title}
                 width={width}
                 height={height}
-                placeholder="blur"
+                // placeholder="blur"
                 // blurDataUrl={}
                 className="w-full rounded-lg"
                 sizes="250px"
