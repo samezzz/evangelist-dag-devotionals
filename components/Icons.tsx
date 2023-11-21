@@ -7,5 +7,5 @@ export const Icons = {
     linkedIn: LinkedInLogoIcon,
     twitter: TwitterLogoIcon,
     close: X,
-    menu: Menu
+    menu: Menu,
 }

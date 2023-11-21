@@ -5,6 +5,7 @@ import getFormattedDate from "@/lib/getFormattedDate";
 import { Meta } from "@/types";
 import NextImage from "next/image";
 import Link from "next/link";
+import addBlurredDataUrls from "@/lib/getBase64";
 
 type Props = {
   post: Meta;
@@ -17,6 +18,8 @@ export default function PostItem({ post }: Props) {
     width: 0,
     height: 0,
   });
+
+  // const postsWithBlur = await addBlurredDataUrls(post.imgSrc)
 
   useEffect(() => {
     const loadImage = () => {
@@ -50,6 +53,8 @@ export default function PostItem({ post }: Props) {
                 alt={title}
                 width={width}
                 height={height}
+                placeholder="blur"
+                // blurDataUrl={}
                 className="w-full rounded-lg"
                 sizes="250px"
                 />
