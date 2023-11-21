@@ -5,7 +5,7 @@ import getFormattedDate from "@/lib/getFormattedDate";
 import { Meta } from "@/types";
 import NextImage from "next/image";
 import Link from "next/link";
-import addBlurredDataUrls from "@/lib/getBase64";
+// import addBlurredDataUrls from "@/lib/getBase64";
 
 type Props = {
   post: Meta;
