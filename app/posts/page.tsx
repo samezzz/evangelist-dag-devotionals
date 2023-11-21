@@ -1,9 +1,13 @@
 import PostItem from "@/components/PostItem";
 import { fetchPosts } from "./actions";
 import InfiniteScrollPosts from "@/components/InfiniteScrollPosts";
+import { getPostsMeta } from "@/lib/posts";
 
 export default async function Posts() {
-  const posts = await fetchPosts({page:1});
+  // const posts = await fetchPosts({page: 1});
+  const posts = await getPostsMeta(
+    // {page: 1}
+    );
   
   if (!posts) {
     return <p className="mt-10 text-center">Sorry, no posts available.</p>;
@@ -16,7 +20,7 @@ export default async function Posts() {
       {posts.map((post, index) => (
           <PostItem post={post} key={index} />
       ))}
-      <InfiniteScrollPosts initialPosts={posts}/>
+      {/* <InfiniteScrollPosts initialPosts={posts}/> */}
     </section>
   );
 }

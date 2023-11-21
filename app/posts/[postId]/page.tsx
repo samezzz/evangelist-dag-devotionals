@@ -13,7 +13,9 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-  const posts = await getPostsMeta({}) //deduped!
+  const posts = await getPostsMeta(
+    // {page:1, perPage:10}
+    ) //deduped!
 
   if (!posts) return []
 

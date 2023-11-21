@@ -2,13 +2,17 @@
 
 import { getPostsMeta } from "@/lib/posts"
 
-export async function fetchPosts({
-    page = 1,
-} : {
-    page?: number
-}) {
+export async function fetchPosts(
+//     {
+//     page = 1,
+// } : {
+//     page?: number
+// }
+) {
     try {
-        const response = await getPostsMeta({page});
+        const response = await getPostsMeta(
+            // {page, perPage:10}
+            );
         if (response){
         return response
     }
