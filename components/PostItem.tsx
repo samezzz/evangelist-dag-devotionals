@@ -52,7 +52,7 @@ export default function PostItem({ post }: Props) {
                 src={imgSrc}
                 alt={title}
                 width={width}
-                height={height}
+                height={height} 
                 // placeholder="blur"
                 // blurDataUrl={}
                 className="w-full rounded-lg"
