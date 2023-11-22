@@ -1,21 +1,11 @@
-import PostItem  from "@/components/PostItem"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Loader2 } from "lucide-react"
 
 export default function PostSkeleton() {
   return (
-  //   <Card>
-  //   <CardHeader className="gap-2">
-  //     <Skeleton className="h-5 w-1/5" />
-  //     <Skeleton className="h-4 w-4/5" />
-  //   </CardHeader>
-  //   <CardContent className="h-10" />
-  //   <CardFooter>
-  //     <Skeleton className="h-8 w-[120px]" />
-  //   </CardFooter>
-  // </Card>
-  <div>
-    Loading...
+  <div className="flex items-center justify-center min-h-screen">
+  <div className="text-center">
+    <Loader2 className="h-12 w-12 animate-spin" /> 
   </div>
+</div>
   )
 }

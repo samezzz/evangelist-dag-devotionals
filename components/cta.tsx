@@ -23,14 +23,14 @@ export const Cta: React.FC = () => {
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center">
             <div>
-              <div className="inline-flex pb-3 font-medium bg-clip-text bg-gradient-to-r from-primary-500 to-primary-200">
+              <div className="inline-flex pb-3 font-medium text-gray-50 dark:text-gray-20 ">
               Embrace Bishop Dag's teachings
               </div>
             </div>
-            <h2 className="pb-4 text-4xl font-extrabold ">
+            <h2 className="pb-4 text-4xl font-extrabold text ">
               Simplify spiritual growth
             </h2>
-            <p className="mb-8 text-lg text-zinc-400">
+            <p className="mb-8 text-lg text-gray-50 dark:text-gray-20 ">
               Access daily devotionals for enlightenment.
             </p>
             <div>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Youtube } from "lucide-react";
 import { Cta } from "./cta";
 import { Particles } from "@/components/Particles";
+import DC from "./DC";
 
 const Hero = () => {
   return (
@@ -29,14 +30,9 @@ const Hero = () => {
                 </Link>
               </div>
             </div>
-            <h1
-              className="pb-4 font-extrabold tracking-tight text-8xl lg:text-[200px]  bg-clip-text"
-              data-aos="fade-down"
-            >
-              Daily Counsel
-            </h1>
+            <DC />
             <p
-              className="mt-6 mb-8 text-gray-30  z-20 max-w-4xl mx-auto"
+              className="mt-6 mb-8 text-gray-50 dark:text-gray-20  z-20 max-w-4xl mx-auto"
               data-aos="fade-down"
               data-aos-delay="200"
             >

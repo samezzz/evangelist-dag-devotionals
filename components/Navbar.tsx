@@ -6,19 +6,39 @@ import { ModeToggle } from "./ModeToggle";
 import { Button } from "./ui/button";
 import { nav } from "@/constants";
 import { MobileNav } from "./MobileNav";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icons } from "./Icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
+  const pathname = usePathname()
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const isMobile = typeof window !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []); // Empty dependency array to execute this effect only once
 
   const handleClick = () => {
     setShowMobileMenu((prev) => !prev); // Close the mobile menu when a link is clicked
   };
 
   return (
-    <nav className="flex items-center justify-between mx-auto px-6 lg:px-20 3xl:px-0 py-5 relative z-50">
+    <nav className={`flex items-center justify-between mx-auto px-6 lg:px-20 3xl:px-0 py-2 md:py-3 sticky top-0 z-50 ${pathname !== "/" && isMobile && isScrolled && "glassmorphism"}`}>
       <Avatar>
         <AvatarImage src="/quietTime.jpeg" alt="@evangelistdagdevotionals" />
         <AvatarFallback>DC</AvatarFallback>
