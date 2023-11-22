@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 import { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { cn } from "@/lib/utils";
-import { Particles } from "@/components/Particles";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -30,7 +29,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Particles className="absolute inset-0 -z-10 " />
           <Navbar />
           {children}
         </ThemeProvider>

@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { Youtube } from "lucide-react";
 import { Cta } from "./cta";
+import { Particles } from "@/components/Particles";
 
 const Hero = () => {
   return (
     <section>
       <div className="relative max-w-6xl min-h-screen px-4 mx-auto sm:px-6 ">
         <div className="pt-24 lg:pt-12 pb-16 md:pt-52 md:pb-32">
+        <Particles className="absolute inset-0 -z-10 " />
+        <Particles className="absolute inset-0 -z-10 " />
           {/* Hero content */}
           <div className="mx-auto text-center ">
             <div className="mb-6" data-aos="fade-down">

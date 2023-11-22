@@ -1,5 +1,5 @@
 import getFormattedDate from "@/lib/getFormattedDate"
-import { getPostsMeta, getPostByName } from "@/lib/gpt"
+import { getPostsMeta, getPostByName } from "@/lib/posts"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import 'highlight.js/styles/github-dark.css'

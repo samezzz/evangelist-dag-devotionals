@@ -44,7 +44,7 @@ export default function PostItem({ post }: Props) {
       // style={{ gridRow: `span ${divSpans}`}}
       className="w-[250px] justify-self-center"
     >
-      <div className="grid place-content-center">
+      <div className="grid ">
         <div className="rounded-xl overflow-hidden group">
           {false ? (
             <div className="">
