@@ -1,11 +1,11 @@
 import PostItem from "@/components/PostItem";
-// import { fetchPosts } from "./actions";
+import { fetchPosts } from "./actions";
 import InfiniteScrollPosts from "@/components/InfiniteScrollPosts";
 import { getPostsMeta } from "@/lib/gpt";
 
 export default async function Posts() {
-  // const posts = await fetchPosts({page: 1});
-  const posts = await getPostsMeta();
+  const posts = await fetchPosts({page: 1});
+  // const posts = await getPostsMeta({page: 1});
   // console.log(posts)
   
   if (!posts) {
@@ -19,7 +19,7 @@ export default async function Posts() {
       {posts.map((post, index) => (
           <PostItem post={post} key={index} />
       ))}
-      {/* <InfiniteScrollPosts initialPosts={posts}/> */}
+      <InfiniteScrollPosts initialPosts={posts}/>
     </section>
   );
 }

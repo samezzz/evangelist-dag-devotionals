@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import PostItem from './PostItem'
 import { Meta } from '@/types'
 import { useInView } from 'react-intersection-observer'
-// import { fetchPosts } from '@/app/posts/actions'
+import { fetchPosts } from '@/app/posts/actions'
 import { Loader2 } from 'lucide-react'
 
 type InfiniteScrollPostsProps = {
@@ -17,24 +17,23 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({ initialPosts 
     const [page, setPage ] = useState(1)
     const [ref, inView] = useInView()
 
-    // async function loadMorePosts() {
-    //     const next = page + 1
-    //     const posts = await fetchPosts({page: next});
-    //     console.log(posts)
-    //     if(posts?.length) {
-    //         setPage(next)
-    //         setPosts((prev: Meta[] | undefined) => [
-    //             ...(prev?.length ? prev : []),
-    //             ...posts
-    //         ])
-    //     }
-    // }
+    async function loadMorePosts() {
+        const next = page + 1
+        const posts = await fetchPosts({page: next});
+        if(posts?.length) {
+            setPage(next)
+            setPosts((prev: Meta[] | undefined) => [
+                ...(prev?.length ? prev : []),
+                ...posts
+            ])
+        }
+    }
 
-    // useEffect(() => {
-    //     if(inView) {
-    //         loadMorePosts()
-    //     }
-    // }, [inView])
+    useEffect(() => {
+        if(inView) {
+            loadMorePosts()
+        }
+    }, [inView])
 
   return (
     <>
