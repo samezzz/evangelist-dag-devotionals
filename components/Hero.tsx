@@ -8,7 +8,7 @@ const Hero = () => {
   return (
     <section>
       <div className="relative max-w-6xl min-h-screen px-4 mx-auto sm:px-6 ">
-        <div className="pt-24 lg:pt-12 pb-16 md:pt-52 md:pb-32">
+        <div className="pt-24 lg:pt-12 pb-16 md:pt-32 md:pb-32">
         <Particles className="absolute inset-0 -z-10 " />
         <Particles className="absolute inset-0 -z-10 " />
           {/* Hero content */}

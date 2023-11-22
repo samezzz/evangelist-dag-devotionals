@@ -36,7 +36,7 @@ const DC = () => {
   
     return (
       <h1
-        className="pb-4 font-extrabold tracking-tight text-8xl lg:text-[200px] bg-clip-text"
+        className="pb-4 font-extrabold tracking-tight text-7xl md:text-9xl lg:text-[200px] bg-clip-text"
         data-aos="fade-down"
       >
         {alternatingGradients}
