@@ -66,40 +66,40 @@ export async function getPostByName(fileName: string): Promise<DailyDevotional |
   return DailyDevotionalObj
 }
 
-export async function getPostsMeta(
-//   {
-//   page = 1,
-//   perPage = 10,
-// } : {
-//   page?: number,
-//   perPage?: number
-// }
-): Promise<Meta[] | undefined> {
-  const res = await fetch(`https://api.github.com/repos/samezzz/daily-devotionals/git/trees/main?recursive=1`, {
+export async function getPostsMeta({
+  page = 1,
+  perPage = 10,
+}: {
+  page?: number,
+  perPage?: number
+}): Promise<Meta[] | undefined> {
+  const res = await fetch(`https://api.github.com/repos/samezzz/daily-devotionals/git/trees/main?recursive=1&page=${page}&per_page=${perPage}`, {
     headers: {
       Accept: 'application/vnd.github+json',
     }
-  })
+  });
 
-  if (!res.ok) return undefined
+  if (!res.ok) return undefined;
 
-  const repoFiletree: Filetree = await res.json()
+  const repoFiletree: Filetree = await res.json();
 
-  const filesArray = repoFiletree.tree.map(obj => obj.path).filter(path => path.endsWith('.mdx'))
-  // console.log("Files Array: ", filesArray)
+  const filesArray = repoFiletree.tree.map(obj => obj.path).filter(path => path.endsWith('.mdx'));
 
+  const startIndex = (page - 1) * perPage;
+  const endIndex = startIndex + perPage;
 
   const posts: Meta[] = [];
 
-  for (const file of filesArray) {
+  for (let i = startIndex; i < Math.min(endIndex, filesArray.length); i++) {
+    const file = filesArray[i];
     const post = await getPostByName(file);
     if (post) {
-      // console.log("Posts: ", posts)
       const { meta } = post;
       posts.push(meta);
     }
   }
 
-  return posts.sort((a, b) => (a.date < b.date ? 1 : -1));
-}
+  const allPosts = posts.sort((a, b) => (a.date < b.date ? 1 : -1)); // Sort all posts
 
+  return allPosts;
+}

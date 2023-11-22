@@ -1,5 +1,5 @@
 import getFormattedDate from "@/lib/getFormattedDate"
-import { getPostsMeta, getPostByName } from "@/lib/posts"
+import { getPostsMeta, getPostByName } from "@/lib/gpt"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import 'highlight.js/styles/github-dark.css'
@@ -13,9 +13,7 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-  const posts = await getPostsMeta(
-    // {page:1, perPage:10}
-    ) //deduped!
+  const posts = await getPostsMeta({page:1, perPage:10}) //deduped!
 
   if (!posts) return []
 

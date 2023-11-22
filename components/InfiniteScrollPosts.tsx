@@ -19,9 +19,7 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({ initialPosts 
 
     async function loadMorePosts() {
         const next = page + 1
-        const posts = await fetchPosts(
-          // {page: next}
-          );
+        const posts = await fetchPosts({page: next});
         if(posts?.length) {
             setPage(next)
             setPosts((prev: Meta[] | undefined) => [

@@ -1,4 +1,4 @@
-import { getPostsMeta } from "@/lib/posts"
+import { getPostsMeta } from "@/lib/gpt"
 import PostItem from "@/components/PostItem"
 import Link from "next/link"
 
@@ -11,9 +11,7 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-  const posts = await getPostsMeta(
-    // {page:1, perPage:10}
-    ) //deduped!
+  const posts = await getPostsMeta({page:1, perPage:10}) //deduped!
 
   if (!posts) return []
 
@@ -29,9 +27,7 @@ export function generateMetadata({ params: { tag } }: Props) {
 }
 
 export default async function TagPostList({ params: { tag }}: Props) {
-  const posts = await getPostsMeta(
-    // {page:1, perPage:10}
-    ) //deduped!
+  const posts = await getPostsMeta({page:1, perPage:10}) //deduped!
 
   if (!posts) return <p className="mt-10 text-center">Sorry, no post available.</p>
 
