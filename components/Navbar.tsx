@@ -47,7 +47,7 @@ export default function Navbar() {
           <Link
             href={link.href}
             key={index}
-            className=" text-gray-50 flex items-center justify-center cursor-pointer pb-1.5 transition-all hover:font-bold duration-500 ease-in-out hover:text-primary"
+            className=" text-gray-50 flex items-center justify-center cursor-pointer pb-1.5 transition-all hover:font-bold duration-500 ease-in-out hover:dark:text-gray-200 hover:text-gray-800"
           >
             {link.name}
           </Link>
