@@ -1,6 +1,6 @@
 'use server'
 
-import { getPostsMeta } from "@/lib/gpt"
+import { getPostsMeta } from "@/lib/posts"
 
 export async function fetchPosts({
     page = 1,

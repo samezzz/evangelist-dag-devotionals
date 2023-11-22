@@ -1,4 +1,4 @@
-import { getPostsMeta } from "@/lib/gpt"
+import { getPostsMeta } from "@/lib/posts"
 import PostItem from "@/components/PostItem"
 import Link from "next/link"
 
