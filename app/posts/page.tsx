@@ -19,7 +19,7 @@ export default async function Posts() {
       {posts.map((post, index) => (
           <PostItem post={post} key={index} />
       ))}
-      {/* <InfiniteScrollPosts initialPosts={posts}/> */}
+      <InfiniteScrollPosts initialPosts={posts}/>
     </section>
   );
 }
