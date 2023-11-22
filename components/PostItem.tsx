@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function PostItem({ post }: Props) {
-  const { title, date, imgSrc } = post;
+  const { title, date } = post;
   const formattedDate = getFormattedDate(date);
   // const [imageDimensions, setImageDimensions] = useState({
   //   width: 0,
@@ -46,7 +46,7 @@ export default function PostItem({ post }: Props) {
     >
       <div className="grid place-content-center">
         <div className="rounded-xl overflow-hidden group">
-          {imgSrc ? (
+          {false ? (
             <div className="">
               {/* <NextImage
                 src={imgSrc}
@@ -58,13 +58,13 @@ export default function PostItem({ post }: Props) {
                 className="w-full rounded-lg"
                 sizes="250px"
                 /> */}
-                <h3 className={`text-xl mt-4 font-semibold`}>{title}</h3>
+                <h3 className={`text-xl font-semibold`}>{title}</h3>
                 <p className={`text-sm`}>{formattedDate}</p>
             </div>
           ) : (
             <div className="">
-              <h3 className={`text-xl mt-6 font-semibold`}>{title}</h3>
-              <p className={`mt-3 text-sm`}>{formattedDate}</p>
+              <h3 className={`text-xl font-semibold`}>{title}</h3>
+              <p className={`text-sm mb-6`}>{formattedDate}</p>
             </div>
           )}
         </div>

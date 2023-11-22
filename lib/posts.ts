@@ -31,7 +31,7 @@ export async function getPostByName(fileName: string): Promise<DailyDevotional |
   const { frontmatter, content } = await compileMDX<{
     title: string,
     date: string,
-    imgSrc: string,
+    // imgSrc: string,
     tags: string[],
   }>({
     source: rawMDX,
@@ -60,7 +60,7 @@ export async function getPostByName(fileName: string): Promise<DailyDevotional |
       id, title: frontmatter.title,
       date: frontmatter.date,
       tags: frontmatter.tags,
-      imgSrc: frontmatter.imgSrc
+      // imgSrc: frontmatter.imgSrc
     }, content
   }
   return DailyDevotionalObj
