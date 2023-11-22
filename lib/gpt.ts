@@ -44,8 +44,8 @@ export async function getPostByName(
     const { frontmatter, content } = await compileMDX<{
       title: string;
       date: string;
-      imgSrc: string;
       tags: string[];
+    //   imgSrc: string;
     }>({
       source: rawMDX,
       components: {
@@ -77,7 +77,7 @@ export async function getPostByName(
         title: frontmatter.title,
         date: frontmatter.date,
         tags: frontmatter.tags,
-        imgSrc: frontmatter.imgSrc,
+        // imgSrc: frontmatter.imgSrc,
       },
       content,
     };
