@@ -1,7 +1,7 @@
 import PostItem from "@/components/PostItem";
 import { fetchPosts } from "./actions";
 import InfiniteScrollPosts from "@/components/InfiniteScrollPosts";
-import { getPostsMeta } from "@/lib/posts";
+import { getPostsMeta } from "@/lib/gpt";
 
 export default async function Posts() {
   const posts = await fetchPosts({page: 1});

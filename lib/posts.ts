@@ -76,6 +76,7 @@ export async function getPostsMeta({
   const res = await fetch(`https://api.github.com/repos/samezzz/daily-devotionals/git/trees/main?recursive=1&page=${page}&per_page=${perPage}`, {
     headers: {
       Accept: 'application/vnd.github+json',
+      "X-Github-Api-Version": "2022-11-28", 
     }
   });
 
