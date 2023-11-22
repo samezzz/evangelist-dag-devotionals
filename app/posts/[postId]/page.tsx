@@ -2,8 +2,8 @@ import getFormattedDate from "@/lib/getFormattedDate";
 import { getPostsMeta, getPostByName } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import "highlight.js/styles/github-dark.css";
 import { Button } from "@/components/ui/button";
+import "highlight.js/styles/github-dark.css";
 
 export const revalidate = 86400;
 
@@ -43,6 +43,7 @@ export default async function Post({ params: { postId } }: Props) {
   if (!post) notFound();
 
   const { meta, content } = post;
+  // console.log(content)
 
   const pubDate = getFormattedDate(meta.date);
 
@@ -53,23 +54,25 @@ export default async function Post({ params: { postId } }: Props) {
   ));
 
   return (
-    <div className="max-w-[928px] px-4 mx-auto mt-10 mb-28">
-      <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold mb-2">
-        {meta.title}
-      </h1>
-      <p className="text-gray-50 dark:text-gray-20 mb-12">{pubDate}</p>
-      <article>{content}</article>
-      <section className="">
-        <h3>Related</h3>
-        <div className="">{tags}</div>
-      </section>
-      <p className="">
-        <Button className="mt-4">
-          <Link href="/posts" className="">
-            Back
-          </Link>
-        </Button>
-      </p>
-    </div>
+    <>
+      <div className="max-w-[928px] px-4 mx-auto mt-10 mb-28">
+        <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold mb-1">
+          {meta.title}
+        </h1>
+        <p className="text-gray-50 dark:text-gray-20 mb-12">{pubDate}</p>
+        <article>{content}</article>
+        <section className="">
+          <h3>Related</h3>
+          <div className="">{tags}</div>
+        </section>
+        <p className="">
+          <Button className="mt-4">
+            <Link href="/posts" className="">
+              Back
+            </Link>
+          </Button>
+        </p>
+      </div>
+    </>
   );
 }

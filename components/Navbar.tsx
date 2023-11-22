@@ -1,9 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { ModeToggle } from "./ModeToggle";
-import { Button } from "./ui/button";
 import { nav } from "@/constants";
 import { MobileNav } from "./MobileNav";
 import React, { useEffect, useState } from "react";

@@ -64,7 +64,7 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
         <PostItem post={post} key={index} />
       ))}
       {isLoading && (
-        <div className="text-center items-center w-full mx-auto font-bold">
+        <div className="flex items-center justify-center">
           <Loader2 className="h-6 w-6 animate-spin" />
         </div>
       )}

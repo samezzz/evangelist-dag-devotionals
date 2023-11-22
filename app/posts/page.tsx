@@ -7,7 +7,13 @@ export default async function Posts() {
   const posts = await fetchPosts({});
 
   if (!posts) {
-    return <p className="mt-10 text-center">Sorry, no posts available.</p>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h1 className="font-semibold text-2xl">Sorry no posts available😥</h1>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -23,7 +29,7 @@ export default async function Posts() {
         </p>
       </div>
       <div className="mt-14 mb-4 flex gap-x-3">
-        <Input className="max-w-[400px] ml-4" />
+        <Input className="max-w-[400px] ml-4" placeholder="Post" />
         <DatePicker />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 items-center lg:grid-cols-4">

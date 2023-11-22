@@ -82,7 +82,7 @@ export async function getPostByName(
       content,
     };
 
-    postCache.set(fileName, DailyDevotionalObj);
+    // postCache.set(fileName, DailyDevotionalObj);
 
     return DailyDevotionalObj;
   } catch (error) {
@@ -154,4 +154,57 @@ export async function getPostsMeta({
   const paginatedPosts = filteredPosts.slice(startIdx, endIdx);
 
   return paginatedPosts;
+}
+
+
+
+export async function getAllPosts(): Promise<{ title: string; date: string; }[] | undefined> {
+  const res = await fetch(
+    `https://api.github.com/repos/samezzz/daily-devotionals/git/trees/main?recursive=1`,
+    {
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        "X-Github-Api-Version": "2022-11-28", 
+      },
+    }
+  );
+
+  if (!res.ok) return undefined;
+
+  const repoFiletree: Filetree = await res.json();
+
+  const filesArray = repoFiletree.tree
+    .map((obj) => obj.path)
+    .filter((path) => path.endsWith(".mdx"));
+
+  // Fetch posts concurrently
+  const promises: Promise<Meta | undefined>[] = [];
+
+  for (let i = 0; i < filesArray.length; i++) {
+    const file = filesArray[i];
+    promises.push(
+      (async () => {
+        const post = await getPostByName(file);
+        if (post) {
+          return post.meta;
+        }
+        return undefined;
+      })()
+    );
+  }
+
+  const allPosts = await Promise.all(promises);
+
+  // Filter out undefined posts
+  const filteredPosts = allPosts.filter((post): post is Meta => !!post);
+  // Sort all posts
+  filteredPosts.sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
+
+  return filteredPosts.map(post => (
+    {
+      title: post.title,
+      date: post.date,
+    }
+  ));
 }

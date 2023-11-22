@@ -22,26 +22,26 @@ export const Cta: React.FC = () => {
           />
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center">
-            <div>
-              <div className="inline-flex pb-3 font-medium text-gray-50 dark:text-gray-20 ">
-              Embrace Bishop Dag's teachings
-              </div>
-            </div>
-            <h2 className="pb-4 text-4xl font-extrabold text ">
+            <h2 className="text-4xl font-extrabold text dark:text-gray-300 text-gray-700">
               Simplify spiritual growth
             </h2>
-            <p className="mb-8 text-lg text-gray-50 dark:text-gray-20 ">
+            <p className="text-lg text-gray-50 dark:text-gray-20 ">
               Access daily devotionals for enlightenment.
             </p>
             <div>
+              <div className="inline-flex font-medium text-gray-50 dark:text-gray-20 mb-4">
+                Embrace Bishop Dag's teachings
+              </div>
+            </div>
+            <div>
               <Button variant="default" className="">
-              <Link
-                className=" justify-center flex sm:inline-flex items-center whitespace-nowrap transition duration-150 ease-in-out font-medium rounded px-4 py-1.5 group"
-                href="/posts"
-              >
-                View Posts{" "}
-                <ArrowRight className="w-3 h-3 tracking-normal text-primary-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1" />
-              </Link>
+                <Link
+                  className=" justify-center flex sm:inline-flex items-center whitespace-nowrap transition duration-150 ease-in-out font-medium rounded px-4 py-1.5 group"
+                  href="/posts"
+                >
+                  View Posts{" "}
+                  <ArrowRight className="w-3 h-3 tracking-normal text-primary-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1" />
+                </Link>
               </Button>
             </div>
           </div>

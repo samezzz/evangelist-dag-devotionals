@@ -1,9 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import getFormattedDate from "@/lib/getFormattedDate";
 import { Meta } from "@/types";
-import NextImage from "next/image";
 import Link from "next/link";
 // import addBlurredDataUrls from "@/lib/getBase64";
 
