@@ -94,7 +94,7 @@ export async function getPostByName(
 
 export async function getPostsMeta({
   page = 1,
-  perPage = 10,
+  perPage = 16,
 }: {
   page?: number;
   perPage?: number;
@@ -118,13 +118,10 @@ export async function getPostsMeta({
     .map((obj) => obj.path)
     .filter((path) => path.endsWith(".mdx"));
 
-  const startIndex = (page - 1) * perPage;
-  const endIndex = startIndex + perPage;
-
   // Fetch posts concurrently
   const promises: Promise<Meta | undefined>[] = [];
 
-  for (let i = startIndex; i < Math.min(endIndex, filesArray.length); i++) {
+  for (let i = 0; i < filesArray.length; i++) {
     const file = filesArray[i];
     promises.push(
       (async () => {
@@ -137,29 +134,24 @@ export async function getPostsMeta({
     );
   }
 
-  const posts = await Promise.all(promises);
-  const filteredPosts = posts.filter((post): post is Meta => !!post);
+  const allPosts = await Promise.all(promises);
 
-  // Sort the fetched posts based on date
+  // Filter out undefined posts
+  const filteredPosts = allPosts.filter((post): post is Meta => !!post);
+  // Sort all posts
   filteredPosts.sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
 
-  return filteredPosts;
-}
+  // Calculate the start and end indices based on the page and perPage
+  const startIdx = (page - 1) * perPage;
+  let endIdx = startIdx + perPage;
 
-export async function getAllPostsSorted(perPage = 10): Promise<Meta[] | undefined> {
-  let allPosts: Meta[] = [];
-  let page = 1;
-
-  while (true) {
-    const posts = await getPostsMeta({ page, perPage });
-    if (!posts) break;
-
-    allPosts = allPosts.concat(posts);
-    page++;
+  // Ensure the endIndex doesn't exceed the number of filtered posts
+  if (page === 1 && endIdx > filteredPosts.length) {
+    endIdx = filteredPosts.length;
   }
 
-  // Sort all posts globally
-  allPosts.sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
+  // Get the posts for the requested page
+  const paginatedPosts = filteredPosts.slice(startIdx, endIdx);
 
-  return allPosts;
+  return paginatedPosts;
 }

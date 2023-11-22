@@ -8,7 +8,7 @@ export async function fetchPosts({
     page?: number
 }) {
     try {
-        const response = await getPostsMeta({page, perPage:10});
+        const response = await getPostsMeta({page, perPage:16});
         if (response){
         return response
     }

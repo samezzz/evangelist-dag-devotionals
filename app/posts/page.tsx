@@ -4,7 +4,7 @@ import InfiniteScrollPosts from "@/components/InfiniteScrollPosts";
 import { getPostsMeta } from "@/lib/posts";
 
 export default async function Posts() {
-  const posts = await fetchPosts({page: 1});
+  const posts = await fetchPosts({});
   // const posts = await getPostsMeta({page: 1});
   // console.log(posts)
   
@@ -16,9 +16,9 @@ export default async function Posts() {
     <section
       className="max-w-[1440px] px-3 items-start"
     >
-      {posts.map((post, index) => (
+      {/* {posts.map((post, index) => (
           <PostItem post={post} key={index} />
-      ))}
+      ))} */}
       <InfiniteScrollPosts initialPosts={posts}/>
     </section>
   );
