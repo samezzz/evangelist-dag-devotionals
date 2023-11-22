@@ -66,14 +66,8 @@ export async function getPostByName(fileName: string): Promise<DailyDevotional |
   return DailyDevotionalObj
 }
 
-export async function getPostsMeta({
-  page = 1,
-  perPage = 10,
-}: {
-  page?: number,
-  perPage?: number
-}): Promise<Meta[] | undefined> {
-  const res = await fetch(`https://api.github.com/repos/samezzz/daily-devotionals/git/trees/main?recursive=1&page=${page}&per_page=${perPage}`, {
+export async function getPostsMeta(): Promise<Meta[] | undefined> {
+  const res = await fetch(`https://api.github.com/repos/samezzz/daily-devotionals/git/trees/main?recursive=1`, {
     headers: {
       Accept: 'application/vnd.github+json',
     }
@@ -85,13 +79,9 @@ export async function getPostsMeta({
 
   const filesArray = repoFiletree.tree.map(obj => obj.path).filter(path => path.endsWith('.mdx'));
 
-  const startIndex = (page - 1) * perPage;
-  const endIndex = startIndex + perPage;
-
   const posts: Meta[] = [];
 
-  for (let i = startIndex; i < Math.min(endIndex, filesArray.length); i++) {
-    const file = filesArray[i];
+  for (const file of filesArray) {
     const post = await getPostByName(file);
     if (post) {
       const { meta } = post;
