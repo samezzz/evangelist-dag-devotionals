@@ -10,6 +10,7 @@ export const revalidate = 86400;
 type Props = {
   params: {
     postId: string;
+    search: string
   };
 };
 
@@ -37,8 +38,9 @@ export async function generateMetadata({ params: { postId } }: Props) {
   };
 }
 
-export default async function Post({ params: { postId } }: Props) {
+export default async function Post({ params: { postId, search } }: Props) {
   const post = await getPostByName(`${postId}.mdx`); // deduped!
+  console.log(search)
 
   if (!post) notFound();
 

@@ -158,7 +158,7 @@ export async function getPostsMeta({
 
 
 
-export async function getAllPosts(): Promise<{ title: string; date: string; }[] | undefined> {
+export async function getFilteredPosts(searchQuery: string): Promise<Meta[]> {
   const res = await fetch(
     `https://api.github.com/repos/samezzz/daily-devotionals/git/trees/main?recursive=1`,
     {
@@ -169,8 +169,6 @@ export async function getAllPosts(): Promise<{ title: string; date: string; }[] 
       },
     }
   );
-
-  if (!res.ok) return undefined;
 
   const repoFiletree: Filetree = await res.json();
 
@@ -201,10 +199,10 @@ export async function getAllPosts(): Promise<{ title: string; date: string; }[] 
   // Sort all posts
   filteredPosts.sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
 
-  return filteredPosts.map(post => (
-    {
-      title: post.title,
-      date: post.date,
-    }
-  ));
+  return filteredPosts.filter((post) => {
+      return post.title
+      .replace(/\s+/g, "-")
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+  });
 }
