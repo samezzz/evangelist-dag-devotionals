@@ -20,7 +20,7 @@ const SearchInput = () => {
   return (
     <Input
       className="max-w-[400px] ml-4"
-      placeholder="Post"
+      placeholder="Search"
       onChange={(e) => setSearch(e.target.value)}
     />
   );

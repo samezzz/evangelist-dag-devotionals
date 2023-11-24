@@ -2,6 +2,8 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import rehypeAutolinkHeadings from "rehype-autolink-headings/lib";
 import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
+import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks'
 import Video from "@/components/Video";
 import CustomImage from "@/components/CustomImage";
 import { DailyDevotional, Meta } from "@/types";
@@ -55,6 +57,8 @@ export async function getPostByName(
       options: {
         parseFrontmatter: true,
         mdxOptions: {
+          format: 'mdx',
+          remarkPlugins: [remarkGfm, remarkBreaks],
           rehypePlugins: [
             rehypeHighlight,
             rehypeSlug,
