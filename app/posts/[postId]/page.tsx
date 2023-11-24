@@ -67,7 +67,7 @@ export default async function Post({ params: { postId } }: Props) {
           <h3>Related</h3>
           <div className="">{tags}</div>
         </section> */}
-        <Button className="mt-4">
+        <Button className="mt-4" variant={`outline`}>
           <Link href="/posts" className="">
             Back
           </Link>
