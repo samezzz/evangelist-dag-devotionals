@@ -36,7 +36,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className={`flex items-center justify-between mx-auto px-6 lg:px-20 3xl:px-0 py-2 md:py-3 sticky top-0 z-50 ${pathname !== "/" && isMobile && isScrolled && "glassmorphism"}`}>
+    <nav className={`flex items-center justify-between mx-auto px-6 lg:px-20 3xl:px-0 py-2 md:py-3 sticky top-0 z-50 ${pathname !== "/" && isMobile && isScrolled && "glassmorphism"} ${pathname !== "/" && !isMobile && isScrolled && "glassmorphism" }`}>
       <Avatar>
         <AvatarImage src="/quietTime.jpeg" alt="@evangelistdagdevotionals" />
         <AvatarFallback>DC</AvatarFallback>
