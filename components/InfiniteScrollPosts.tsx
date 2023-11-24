@@ -6,7 +6,7 @@ import { Meta } from "@/types";
 import { fetchPosts } from "@/app/posts/actions";
 import { Skeleton } from "./ui/skeleton";
 import { useInView } from "react-intersection-observer";
-import { Loader2 } from "lucide-react";
+import { BookOpenCheck, Loader2 } from "lucide-react";
 
 type InfiniteScrollPostsProps = {
   search: string | undefined;
@@ -20,32 +20,46 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
   const [posts, setPosts] = useState(initialPosts);
   const [page, setPage] = useState(1);
   const [ref, inView] = useInView();
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const loadMorePosts = async () => {
+    setIsLoading(true);
     const next = page + 1;
     const newPosts = await fetchPosts({ search, page: next });
+    setIsLoading(false);
+
     if (newPosts?.length) {
       setPage(next);
       setPosts((prev: Meta[] | undefined) => [
         ...(prev?.length ? prev : []),
         ...newPosts,
       ]);
+    } else {
+      setHasMore(false); // No more posts to load after initial load
     }
   };
 
   useEffect(() => {
-    if (inView) {
+    if (initialLoad && !search) {
       loadMorePosts();
+      setInitialLoad(false);
     }
-  }, [inView]);
+  }, [initialLoad, search]);
 
   useEffect(() => {
-    if (!search) {
-      loadMorePosts(); // For initial load or non-search scenarios
-    } else {
-      // Reset posts if there's a search to prevent duplication
+    if (!initialLoad && inView && !isLoading && hasMore) {
+      loadMorePosts();
+    }
+  }, [inView, isLoading, hasMore, initialLoad]);
+
+  useEffect(() => {
+    if (search) {
       setPosts(initialPosts);
       setPage(1);
+      setInitialLoad(true);
+      setHasMore(true);
     }
   }, [search, initialPosts]);
 
@@ -54,7 +68,7 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
       {posts.map((post, index) => (
         <PostItem post={post} key={index} />
       ))}
-      {!search && (
+      {!search && hasMore && (
         <div
           ref={ref}
           className="flex justify-center items-center pb-4 col-span-2 sm:col-span-3 lg:col-span-4"
@@ -64,9 +78,21 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
           </div>
         </div>
       )}
+      {!hasMore && (
+        <div
+        ref={ref}
+        className="flex justify-center items-center pb-4 col-span-2 sm:col-span-3 lg:col-span-4"
+      >
+        <div className="text-center flex gap-x-4">
+          <BookOpenCheck className="h-8 w-8"/>
+        <h1 className="text-xl font-semibold">No more posts to load 😦😬</h1>
+        </div>
+      </div>
+      )}
     </>
   );
 };
 
 export default InfiniteScrollPosts;
+
 
