@@ -2,8 +2,8 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import rehypeAutolinkHeadings from "rehype-autolink-headings/lib";
 import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
-import remarkGfm from 'remark-gfm';
-import remarkBreaks from 'remark-breaks'
+import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import Video from "@/components/Video";
 import CustomImage from "@/components/CustomImage";
 import { DailyDevotional, Meta } from "@/types";
@@ -47,7 +47,7 @@ export async function getPostByName(
       title: string;
       date: string;
       tags: string[];
-    //   imgSrc: string;
+      //   imgSrc: string;
     }>({
       source: rawMDX,
       components: {
@@ -57,7 +57,7 @@ export async function getPostByName(
       options: {
         parseFrontmatter: true,
         mdxOptions: {
-          format: 'mdx',
+          format: "mdx",
           remarkPlugins: [remarkGfm, remarkBreaks],
           rehypePlugins: [
             rehypeHighlight,
@@ -97,9 +97,11 @@ export async function getPostByName(
 }
 
 export async function getPostsMeta({
+  query,
   page = 1,
-  perPage = 16,
+  perPage = 20,
 }: {
+  query?: string;
   page?: number;
   perPage?: number;
 }): Promise<Meta[] | undefined> {
@@ -109,7 +111,7 @@ export async function getPostsMeta({
       headers: {
         Accept: "application/vnd.github+json",
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-        "X-Github-Api-Version": "2022-11-28", 
+        "X-Github-Api-Version": "2022-11-28",
       },
     }
   );
@@ -148,65 +150,20 @@ export async function getPostsMeta({
   // Calculate the start and end indices based on the page and perPage
   const startIdx = (page - 1) * perPage;
   let endIdx = startIdx + perPage;
-
   // Ensure the endIndex doesn't exceed the number of filtered posts
   if (page === 1 && endIdx > filteredPosts.length) {
     endIdx = filteredPosts.length;
   }
 
-  // Get the posts for the requested page
-  const paginatedPosts = filteredPosts.slice(startIdx, endIdx);
-
-  return paginatedPosts;
-}
-
-
-
-export async function getFilteredPosts(searchQuery: string): Promise<Meta[]> {
-  const res = await fetch(
-    `https://api.github.com/repos/samezzz/daily-devotionals/git/trees/main?recursive=1`,
-    {
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-        "X-Github-Api-Version": "2022-11-28", 
-      },
-    }
-  );
-
-  const repoFiletree: Filetree = await res.json();
-
-  const filesArray = repoFiletree.tree
-    .map((obj) => obj.path)
-    .filter((path) => path.endsWith(".mdx"));
-
-  // Fetch posts concurrently
-  const promises: Promise<Meta | undefined>[] = [];
-
-  for (let i = 0; i < filesArray.length; i++) {
-    const file = filesArray[i];
-    promises.push(
-      (async () => {
-        const post = await getPostByName(file);
-        if (post) {
-          return post.meta;
-        }
-        return undefined;
-      })()
+  if (query) {
+    const formattedQuery = query.trim().toLowerCase();
+    const filteredByQuery = filteredPosts.filter((post) =>
+      post.title.toLowerCase().includes(formattedQuery)
     );
+    return filteredByQuery
+  } else {
+    // Get the posts for the requested page
+    const paginatedPosts = filteredPosts.slice(startIdx, endIdx);
+    return paginatedPosts;
   }
-
-  const allPosts = await Promise.all(promises);
-
-  // Filter out undefined posts
-  const filteredPosts = allPosts.filter((post): post is Meta => !!post);
-  // Sort all posts
-  filteredPosts.sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
-
-  return filteredPosts.filter((post) => {
-      return post.title
-      .replace(/\s+/g, "-")
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-  });
 }
