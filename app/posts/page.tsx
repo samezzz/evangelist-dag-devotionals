@@ -47,7 +47,7 @@ export default async function Posts() {
         <SearchInput />
         <DatePicker />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 items-center lg:grid-cols-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 items-center lg:grid-cols-4 relative">
         <InfiniteScrollPosts initialPosts={postsToRender} />
       </div>
     </section>
