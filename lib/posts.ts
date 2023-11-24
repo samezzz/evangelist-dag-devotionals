@@ -7,6 +7,7 @@ import remarkBreaks from "remark-breaks";
 import Video from "@/components/Video";
 import CustomImage from "@/components/CustomImage";
 import { DailyDevotional, Meta } from "@/types";
+import { partitionFilter } from "./utils";
 
 type Filetree = {
   tree: [
@@ -157,10 +158,10 @@ export async function getPostsMeta({
 
   if (query) {
     const formattedQuery = query.trim().toLowerCase();
-    const filteredByQuery = filteredPosts.filter((post) =>
-      post.title.toLowerCase().includes(formattedQuery)
-    );
-    return filteredByQuery
+    const condition = (post: Meta) =>
+      post.title.toLowerCase().includes(formattedQuery);
+    const partitionedPosts = partitionFilter(filteredPosts, condition);
+    return partitionedPosts;
   } else {
     // Get the posts for the requested page
     const paginatedPosts = filteredPosts.slice(startIdx, endIdx);
