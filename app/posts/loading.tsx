@@ -22,7 +22,7 @@ export default function PostsPageSkeleton() {
       <div className="grid grid-cols-2 sm:grid-cols-3 items-center lg:grid-cols-4 mb-4">
       {sectionArray.map((_, index) => (
           <div key={index} className="card">
-            <Skeleton className="h-5 w-1/3 mb-3" />
+            <Skeleton className="h-5 w-4/5 mb-3" />
             <Skeleton className="h-5 w-2/3" />
           </div>
         ))}
