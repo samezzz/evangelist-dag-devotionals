@@ -8,7 +8,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt",  },
   pages: {
     signIn: "/login",
   },
@@ -25,6 +25,7 @@ export const authOptions: NextAuthOptions = {
 
       async authorize(credentials, _) {
         try {
+          const request = new Request("http://localhost:3000/.com")
           const res = await fetch("http://localhost:3000/api/login", {
             method: "POST",
             headers: {
@@ -36,8 +37,9 @@ export const authOptions: NextAuthOptions = {
           });
 
           const user = await res.json();
-
+          
           if (res.ok && user) {
+            // console.log("User from authorize: ", user)
             return user;
           } else {
             return null;
@@ -60,16 +62,6 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ token, session }) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.email = token.email;
-        session.user.image = token.picture;
-      }
-
-      return session;
-    },
     async jwt({ token, user }) {
       const dbUser = await prisma.user.findFirst({
         where: {
@@ -91,7 +83,17 @@ export const authOptions: NextAuthOptions = {
         picture: dbUser.image,
       };
     },
+    async session({ token, session }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.image = token.picture;
+      }
 
+      return session;
+    },
+    
     async signIn({ account, profile }) {
       if (!profile?.email) {
         throw new Error("No profile");
@@ -114,6 +116,9 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
+
+
+
 
 // async jwt({ token, user }) {
 //   console.log("jwt callback", { token, user });

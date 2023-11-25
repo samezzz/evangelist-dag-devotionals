@@ -55,8 +55,6 @@ export default function LoginAuthForm(props: Props) {
     },
   });
 
-  const url = "http://localhost:3000/api/register";
-
   async function handleFormSubmit(data: FormData, e: any) {
     e.preventDefault();
     setIsLoading(true);
@@ -111,7 +109,7 @@ export default function LoginAuthForm(props: Props) {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In
+            Log In
           </button>
         </div>
       </form>

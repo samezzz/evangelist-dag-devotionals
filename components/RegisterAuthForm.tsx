@@ -72,7 +72,15 @@ export default function RegisterAuthForm(props: Props) {
         }),
       });
       setIsLoading(false);
-      
+
+      if (response.status == 409) {
+        return toast({
+          title: "User with this email already exists.",
+          description: "Please Log in",
+          variant: "default",
+        });
+      }
+
       if (!response.ok) {
         return toast({
           title: "Something went wrong.",
@@ -86,7 +94,7 @@ export default function RegisterAuthForm(props: Props) {
           title: "Thank you!",
           description: "We really appreciate you for joining us",
         });
-      } 
+      }
     } catch (error: any) {
       console.error("Error:", error);
       return toast({
@@ -127,7 +135,7 @@ export default function RegisterAuthForm(props: Props) {
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In
+            Sign Up
           </button>
         </div>
       </form>
