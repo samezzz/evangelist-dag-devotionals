@@ -5,6 +5,10 @@ import { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/Footer";
+import { Toaster } from "@/components/ui/toaster";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import Provider from "@/components/Provider";
 
 export const metadata: Metadata = {
   title: "Daily Counsel",
@@ -15,11 +19,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
   return (
     <html lang="en">
       <body className={cn(GeistSans.className, "min-h-screen antialiased")}>
@@ -29,8 +34,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
+          <Provider session={session}>{children}</Provider>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

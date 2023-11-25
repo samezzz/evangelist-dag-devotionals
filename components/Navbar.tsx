@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { Icons } from "./Icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
+import { UserAccountNav } from "./UserAccountNav";
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -70,7 +71,6 @@ export default function Navbar() {
           <MobileNav items={nav} closeMenu={handleClick} />
         )}
       </div>
-
       {/* <Image 
         src="menu.svg"
         alt="menu"
