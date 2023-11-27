@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/Footer";
+import { Analytics } from "@/components/Analytics";
 
 export const metadata: Metadata = {
   title: "Daily Counsel",
@@ -31,6 +32,7 @@ export default function RootLayout({
         >
           <Navbar />
           {children}
+          <Analytics/>
         </ThemeProvider>
       </body>
     </html>
