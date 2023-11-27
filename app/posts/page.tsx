@@ -4,7 +4,6 @@ import { DatePicker } from "@/components/DatePicker";
 import SearchInput from "@/components/SearchInput";
 import { getCurrentUser } from "@/lib/session";
 import { notFound } from "next/navigation";
-import { UserAccountNav } from "@/components/UserAccountNav";
 import Navbar from "@/components/Navbar";
 
 export const metadata = {
@@ -29,7 +28,7 @@ export default async function Posts({
 
   if (!posts) {
     return (
-      <section className="max-w-[1280px] mx-auto px-4 mt-8">
+      <section className="max-w-[1280px] mx-auto px-4 mt-16">
         <div className="max-w-[800px]">
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-2">
             Discover Daily Inspirations
@@ -56,34 +55,29 @@ export default async function Posts({
   }
 
   return (
-    <section className="max-w-[1280px] mx-auto px-4 mt-8">
+    <section className="relative w-full mx-auto">
       <Navbar />
-      <UserAccountNav
-            user={{
-              name: user.name,
-              image: user.image,
-              email: user.email,
-            }}
-          />
-      <div className="max-w-[800px]">
-        <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-2">
-          Discover Daily Inspirations
-        </h1>
-        <p className="max-w-[600px] text-gray-700 dark:text-gray-300">
-          Immerse yourself in daily devotionals for spiritual growth and start
-          your day with empowering devotionals that ignite positivity and
-          purpose.
-        </p>
-      </div>
-      <div className="mt-14 mb-4 flex gap-x-3">
-        <SearchInput search={search} />
-        <DatePicker />
-      </div>
-      <div
-        key={Math.random()}
-        className="grid grid-cols-2 sm:grid-cols-3 items-center lg:grid-cols-4 relative"
-      >
-        <InfiniteScrollPosts initialPosts={posts} search={search} />
+      <div className="max-w-[1280px] mx-auto px-4">
+        <div className="max-w-[800px] mt-12">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-2">
+            Discover Daily Inspirations
+          </h1>
+          <p className="max-w-[600px] text-gray-700 dark:text-gray-300">
+            Immerse yourself in daily devotionals for spiritual growth and start
+            your day with empowering devotionals that ignite positivity and
+            purpose.
+          </p>
+        </div>
+        <div className="mt-14 mb-4 flex gap-x-3">
+          <SearchInput search={search} />
+          <DatePicker />
+        </div>
+        <div
+          key={Math.random()}
+          className="grid grid-cols-2 sm:grid-cols-3 items-center lg:grid-cols-4 relative"
+        >
+          <InfiniteScrollPosts initialPosts={posts} search={search} />
+        </div>
       </div>
     </section>
   );

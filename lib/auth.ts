@@ -8,7 +8,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
-  session: { strategy: "jwt",  },
+  session: { strategy: "jwt" },
   pages: {
     signIn: "/login",
   },
@@ -25,7 +25,6 @@ export const authOptions: NextAuthOptions = {
 
       async authorize(credentials, _) {
         try {
-          const request = new Request("http://localhost:3000/.com")
           const res = await fetch("http://localhost:3000/api/login", {
             method: "POST",
             headers: {
@@ -37,7 +36,7 @@ export const authOptions: NextAuthOptions = {
           });
 
           const user = await res.json();
-          
+
           if (res.ok && user) {
             // console.log("User from authorize: ", user)
             return user;
@@ -62,26 +61,38 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      const dbUser = await prisma.user.findFirst({
-        where: {
-          email: token.email,
-        },
-      });
-
-      if (!dbUser) {
-        if (user) {
-          token.id = user?.id;
+    async signIn({ account, profile, user }) {
+      if (account?.provider === "google") {
+        if (!profile?.email) {
+          throw new Error("No profile");
         }
-        return token;
+        
+        await prisma.user.upsert({
+          where: {
+            email: profile.email,
+          },
+          create: {
+            email: profile.email,
+            name: profile.name,
+          },
+          update: {
+            name: profile.name,
+          },
+        });
+      } else if(account?.provider === 'credentials') {
+
       }
 
-      return {
-        id: dbUser.id,
-        name: dbUser.name,
-        email: dbUser.email,
-        picture: dbUser.image,
-      };
+      return true;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.username = user.name;
+        token.email = user.email;
+        token.image = user.image;
+      }
+      return token;
     },
     async session({ token, session }) {
       if (token) {
@@ -90,35 +101,10 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         session.user.image = token.picture;
       }
-
       return session;
-    },
-    
-    async signIn({ account, profile }) {
-      if (!profile?.email) {
-        throw new Error("No profile");
-      }
-
-      await prisma.user.upsert({
-        where: {
-          email: profile.email,
-        },
-        create: {
-          email: profile.email,
-          name: profile.name,
-        },
-        update: {
-          name: profile.name,
-        },
-      });
-
-      return true;
     },
   },
 };
-
-
-
 
 // async jwt({ token, user }) {
 //   console.log("jwt callback", { token, user });

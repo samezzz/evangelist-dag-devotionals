@@ -9,8 +9,13 @@ import { Icons } from "./Icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import { UserAccountNav } from "./UserAccountNav";
+import { useSession } from "next-auth/react";
 
 export default function Navbar() {
+  const {data, status} = useSession()
+  if(status !== "authenticated"){
+    
+  }
   const pathname = usePathname()
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -56,10 +61,24 @@ export default function Navbar() {
       </ul>
 
       <div className="md:flex items-center justify-center hidden gap-x-3">
+      <UserAccountNav
+            user={{
+              name: data?.user.name,
+              image: data?.user.image,
+              email: data?.user.email,
+            }}
+          />
         <ModeToggle />
         {/* <Button>Posts</Button> */}
       </div>
       <div className="md:hidden flex items-center gap-x-3">
+      <UserAccountNav
+            user={{
+              name: data?.user.name,
+              image: data?.user.image,
+              email: data?.user.email,
+            }}
+          />
         <ModeToggle />
         <button
           className="flex items-center space-x-2 md:hidden"
@@ -71,13 +90,6 @@ export default function Navbar() {
           <MobileNav items={nav} closeMenu={handleClick} />
         )}
       </div>
-      {/* <Image 
-        src="menu.svg"
-        alt="menu"
-        width={32}
-        height={32}
-        className="inline-block cursor-pointer lg:hidden"
-      /> */}
     </nav>
   );
 }
@@ -106,3 +118,11 @@ export default function Navbar() {
         </Link>
       </div> */
 }
+
+      {/* <Image 
+        src="menu.svg"
+        alt="menu"
+        width={32}
+        height={32}
+        className="inline-block cursor-pointer lg:hidden"
+      /> */}

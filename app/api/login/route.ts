@@ -12,7 +12,11 @@ export async function POST(req: Request) {
     const existingUserByEmail = await prisma.user.findUnique({
       where: { email: emailLower },
       select: {
+        id: true,
+        name: true,
         email: true,
+        emailVerified: true,
+        image: true,
       },
     });
 
@@ -32,7 +36,7 @@ export async function POST(req: Request) {
 
     if (existingUserByEmail) {
       return NextResponse.json(
-        { user: existingUserByEmail, message: "Email verified" },
+        { ...existingUserByEmail, },
         { status: 201 }
       );
     }

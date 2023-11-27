@@ -1,16 +1,13 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import PostItem from "./PostItem";
-import { Meta } from "@/types";
 import { fetchPosts } from "@/app/posts/actions";
-import { Skeleton } from "./ui/skeleton";
 import { useInView } from "react-intersection-observer";
 import { BookOpenCheck, Loader2 } from "lucide-react";
 
 type InfiniteScrollPostsProps = {
   search: string | undefined;
-  initialPosts: Meta[];
+  initialPosts: JSX.Element[];
 };
 
 const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
@@ -32,7 +29,7 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
 
     if (newPosts?.length) {
       setPage(next);
-      setPosts((prev: Meta[] | undefined) => [
+      setPosts((prev: JSX.Element[] | undefined) => [
         ...(prev?.length ? prev : []),
         ...newPosts,
       ]);
@@ -65,9 +62,7 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
 
   return (
     <>
-      {posts.map((post, index) => (
-        <PostItem post={post} key={index} />
-      ))}
+      {posts}
       {!search && hasMore && (
         <div
           ref={ref}

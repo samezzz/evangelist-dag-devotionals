@@ -1,29 +1,63 @@
-"use client";
-
 import getFormattedDate from "@/lib/getFormattedDate";
 import { Meta } from "@/types";
 import Link from "next/link";
+import { Icons } from "@/components/Icons";
+import { MotionDiv } from "./MotionDiv";
 
 type Props = {
   post: Meta;
+  index: number
 };
 
-export default function PostItem({ post }: Props) {
-  const { title, date } = post;
+export default function PostItem({ post, index }: Props) {
+  const { title, date, likes } = post;
   const formattedDate = getFormattedDate(date);
 
+  const variants = {
+    hidden: {opacity: 0},
+    visible: {opacity: 1},
+  }
+
   return (
-    <Link
-      href={`/posts/${post.id}`}
-      className=""
-    >
-      <div className="rounded-xl overflow-hidden group card">
+    <MotionDiv 
+      variants={variants}
+      initial="hidden"
+      animate="visible"
+      transition={{
+        delay: index * 0.03,
+        ease: 'easeInOut',
+        duration: 0.5,
+
+      }}
+      viewport={{amount:0}}
+      >
+      <Link href={`/posts/${post.id}`} className="">
+        <div className="rounded-xl overflow-hidden group card">
           <div className="">
             <h3 className="font-semibold">{title}</h3>
-            <p className={`text-sm mb-6 text-gray-700 dark:text-gray-300 link`}>{formattedDate}</p>
+            <p className={`text-sm mb-6 text-gray-700 dark:text-gray-300 link`}>
+              {formattedDate}
+            </p>
           </div>
-      </div>
-    </Link>
+          <div className="flex gap-2 ">
+            <div className="flex items-center text-center gap-x-2 text-xs">
+              <Link href={`/`}>
+                <Icons.heart className="h-4 w-4 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100" />
+              </Link>
+              <p>{likes}</p>
+            </div>
+            <div className="flex">
+              <div className="ml-2 flex items-center text-center gap-x-2 text-xs">
+                <Link href={`/`}>
+                  <Icons.bookmark className="h-4 w-4 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100" />
+                </Link>
+                {/* <p>{bookmark}</p> */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </MotionDiv>
   );
 }
 

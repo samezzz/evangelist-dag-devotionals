@@ -16,24 +16,26 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  
+
   accounts Account[]
   sessions Session[]
+
+  likedPosts PostLike[] 
+  savedPosts PostSave[]
 }
 
-
 model Account {
-  id                String   @id @default(cuid())
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?  
-  access_token      String?  
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?  @db.Text
+  id_token          String?
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -59,3 +61,26 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model Posts {
+  id String @id @default(cuid())
+  title String
+  date DateTime
+  likedBy PostLike[]
+  savedBy PostSave[]
+}
+
+model PostLike {
+  id     String @id @default(cuid())
+  userId String
+  postId String
+  user User @relation(fields: [userId], references: [id])
+  post Posts @relation(fields: [postId], references: [id])
+}
+
+model PostSave {
+  id     String @id @default(cuid())
+  userId String
+  postId String
+  user User @relation(fields: [userId], references: [id])
+  post Posts @relation(fields: [postId], references: [id])
+}

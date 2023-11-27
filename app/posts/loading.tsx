@@ -4,7 +4,7 @@ import React from 'react'
 export default function PostsPageSkeleton() {
   const sectionArray = new Array(24).fill(null);
   return (
-    <div className="max-w-[1280px] mx-auto px-4 mt-8">
+    <div className="max-w-[1280px] mx-auto px-4 mt-28">
       <div className="max-w-[800px]">
       <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-2">
           Discover Daily Inspirations

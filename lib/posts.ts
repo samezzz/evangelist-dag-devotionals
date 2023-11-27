@@ -8,6 +8,7 @@ import Video from "@/components/Video";
 import CustomImage from "@/components/CustomImage";
 import { DailyDevotional, Meta } from "@/types";
 import { partitionFilter } from "./utils";
+import { prisma } from "./prisma";
 
 type Filetree = {
   tree: [
@@ -82,7 +83,8 @@ export async function getPostByName(
         title: frontmatter.title,
         date: frontmatter.date,
         tags: frontmatter.tags,
-        // imgSrc: frontmatter.imgSrc,
+        likes: 0,
+        bookmark: 0,
       },
       content,
     };
@@ -168,3 +170,54 @@ export async function getPostsMeta({
     return paginatedPosts;
   }
 }
+
+
+// export async function likePost(postId: string, userId: string): Promise<boolean> {
+//   // Here you might store the liked post information in the user's data in your Prisma database
+//   // This could involve adding the post ID to a 'likedPosts' field in the user's entry
+
+//   // Example: Simulating storing the liked post ID for the user in a Prisma database
+//   try {
+//     const user = await prisma.user.findUnique({ where: { id: userId } });
+//     if (!user) return false;
+
+//     // Check if the post is already liked by the user
+//     if (!user.likedPosts.includes(postId)) {
+//       // If not liked, add the post to the user's likedPosts array
+//       await prisma.user.update({
+//         where: { id: userId },
+//         data: { likedPosts: { push: postId } },
+//       });
+//     }
+
+//     return true;
+//   } catch (error) {
+//     console.error("Error liking post:", error);
+//     return false;
+//   }
+// }
+
+// export async function savePost(postId: string, userId: string): Promise<boolean> {
+//   // Here you can similarly store the saved post information in the user's data in your Prisma database
+//   // This could involve adding the post ID to a 'savedPosts' field in the user's entry
+
+//   // Example: Simulating storing the saved post ID for the user in a Prisma database
+//   try {
+//     const user = await prisma.user.findUnique({ where: { id: userId } });
+//     if (!user) return false;
+
+//     // Check if the post is already saved by the user
+//     if (!user.savedPosts.includes(postId)) {
+//       // If not saved, add the post to the user's savedPosts array
+//       await prisma.user.update({
+//         where: { id: userId },
+//         data: { savedPosts: { push: postId } },
+//       });
+//     }
+
+//     return true;
+//   } catch (error) {
+//     console.error("Error saving post:", error);
+//     return false;
+//   }
+// }
