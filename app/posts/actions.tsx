@@ -1,7 +1,7 @@
 'use server'
 
 import PostItem from "@/components/PostItem";
-import { getPostsMeta, likePost, savePost } from "@/lib/posts"
+import { getPostsMeta } from "@/lib/posts"
 
 export async function fetchPosts({
     page = 1,

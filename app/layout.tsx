@@ -1,10 +1,8 @@
 import "@/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
-import Navbar from "../components/Navbar";
 import { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { cn } from "@/lib/utils";
-import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
