@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Provider from "@/components/Provider";
+import { Analytics } from "@/components/Analytics";
 
 export const metadata: Metadata = {
   title: "Daily Counsel",
@@ -35,6 +36,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Provider session={session}>{children}</Provider>
+          <Analytics />
           <Toaster />
         </ThemeProvider>
       </body>
