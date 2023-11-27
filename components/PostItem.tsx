@@ -6,7 +6,7 @@ import { MotionDiv } from "./MotionDiv";
 
 type Props = {
   post: Meta;
-  index: number
+  index: number;
 };
 
 export default function PostItem({ post, index }: Props) {
@@ -14,23 +14,22 @@ export default function PostItem({ post, index }: Props) {
   const formattedDate = getFormattedDate(date);
 
   const variants = {
-    hidden: {opacity: 0},
-    visible: {opacity: 1},
-  }
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
 
   return (
-    <MotionDiv 
+    <MotionDiv
       variants={variants}
       initial="hidden"
       animate="visible"
       transition={{
         delay: index * 0.03,
-        ease: 'easeInOut',
+        ease: "easeInOut",
         duration: 0.5,
-
       }}
-      viewport={{amount:0}}
-      >
+      viewport={{ amount: 0 }}
+    >
       <Link href={`/posts/${post.id}`} className="">
         <div className="rounded-xl overflow-hidden group card">
           <div className="">
@@ -41,16 +40,12 @@ export default function PostItem({ post, index }: Props) {
           </div>
           <div className="flex gap-2 ">
             <div className="flex items-center text-center gap-x-2 text-xs">
-              <Link href={`/`}>
-                <Icons.heart className="h-4 w-4 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100" />
-              </Link>
-              <p>{likes}</p>
+              <Icons.heart className="h-4 w-4 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100" />
+              <div>{likes}</div>
             </div>
             <div className="flex">
               <div className="ml-2 flex items-center text-center gap-x-2 text-xs">
-                <Link href={`/`}>
-                  <Icons.bookmark className="h-4 w-4 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100" />
-                </Link>
+                <Icons.bookmark className="h-4 w-4 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100" />
                 {/* <p>{bookmark}</p> */}
               </div>
             </div>
