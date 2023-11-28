@@ -9,7 +9,10 @@ const nextConfig = {
         pathname: '/samezzz/daily-devotionals/main/images/**'
       }
     ]
-  }
+  },
+  experimental: {
+    serverComponentsExternalPackages: ["@prisma/client"],
+  },
 }
 
 module.exports = nextConfig
