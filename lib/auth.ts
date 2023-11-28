@@ -98,13 +98,25 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.username = user.name;
-        token.email = user.email;
-        token.image = user.image;
+      const dbUser = await db.user.findFirst({
+        where: {
+          email: token.email,
+        },
+      })
+
+      if (!dbUser) {
+        if (user) {
+          token.id = user?.id
+        }
+        return token
       }
-      return token;
+
+      return {
+        id: dbUser.id,
+        name: dbUser.name,
+        email: dbUser.email,
+        picture: dbUser.image,
+      }
     },
     async session({ token, session }) {
       if (token) {
