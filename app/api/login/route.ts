@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 import { NextResponse } from "next//server";
 
 export async function POST(req: Request) {
@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const emailLower = email.toLowerCase();
 
     // check if email already exisits
-    const existingUserByEmail = await prisma.user.findUnique({
+    const existingUserByEmail = await db.user.findUnique({
       where: { email: emailLower },
       select: {
         id: true,
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     });
 
     if (existingUserByEmail) {
-      await prisma.user.upsert({
+      await db.user.upsert({
         where: {
           email: email,
         },

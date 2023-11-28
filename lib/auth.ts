@@ -2,12 +2,12 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(db),
   secret: process.env.NEXTAUTH_SECRET,
   session: { strategy: "jwt" },
   pages: {
@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
           throw new Error("No profile");
         }
         
-        await prisma.user.upsert({
+        await db.user.upsert({
           where: {
             email: profile.email,
           },

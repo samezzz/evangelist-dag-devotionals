@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 import { NextResponse } from "next//server";
 
 export async function POST(req: Request) {
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const emailLower = formData.email.toLowerCase();
 
     // check if email already exisits
-    const existingUserByEmail = await prisma.user.findUnique({
+    const existingUserByEmail = await db.user.findUnique({
       where: { email: emailLower },
     });
 
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     }
     
     // Create a Prisma data object using the validated data
-    const newData = await prisma.user.create({
+    const newData = await db.user.create({
       data: {
         email: emailLower,
       }, // Use the validated data

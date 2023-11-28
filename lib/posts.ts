@@ -8,7 +8,7 @@ import Video from "@/components/Video";
 import CustomImage from "@/components/CustomImage";
 import { DailyDevotional, Meta } from "@/types";
 import { partitionFilter } from "./utils";
-import { prisma } from "./db";
+import { db } from "./db";
 
 type Filetree = {
   tree: [
@@ -178,13 +178,13 @@ export async function getPostsMeta({
 
 //   // Example: Simulating storing the liked post ID for the user in a Prisma database
 //   try {
-//     const user = await prisma.user.findUnique({ where: { id: userId } });
+//     const user = await db.user.findUnique({ where: { id: userId } });
 //     if (!user) return false;
 
 //     // Check if the post is already liked by the user
 //     if (!user.likedPosts.includes(postId)) {
 //       // If not liked, add the post to the user's likedPosts array
-//       await prisma.user.update({
+//       await db.user.update({
 //         where: { id: userId },
 //         data: { likedPosts: { push: postId } },
 //       });
@@ -203,13 +203,13 @@ export async function getPostsMeta({
 
 //   // Example: Simulating storing the saved post ID for the user in a Prisma database
 //   try {
-//     const user = await prisma.user.findUnique({ where: { id: userId } });
+//     const user = await db.user.findUnique({ where: { id: userId } });
 //     if (!user) return false;
 
 //     // Check if the post is already saved by the user
 //     if (!user.savedPosts.includes(postId)) {
 //       // If not saved, add the post to the user's savedPosts array
-//       await prisma.user.update({
+//       await db.user.update({
 //         where: { id: userId },
 //         data: { savedPosts: { push: postId } },
 //       });
