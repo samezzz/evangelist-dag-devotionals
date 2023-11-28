@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next"
 import { z } from "zod"
 
 import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/db"
+import { db } from "@/lib/db"
 import { userNameSchema } from "@/lib/validations/user"
 
 const routeContextSchema = z.object({
@@ -30,7 +30,7 @@ export async function PATCH(
     const payload = userNameSchema.parse(body)
 
     // Update the user.
-    await prisma.user.update({
+    await db.user.update({
       where: {
         id: session.user.id,
       },
