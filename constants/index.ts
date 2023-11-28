@@ -1,10 +1,10 @@
 import { NavItem, SiteConfig } from "@/types";
 
 export const nav: NavItem[] = [
-    {
-        name: "Home",
-        href: "/"
-    },
+    // {
+    //     name: "Home",
+    //     href: "/"
+    // },
     {
         name: "Posts",
         href: "/posts",

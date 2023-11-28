@@ -20,6 +20,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import Image from "next/image";
 
 type FormData = z.infer<typeof userAuthSchema>;
 
@@ -111,6 +112,8 @@ export default function RegisterAuthForm(props: Props) {
       <form
         onSubmit={form.handleSubmit(handleFormSubmit)}
         className="space-y-8"
+        method="post"
+        action="/api/auth/signin"
       >
         <div className="grid gap-2">
           <div className="grid gap-1">
@@ -161,7 +164,13 @@ export default function RegisterAuthForm(props: Props) {
         {isGoogleLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
+          <Image
+            src="/google.png"
+            alt="google"
+            width={20}
+            height={20}
+            className="mx-2"
+          />
         )}{" "}
         Google
       </button>

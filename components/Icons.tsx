@@ -1,5 +1,5 @@
 import { GitHubLogoIcon, LinkedInLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
-import { X, Menu, Loader2, Github, User, ChevronLeft, Heart, Bookmark, Search } from "lucide-react";
+import { X, Menu, Loader2, Github, User, ChevronLeft, Heart, Bookmark, Search, Settings, } from "lucide-react";
 
 
 export const Icons = {
@@ -15,4 +15,5 @@ export const Icons = {
     heart: Heart,
     bookmark: Bookmark,
     search: Search,
+    settings: Settings,
 }

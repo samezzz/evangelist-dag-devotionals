@@ -20,6 +20,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import Image from "next/image";
 
 type FormData = z.infer<typeof userAuthSchema>;
 
@@ -59,23 +60,26 @@ export default function LoginAuthForm(props: Props) {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await signIn("credentials", {
+      const res = await signIn("email", {
         email: data.email,
         redirect: false,
         callBackUrl,
       });
 
       if (!res?.error) {
-        router.push(callBackUrl);
         setIsLoading(false);
+        return toast({
+          title: "Check your email",
+          description: "We sent you a login link. Be sure to check your spam too.",
+        })
       }
     } catch (error: any) {
       console.error("Error:", error);
       return toast({
-        title: "Request Error",
+        title: "Something went wrong.",
         description:
-          "There was an error in the request. Please try again later.",
-        variant: "destructive",
+          "Your sign in request failed. Please try again.",
+          variant: "destructive",
       });
     }
   }
@@ -85,6 +89,8 @@ export default function LoginAuthForm(props: Props) {
       <form
         onSubmit={form.handleSubmit(handleFormSubmit)}
         className="space-y-8"
+        method="post"
+        action="/api/auth/signin"
       >
         <div className="grid gap-2">
           <div className="grid gap-1">
@@ -135,7 +141,13 @@ export default function LoginAuthForm(props: Props) {
         {isGoogleLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
+          <Image
+            src="/google.png"
+            alt="google"
+            width={20}
+            height={20}
+            className="mx-2"
+          />
         )}{" "}
         Google
       </button>

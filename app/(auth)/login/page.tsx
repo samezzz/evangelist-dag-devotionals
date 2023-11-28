@@ -3,7 +3,6 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import UserAuthForm from "@/components/LoginAuthForm";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Icons } from "@/components/Icons";
 import LoginAuthForm from "@/components/LoginAuthForm";
@@ -38,7 +37,7 @@ export default function LoginPage() {
             <AvatarFallback>DC</AvatarFallback>
           </Avatar>
           <h1 className="text-2xl font-semibold tracking-tight">
-            Welcome back
+            Welcome
           </h1>
           <p className="text-sm text-muted-foreground">
             Enter your email to sign in to your account
