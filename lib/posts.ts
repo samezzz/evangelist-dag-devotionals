@@ -8,7 +8,7 @@ import Video from "@/components/Video";
 import CustomImage from "@/components/CustomImage";
 import { DailyDevotional, Meta } from "@/types";
 import { partitionFilter } from "./utils";
-import { prisma } from "./prisma";
+import { prisma } from "./db";
 
 type Filetree = {
   tree: [
@@ -102,7 +102,7 @@ export async function getPostByName(
 export async function getPostsMeta({
   query,
   page = 1,
-  perPage = 20,
+  perPage = 24,
 }: {
   query?: string;
   page?: number;
