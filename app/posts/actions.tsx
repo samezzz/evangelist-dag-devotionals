@@ -2,6 +2,7 @@
 
 import PostItem from "@/components/PostItem";
 import { getPostsMeta, likePost, savePost } from "@/lib/posts";
+import { getCurrentUser } from "@/lib/session";
 
 export async function fetchPosts({
   page = 1,
@@ -23,44 +24,24 @@ export async function fetchPosts({
   }
 }
 
-// export async function handlePostInteraction({
-//   postId,
-//   userId,
-//   action,
-// } : {
-//   postId: string;
-//   userId: string;
-//   action: "like" | "save";
-// }) {
-//   try {
-//     if (action === "like") {
-//       await likePost(postId, userId);
-//       console.log("Post liked successfully!");
-//     } else if (action === "save") {
-//       await savePost(postId, userId);
-//       console.log("Post saved successfully!");
-//     }
-//   } catch (error) {
-//     console.error("Error while handling post interaction:", error);
-//   }
-// }
-
-// export async function fetchLikePost(postId: string, userId: string){
-//     try {
-//         const like = await likePost(postId, userId)
-//     } catch(error) {
-//         console.error("Error liking post: ", error)
-//         return null
-//     }
-// }
-
-// export async function fetchSavePost(postId: string, userId: string) {
-//     try {
-//         const save = await savePost(postId, userId)
-//     } catch(error) {
-//         console.error("Error liking post: ", error)
-//         return null
-//     }
-// }
-
-// Import the functions
+export async function handlePostInteraction({
+  postId,
+  userId,
+  action,
+} : {
+  postId: string;
+  userId: string;
+  action: "like" | "save";
+}) {
+  try {
+    if (action === "like") {
+      await likePost(postId, userId);
+      console.log("Post liked successfully!");
+    } else if (action === "save") {
+      await savePost(postId, userId);
+      console.log("Post saved successfully!");
+    }
+  } catch (error) {
+    console.error("Error while handling post interaction:", error);
+  }
+}

@@ -23,8 +23,7 @@ export type Meta = {
     title: string,
     date: string,
     tags: string[],
-    likes: number,
-    bookmark: number,
+    likesCount: number,
   }
   
 export type DailyDevotional = {

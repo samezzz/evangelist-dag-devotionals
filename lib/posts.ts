@@ -49,7 +49,6 @@ export async function getPostByName(
       title: string;
       date: string;
       tags: string[];
-      //   imgSrc: string;
     }>({
       source: rawMDX,
       components: {
@@ -83,13 +82,12 @@ export async function getPostByName(
         title: frontmatter.title,
         date: frontmatter.date,
         tags: frontmatter.tags,
-        likes: 0,
-        bookmark: 0,
+        likesCount: 0,
       },
       content,
     };
 
-    // postCache.set(fileName, DailyDevotionalObj);
+    postCache.set(fileName, DailyDevotionalObj);
 
     return DailyDevotionalObj;
   } catch (error) {
@@ -167,17 +165,14 @@ export async function getPostsMeta({
     const partitionedPosts = partitionFilter(filteredPosts, condition);
     return partitionedPosts;
   } else {
-    // Get the posts for the requested page
     const paginatedPosts = filteredPosts.slice(startIdx, endIdx);
     return paginatedPosts;
   }
 }
 
 
-// Function to add a like for a post by a user
 export async function likePost(postId: string, userId: string): Promise<void> {
   try {
-    // Use Prisma to create a LikedPost entry for the user and post
     await db.likedPost.create({
       data: {
         postId,
@@ -187,95 +182,22 @@ export async function likePost(postId: string, userId: string): Promise<void> {
         id: true,
       }
     });
-    // Optionally, update the post's like count or handle any additional logic
   } catch (error) {
-    // Handle errors or duplicate likes
     console.error("Error while liking post:", error);
-    throw error; // You can handle this as per your application's needs
+    throw error; 
   }
 }
 
-// Function to save a post by a user
 export async function savePost(postId: string, userId: string): Promise<void> {
   try {
-    // Use Prisma to create a SavedPost entry for the user and post
     await db.savedPost.create({
       data: {
         postId,
         userId,
       },
     });
-    // Optionally, handle additional logic
   } catch (error) {
-    // Handle errors or duplicate saves
     console.error("Error while saving post:", error);
-    throw error; // You can handle this as per your application's needs
+    throw error; 
   }
 }
-
-
-
-
-
-// export async function hasUserLikedPost(postId: string, userId: string): Promise<boolean> {
-//   const likedPost = await db.likedPost.findFirst({
-//     where: {
-//       postId,
-//       userId,
-//     },
-//   });
-//   return !!likedPost;
-// }
-
-
-
-
-// export async function likePost(postId: string, userId: string): Promise<boolean> {
-//   // Here you might store the liked post information in the user's data in your Prisma database
-//   // This could involve adding the post ID to a 'likedPosts' field in the user's entry
-
-//   // Example: Simulating storing the liked post ID for the user in a Prisma database
-//   try {
-//     const user = await db.user.findUnique({ where: { id: userId } });
-//     if (!user) return false;
-
-//     // Check if the post is already liked by the user
-//     if (!user.likedPosts.includes(postId)) {
-//       // If not liked, add the post to the user's likedPosts array
-//       await db.user.update({
-//         where: { id: userId },
-//         data: { likedPosts: { push: postId } },
-//       });
-//     }
-
-//     return true;
-//   } catch (error) {
-//     console.error("Error liking post:", error);
-//     return false;
-//   }
-// }
-
-// export async function savePost(postId: string, userId: string): Promise<boolean> {
-//   // Here you can similarly store the saved post information in the user's data in your Prisma database
-//   // This could involve adding the post ID to a 'savedPosts' field in the user's entry
-
-//   // Example: Simulating storing the saved post ID for the user in a Prisma database
-//   try {
-//     const user = await db.user.findUnique({ where: { id: userId } });
-//     if (!user) return false;
-
-//     // Check if the post is already saved by the user
-//     if (!user.savedPosts.includes(postId)) {
-//       // If not saved, add the post to the user's savedPosts array
-//       await db.user.update({
-//         where: { id: userId },
-//         data: { savedPosts: { push: postId } },
-//       });
-//     }
-
-//     return true;
-//   } catch (error) {
-//     console.error("Error saving post:", error);
-//     return false;
-//   }
-// }

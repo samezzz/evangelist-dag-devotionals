@@ -11,9 +11,9 @@ type Props = {
 };
 
 export default function PostItem({ post, index }: Props) {
-  const { title, date, likes } = post;
+  const { title, date, likesCount } = post;  
   const formattedDate = getFormattedDate(date);
-
+  
   const variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
@@ -40,50 +40,11 @@ export default function PostItem({ post, index }: Props) {
             </p>
           </div>
           <div className="flex gap-2 ">
-            <LikeButton likes={likes} postId="" userId="" />
-            <BookmarkButton bookmark={likes} /> 
+            <LikeButton likesCount={likesCount} postId={post.id} />
+            <BookmarkButton bookmark={likesCount} /> 
           </div>
         </div>
       </Link>
     </MotionDiv>
   );
-}
-
-// style={{ gridRow: `span ${divSpans}`}}
-
-// const [imageDimensions, setImageDimensions] = useState({
-//   width: 0,
-//   height: 0,
-// });
-
-// const postsWithBlur = await addBlurredDataUrls(post.imgSrc)
-
-// useEffect(() => {
-//   const loadImage = () => {
-//     const img = new Image();
-//     img.src = imgSrc as string;
-//     img.onload = () => {
-//       setImageDimensions({ width: img.width, height: img.height });
-//     };
-//   };
-
-//   loadImage();
-// }, [imgSrc]);
-
-// const { width, height } = imageDimensions;
-// const widthHeightRatio = height / width;
-// const galleryHeight = Math.ceil(250 * widthHeightRatio);
-// const divSpans = Math.ceil(galleryHeight / 10) + 14;
-
-{
-  /* <NextImage
-                src={imgSrc}
-                alt={title}
-                width={width}
-                height={height} 
-                // placeholder="blur"
-                // blurDataUrl={}
-                className="w-full rounded-lg"
-                sizes="250px"
-                /> */
 }
