@@ -1,8 +1,9 @@
 import getFormattedDate from "@/lib/getFormattedDate";
 import { Meta } from "@/types";
 import Link from "next/link";
-import { Icons } from "@/components/Icons";
 import { MotionDiv } from "./MotionDiv";
+import BookmarkButton from "./BookmarkButton";
+import LikeButton from "./LikeButton";
 
 type Props = {
   post: Meta;
@@ -39,16 +40,8 @@ export default function PostItem({ post, index }: Props) {
             </p>
           </div>
           <div className="flex gap-2 ">
-            <div className="flex items-center text-center gap-x-2 text-xs">
-              <Icons.heart className="h-4 w-4 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100" />
-              <div>{likes}</div>
-            </div>
-            <div className="flex">
-              <div className="ml-2 flex items-center text-center gap-x-2 text-xs">
-                <Icons.bookmark className="h-4 w-4 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100" />
-                {/* <p>{bookmark}</p> */}
-              </div>
-            </div>
+            <LikeButton likes={likes} postId="" userId="" />
+            <BookmarkButton bookmark={likes} /> 
           </div>
         </div>
       </Link>

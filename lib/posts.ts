@@ -145,6 +145,8 @@ export async function getPostsMeta({
 
   const allPosts = await Promise.all(promises);
 
+  
+
   // Filter out undefined posts
   const filteredPosts = allPosts.filter((post): post is Meta => !!post);
   // Sort all posts
@@ -170,6 +172,62 @@ export async function getPostsMeta({
     return paginatedPosts;
   }
 }
+
+
+// Function to add a like for a post by a user
+export async function likePost(postId: string, userId: string): Promise<void> {
+  try {
+    // Use Prisma to create a LikedPost entry for the user and post
+    await db.likedPost.create({
+      data: {
+        postId,
+        userId,
+      },
+      select: {
+        id: true,
+      }
+    });
+    // Optionally, update the post's like count or handle any additional logic
+  } catch (error) {
+    // Handle errors or duplicate likes
+    console.error("Error while liking post:", error);
+    throw error; // You can handle this as per your application's needs
+  }
+}
+
+// Function to save a post by a user
+export async function savePost(postId: string, userId: string): Promise<void> {
+  try {
+    // Use Prisma to create a SavedPost entry for the user and post
+    await db.savedPost.create({
+      data: {
+        postId,
+        userId,
+      },
+    });
+    // Optionally, handle additional logic
+  } catch (error) {
+    // Handle errors or duplicate saves
+    console.error("Error while saving post:", error);
+    throw error; // You can handle this as per your application's needs
+  }
+}
+
+
+
+
+
+// export async function hasUserLikedPost(postId: string, userId: string): Promise<boolean> {
+//   const likedPost = await db.likedPost.findFirst({
+//     where: {
+//       postId,
+//       userId,
+//     },
+//   });
+//   return !!likedPost;
+// }
+
+
 
 
 // export async function likePost(postId: string, userId: string): Promise<boolean> {

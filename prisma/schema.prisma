@@ -20,8 +20,8 @@ model User {
   accounts Account[]
   sessions Session[]
 
-  likedPosts PostLike[] 
-  savedPosts PostSave[]
+  likedPosts LikedPost[]
+  savedPosts SavedPost[]
 }
 
 model Account {
@@ -61,26 +61,16 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Posts {
-  id String @id @default(cuid())
-  title String
-  date DateTime
-  likedBy PostLike[]
-  savedBy PostSave[]
-}
-
-model PostLike {
+model LikedPost {
   id     String @id @default(cuid())
   userId String
-  postId String
-  user User @relation(fields: [userId], references: [id])
-  post Posts @relation(fields: [postId], references: [id])
+  postId String // GitHub post ID
+  user   User   @relation(fields: [userId], references: [id])
 }
 
-model PostSave {
+model SavedPost {
   id     String @id @default(cuid())
   userId String
-  postId String
-  user User @relation(fields: [userId], references: [id])
-  post Posts @relation(fields: [postId], references: [id])
+  postId String // GitHub post ID
+  user   User   @relation(fields: [userId], references: [id])
 }
