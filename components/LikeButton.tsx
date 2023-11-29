@@ -18,7 +18,6 @@ const LikeButton = ({ likesCount, postId }: LikeButtonProps) => {
     setLiked((prev) => !prev);
     if(!liked){
       setCountLikes((prevCount) => prevCount + 1);
-      const liked = await handlePostInteraction({postId: postId, userId: "userId", action: "like"})
     } else {
       setCountLikes((prevCount) => prevCount - 1);
     }
