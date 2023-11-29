@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { Icons } from "./Icons";
 import { Button } from "./ui/button";
-import { handlePostInteraction } from "@/app/posts/actions";
 
 interface LikeButtonProps {
   likesCount: number;
@@ -18,6 +17,7 @@ const LikeButton = ({ likesCount, postId }: LikeButtonProps) => {
     setLiked((prev) => !prev);
     if(!liked){
       setCountLikes((prevCount) => prevCount + 1);
+      const res = await fetch('')
     } else {
       setCountLikes((prevCount) => prevCount - 1);
     }
