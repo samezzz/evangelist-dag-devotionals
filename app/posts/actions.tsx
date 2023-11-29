@@ -23,28 +23,27 @@ export async function fetchPosts({
   }
 }
 
-export async function handlePostInteraction({
-  postId,
-  userId,
-  action,
-} : {
-  postId: string;
-  userId: string;
-  action: "like" | "save";
-}) {
-  try {
-    if (action === "like") {
-      await likePost(postId, userId);
-      console.log("Post liked successfully!");
-    } else if (action === "save") {
-      await savePost(postId, userId);
-      console.log("Post saved successfully!");
-    }
-    // Optionally, you can update the UI or perform additional actions after the interaction
-  } catch (error) {
-    console.error("Error while handling post interaction:", error);
-  }
-}
+// export async function handlePostInteraction({
+//   postId,
+//   userId,
+//   action,
+// } : {
+//   postId: string;
+//   userId: string;
+//   action: "like" | "save";
+// }) {
+//   try {
+//     if (action === "like") {
+//       await likePost(postId, userId);
+//       console.log("Post liked successfully!");
+//     } else if (action === "save") {
+//       await savePost(postId, userId);
+//       console.log("Post saved successfully!");
+//     }
+//   } catch (error) {
+//     console.error("Error while handling post interaction:", error);
+//   }
+// }
 
 // export async function fetchLikePost(postId: string, userId: string){
 //     try {

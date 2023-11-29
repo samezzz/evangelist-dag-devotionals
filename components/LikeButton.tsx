@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Icons } from "./Icons";
 import { Button } from "./ui/button";
-import { handlePostInteraction } from "@/app/posts/actions";
+// import { handlePostInteraction } from "@/app/posts/actions";
 
 interface LikeButtonProps {
  likes: number
@@ -15,7 +15,7 @@ const LikeButton = ({likes, postId, userId}: LikeButtonProps) => {
   const [liked, setLiked] = useState(false)
 
   const handleLike = async () => {
-    const interaction = await handlePostInteraction({postId: postId, userId: userId, action: "like"} )
+    // const interaction = await handlePostInteraction({postId: postId, userId: userId, action: "like"} )
     
   }
   return (
