@@ -6,6 +6,8 @@ import { db } from "@/lib/db";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 
+const url = "http://localhost:3000/api/login" || "https://evangelist-dag-devotionals.vercel.app/api/login"
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   secret: process.env.NEXTAUTH_SECRET,
@@ -34,10 +36,10 @@ export const authOptions: NextAuthOptions = {
           placeholder: "example@email.com",
         },
       },
-
+      
       async authorize(credentials, _) {
         try {
-          const res = await fetch("http://localhost:3000/api/login", {
+          const res = await fetch(url, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
