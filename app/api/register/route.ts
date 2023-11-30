@@ -6,7 +6,7 @@ export async function POST(req: Request) {
     const formData = await req.json();
     const emailLower = formData.email.toLowerCase();
 
-    // check if email already exisits
+    // Check if email already exists
     const existingUserByEmail = await db.user.findUnique({
       where: { email: emailLower },
     });
@@ -18,23 +18,23 @@ export async function POST(req: Request) {
       );
     }
     
-    // Create a Prisma data object using the validated data
-    const newData = await db.user.create({
+    // Create a new user if the email doesn't exist
+    const newUser = await db.user.create({
       data: {
         email: emailLower,
-      }, // Use the validated data
+        // Add any additional fields here if needed
+      },
     });
-    // console.log("data: ", newData)
 
     return NextResponse.json(
       {
-        user: newData,
+        user: newUser,
         message: "Registration successful",
       },
       { status: 201 }
     );
   } catch (error) {
-    // console.log("Error: ", error)
+    console.error("Error: ", error);
     return NextResponse.json(
       { error: "Invalid data received." },
       { status: 500 }
