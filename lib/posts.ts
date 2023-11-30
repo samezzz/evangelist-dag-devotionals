@@ -8,7 +8,7 @@ import Video from "@/components/Video";
 import CustomImage from "@/components/CustomImage";
 import { DailyDevotional, Meta } from "@/types";
 import { partitionFilter } from "./utils";
-import { db } from "./db";
+import { env } from "@/env.mjs"
 
 type Filetree = {
   tree: [
@@ -33,7 +33,7 @@ export async function getPostByName(
       {
         headers: {
           Accept: "application/vnd.github+json",
-          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+          Authorization: `Bearer ${env.GITHUB_TOKEN}`,
           "X-GitHub-Api-Version": "2022-11-28",
         },
       }
@@ -111,7 +111,7 @@ export async function getPostsMeta({
     {
       headers: {
         Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        Authorization: `Bearer ${env.GITHUB_TOKEN}`,
         "X-Github-Api-Version": "2022-11-28",
       },
     }

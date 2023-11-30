@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Image from "next/image";
+import { env } from "@/env.mjs";
 
 type FormData = z.infer<typeof userAuthSchema>;
 
@@ -31,7 +32,7 @@ interface Props {
 export default function RegisterAuthForm(props: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callBackUrl = searchParams?.get("from") || "/posts";
+  // const callBackUrl = searchParams?.get("from") || "/posts";
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
@@ -56,7 +57,7 @@ export default function RegisterAuthForm(props: Props) {
     },
   });
 
-  const url = "https://evangelist-dag-devotionals.vercel.app/api/register" || "http://localhost:3000/api/register";
+  const url = `${env.NEXT_PUBLIC_APP_URL}/api/register`;
 
   async function handleFormSubmit(data: FormData, e: any) {
     e.preventDefault();
