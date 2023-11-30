@@ -19,33 +19,30 @@ const LikeButton = ({ likesCount, postId }: LikeButtonProps) => {
     try {
       // Optimistically update state
       setLiked((prevLiked) => !prevLiked);
-      setCountLikes((prevCountLikes) => (liked ? prevCountLikes  - 1 : prevCountLikes  + 1));
+      setCountLikes((prevCountLikes) => (liked ? prevCountLikes - 1 : prevCountLikes + 1));
 
-      const res = await Promise.all([
-        fetch("/api/posts/like", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ postId }),
-          next: { revalidate: 0 },
-          cache: "no-store",
-        }),
-        fetchTotalLikes(),
-      ]);
+      const res = await fetch("/api/posts/like", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ postId }),
+        next: { revalidate: 0 },
+        cache: "no-store",
+      });
 
-      if (!res) {
-        // If the request fails, revert the state change
-        setLiked((prevLiked) => !prevLiked);
-        setCountLikes((prevCountLikes) => (liked ? prevCountLikes - 1 : prevCountLikes + 1));
-        return;
+      if (!res.ok) {
+        throw new Error("Failed to like the post");
       }
+
+      // Update likes count
+      fetchTotalLikes();
 
     } catch (error) {
       // Roll back state changes on error
       setLiked((prevLiked) => !prevLiked);
-      setCountLikes((prevCountLikes) => (liked  ? prevCountLikes  + 1 : prevCountLikes  - 1));
+      setCountLikes((prevCountLikes) => (liked ? prevCountLikes + 1 : prevCountLikes - 1));
       console.error("Error handling like: ", error);
     }
   };
@@ -83,20 +80,16 @@ const LikeButton = ({ likesCount, postId }: LikeButtonProps) => {
       if (res.ok) {
         const data = await res.json();
         setCountLikes(data.total);
-        return data.total;
       }
-      return 0;
     } catch (error) {
       console.error("Error fetching total likes: ", error);
-      return 0;
     }
   };
 
   useEffect(() => {
     isLiked();
-    fetchTotalLikes()
+    fetchTotalLikes();
   }, [pathname]);
-
 
   return (
     <Button
