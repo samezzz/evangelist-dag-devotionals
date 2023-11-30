@@ -6,6 +6,8 @@ import {
   countTotalLikes,
   getLikedPost,
   likePost,
+  savePost,
+  getSavedPost,
 } from "@/lib/posts";
 import { getCurrentUser } from "@/lib/session";
 
@@ -78,6 +80,46 @@ export async function fetchGetLikedPost({
       return likedPost.isLiked;
     } else {
       console.log("Couldn't get liked post.");
+    }
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+
+export async function fetchSavePost({
+  postId,
+  userId,
+}: {
+  userId: string;
+  postId: string;
+}) {
+  try {
+    const savedPost = await savePost({ userId, postId });
+    if (savedPost?.response) {
+      return savedPost.response;
+    } else {
+      console.log("Couldn't save post");
+    }
+  } catch (error) {
+    console.error("Error saving post: ", error);
+    return null;
+  }
+}
+
+export async function fetchGetSavedPost({
+  postId,
+  userId,
+}: {
+  postId: string;
+  userId: string;
+}) {
+  try {
+    const savedPost = await getSavedPost({ postId, userId });
+    if (savedPost) {
+      return savedPost.isSaved;
+    } else {
+      console.log("Couldn't get saved post.");
     }
   } catch (error) {
     console.error("Error: ", error);

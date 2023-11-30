@@ -269,3 +269,88 @@ export async function getLikedPost({
     return { error: "Error occurred while fetching liked post" };
   }
 }
+
+
+export async function savePost({
+  userId,
+  postId,
+}: {
+  userId: string;
+  postId: string;
+}) {
+  try {
+    const existingPost = await db.savedPost.findUnique({
+      where: {
+        userId: userId,
+        postId: postId,
+      },
+    });
+
+    let response;
+
+    if (existingPost) {
+      response = await db.savedPost.delete({
+        where: {
+          userId: userId,
+          postId: postId,
+        },
+        select: {
+          postId: true,
+        },
+      });
+    } else {
+      response = await db.savedPost.upsert({
+        where: {
+          userId: userId,
+          postId: postId,
+        },
+        update: {},
+        create: {
+          postId,
+          userId: userId,
+        },
+        select: {
+          postId: true,
+        },
+      });
+    }
+
+    const message = existingPost
+      ? "Post removed from saved posts"
+      : "Post saved successfully";
+
+    return { response, message };
+  } catch (error) {
+    console.error("Error in savePost: ", error);
+    return { error: "Error occurred while processing savedPost" };
+  }
+}
+
+export async function getSavedPost({
+  postId,
+  userId,
+}: {
+  postId: string;
+  userId: string;
+}) {
+  try {
+    const isSaved = await db.savedPost.findUnique({
+      where: {
+        postId: postId,
+        userId: userId,
+      },
+      select: {
+        postId: true,
+      },
+    });
+
+    if (!isSaved) {
+      return { isSaved: false, message: "Post not saved" };
+    }
+
+    return { isSaved: true, message: "Post is saved" };
+  } catch (error) {
+    console.error("Error in getSavedPost: ", error);
+    return { error: "Error occurred while fetching saved post" };
+  }
+}
