@@ -4,19 +4,17 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Icons } from "./Icons";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
-import {
-  fetchCountTotalLikes,
-  fetchGetLikedPost,
-  fetchLikePost,
-} from "@/app/posts/actions";
 
 interface LikeButtonProps {
   likesCount: number;
   postId: string;
   userId: string;
+  fetchLikePost: ({ postId, userId, }: { userId: string; postId: string; }) => Promise<{ postId: string; } | null | undefined>
+  fetchCountTotalLikes: ({ postId }: { postId: string; }) => Promise<number | null | undefined>
+  fetchGetLikedPost: ({ postId, userId, }: { userId: string; postId: string; }) => Promise<boolean | null | undefined>
 }
 
-const LikeButton = ({ likesCount, postId, userId }: LikeButtonProps) => {
+const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotalLikes, fetchGetLikedPost }: LikeButtonProps) => {
   const [liked, setLiked] = useState(false);
   const [countLikes, setCountLikes] = useState(likesCount);
   const pathname = usePathname();

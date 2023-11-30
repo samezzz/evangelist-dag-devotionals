@@ -4,16 +4,35 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Icons } from "./Icons";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
-import { fetchGetSavedPost, fetchSavePost } from "@/app/posts/actions";
 import { usePathname } from "next/navigation";
 
 interface BookmarkButtonProps {
   title: string;
   postId: string;
   userId: string;
+  fetchGetSavedPost: ({
+    postId,
+    userId,
+  }: {
+    userId: string;
+    postId: string;
+  }) => Promise<boolean | null | undefined>;
+  fetchSavePost: ({
+    postId,
+    userId,
+  }: {
+    userId: string;
+    postId: string;
+  }) => Promise<{ postId: string } | null | undefined>;
 }
 
-const BookmarkButton = ({ postId, userId, title }: BookmarkButtonProps) => {
+const BookmarkButton = ({
+  fetchGetSavedPost,
+  fetchSavePost,
+  postId,
+  userId,
+  title,
+}: BookmarkButtonProps) => {
   const [bookmarked, setBookmarked] = useState(false);
   const { toast } = useToast();
   const pathname = usePathname();

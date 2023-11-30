@@ -1,6 +1,7 @@
 import { getPostsMeta } from "@/lib/posts"
 import PostItem from "@/components/PostItem"
 import Link from "next/link"
+import { getCurrentUser } from "@/lib/session"
 
 export const revalidate = 86400
 
@@ -44,6 +45,10 @@ export default async function TagPostList({ params: { tag }}: Props) {
     )
   }
 
+  const user = await getCurrentUser();
+  if (!user) return null;
+
+
   return (
     <>
       <h2 className="text-3xl mt-4 mb-0">
@@ -53,7 +58,7 @@ export default async function TagPostList({ params: { tag }}: Props) {
         <ul className="w-full list-none p-0">
           {
             tagPosts.map((post, index) => (
-              <PostItem key={post.id} post={post} index={index} />
+              <PostItem userId={user.id} key={post.id} post={post} index={index} />
             ))
           }
         </ul>
