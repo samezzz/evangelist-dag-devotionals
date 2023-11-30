@@ -201,7 +201,7 @@ export async function likePost({
     } else {
       response = await db.likedPost.create({
         data: {
-          postId,
+          postId: postId,
           userId: userId,
         },
         select: {
