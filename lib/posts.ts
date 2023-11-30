@@ -169,35 +169,3 @@ export async function getPostsMeta({
     return paginatedPosts;
   }
 }
-
-
-export async function likePost(postId: string, userId: string): Promise<void> {
-  try {
-    await db.likedPost.create({
-      data: {
-        postId,
-        userId,
-      },
-      select: {
-        id: true,
-      }
-    });
-  } catch (error) {
-    console.error("Error while liking post:", error);
-    throw error; 
-  }
-}
-
-export async function savePost(postId: string, userId: string): Promise<void> {
-  try {
-    await db.savedPost.create({
-      data: {
-        postId,
-        userId,
-      },
-    });
-  } catch (error) {
-    console.error("Error while saving post:", error);
-    throw error; 
-  }
-}

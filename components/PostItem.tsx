@@ -41,7 +41,7 @@ export default function PostItem({ post, index }: Props) {
           </div>
           <div className="flex gap-2 ">
             <LikeButton likesCount={likesCount} postId={post.id} />
-            <BookmarkButton bookmark={likesCount} /> 
+            <BookmarkButton bookmark={likesCount} title={title} /> 
           </div>
         </div>
       </Link>

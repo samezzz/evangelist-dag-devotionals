@@ -64,13 +64,13 @@ model VerificationToken {
 model LikedPost {
   id     String @id @default(cuid())
   userId String
-  postId String
+  postId String @unique
   user   User   @relation(fields: [userId], references: [id])
 }
 
 model SavedPost {
   id     String @id @default(cuid())
   userId String
-  postId String // GitHub post ID
+  postId String @unique
   user   User   @relation(fields: [userId], references: [id])
 }

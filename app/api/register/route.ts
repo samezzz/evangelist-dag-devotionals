@@ -4,10 +4,6 @@ import { NextResponse } from "next//server";
 export async function POST(req: Request) {
   try {
     const formData = await req.json();
-    const {
-      email,
-    } = formData;
-
     const emailLower = formData.email.toLowerCase();
 
     // check if email already exisits

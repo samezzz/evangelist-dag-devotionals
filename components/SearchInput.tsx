@@ -4,20 +4,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
+import { Icons } from "./Icons";
 
-const SearchInput = ({search}: {search?: string}) => {
+const SearchInput = ({ search }: { search?: string }) => {
   const router = useRouter();
   const [text, setText] = useState(search);
   const [query] = useDebounce(text, 100);
 
-  const initialRender = useRef(true)
+  const initialRender = useRef(true);
 
   useEffect(() => {
     if (initialRender.current) {
-      initialRender.current = false
-      return
+      initialRender.current = false;
+      return;
     }
-    
+
     if (!query) {
       router.push(`/posts`);
     } else {
@@ -25,11 +26,14 @@ const SearchInput = ({search}: {search?: string}) => {
     }
   }, [query, router]);
   return (
-    <Input
-      className="max-w-[400px] ml-4"
-      placeholder="search"
-      onChange={(e) => setText(e.target.value)}
-    />
+    <div className="flex">
+      <Icons.refresh className=" ml-4 mr-2 mt-2 cursor-pointer" onClick={() => {router.refresh}} />
+      <Input
+        className="max-w-[430px]"
+        placeholder="search"
+        onChange={(e) => setText(e.target.value)}
+      />
+    </div>
   );
 };
 

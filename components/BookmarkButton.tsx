@@ -7,9 +7,10 @@ import { useToast } from "./ui/use-toast";
 
 interface BookmarkButtonProps {
   bookmark: number;
+  title: string
 }
 
-const BookmarkButton = ({ bookmark }: BookmarkButtonProps) => {
+const BookmarkButton = ({ bookmark, title }: BookmarkButtonProps) => {
   const [bookmarked, setBookmarked] = useState(false);
   const { toast } = useToast();
 
@@ -18,13 +19,13 @@ const BookmarkButton = ({ bookmark }: BookmarkButtonProps) => {
     if (!bookmarked) {
       return toast({
         title: "Saved",
-        description: "Post has been added to your saved collection.",
+        description: `${title} has been added to your saved collection.`,
         variant: "default",
       });
     } else {
       return toast({
         title: "Removed",
-        description: "Post has been removed from your saved collection.",
+        description: `${title} has been removed from your saved collection.`,
         variant: "default",
       });
     }
@@ -44,7 +45,6 @@ const BookmarkButton = ({ bookmark }: BookmarkButtonProps) => {
           bookmarked && "fill-sky-500"
         }`}
       />
-      {/* <div>{bookmark}</div> */}
     </Button>
   );
 };
