@@ -56,7 +56,7 @@ export default function RegisterAuthForm(props: Props) {
     },
   });
 
-  const url = "http://localhost:3000/api/register" || "https://evangelist-dag-devotionals.vercel.app/api/register";
+  const url = "https://evangelist-dag-devotionals.vercel.app/api/register" || "http://localhost:3000/api/register";
 
   async function handleFormSubmit(data: FormData, e: any) {
     e.preventDefault();
