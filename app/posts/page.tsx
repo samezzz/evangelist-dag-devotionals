@@ -21,9 +21,9 @@ export default async function Posts({
   if (!user) {
     notFound();
   }
+  
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
-
   const posts = await fetchPosts({ search });
 
   if (!posts) {
@@ -82,3 +82,19 @@ export default async function Posts({
     </section>
   );
 }
+
+
+
+  // const postIds = await fetchPostId({})
+  // if(!postIds || !postIds.length) return null
+
+  // for(const postId of postIds) {
+  //   const likePost = await fetchLikePost({postId, user.id})
+  //   if(!likePost) return null
+  
+  //   const totalLikes = await fetchCountTotalLikes({postId, user.id})
+  //   if(!totalLikes) return null
+  
+  //   const getLikedPost = await fetchGetLikedPost({postId, user.id})
+  //   if(!getLikedPost) return null
+  // }

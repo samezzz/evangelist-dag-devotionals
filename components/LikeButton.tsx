@@ -4,57 +4,48 @@ import React, { useState, useEffect } from "react";
 import { Icons } from "./Icons";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
+import {
+  fetchCountTotalLikes,
+  fetchGetLikedPost,
+  fetchLikePost,
+} from "@/app/posts/actions";
+import { User } from "lucide-react";
 
 interface LikeButtonProps {
   likesCount: number;
   postId: string;
+  userId: string;
 }
 
-const LikeButton = ({ likesCount, postId }: LikeButtonProps) => {
+const LikeButton = ({ likesCount, postId, userId }: LikeButtonProps) => {
   const [liked, setLiked] = useState(false);
   const [countLikes, setCountLikes] = useState(likesCount);
   const pathname = usePathname();
 
   const handleLike = async () => {
     try {
-      // Optimistically update state
       setLiked((prevLiked) => !prevLiked);
-      setCountLikes((prevCountLikes) => (liked ? prevCountLikes - 1 : prevCountLikes + 1));
+      setCountLikes((prevCountLikes) =>
+        liked ? prevCountLikes - 1 : prevCountLikes + 1
+      );
 
-      const res = await fetch("/api/posts/like", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ postId }),
-      });
+      const likePromise = fetchLikePost({ postId, userId });
+      const likedPost = await likePromise;
 
-      if (!res.ok) {
-        throw new Error("Failed to like the post");
-      }
+      if (!likedPost) return null;
 
-      // Update likes count
-      fetchTotalLikes();
-
-    } catch (error) {
-      // Roll back state changes on error
-      setLiked((prevLiked) => !prevLiked);
-      setCountLikes((prevCountLikes) => (liked ? prevCountLikes + 1 : prevCountLikes - 1));
-      console.error("Error handling like: ", error);
-    }
+      console.log("Post Liked Successfully: ", likedPost.postId);
+    } catch (error) {}
   };
 
   const isLiked = async () => {
     try {
-      const res = await fetch(`/api/posts/${postId}`, {
-        method: "GET",
-      });
+      const getLikedPostPromise = fetchGetLikedPost({ postId, userId });
+      const getLikedPost = await getLikedPostPromise;
 
-      if (res.ok) {
-        const data = await res.json();
-        setLiked(data.isLiked);
-      }
+      if (!getLikedPost) return null;
+
+      setLiked(getLikedPost);
     } catch (error) {
       console.error("Error checking if liked: ", error);
     }
@@ -62,27 +53,23 @@ const LikeButton = ({ likesCount, postId }: LikeButtonProps) => {
 
   const fetchTotalLikes = async () => {
     try {
-      const res = await fetch("/api/posts/likesCount", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ postId }),
-      });
+      const totalLikesPromise = fetchCountTotalLikes({ postId });
+      const totalLikes = await totalLikesPromise;
 
-      if (res.ok) {
-        const data = await res.json();
-        setCountLikes(data.total);
-      }
+      if (!totalLikes) return null;
+
+      setCountLikes(totalLikes);
     } catch (error) {
       console.error("Error fetching total likes: ", error);
     }
   };
 
   useEffect(() => {
-    isLiked();
-    fetchTotalLikes();
+    const fetchData = async () => {
+      await Promise.all([isLiked(), fetchTotalLikes()]);
+    };
+
+    fetchData();
   }, [pathname]);
 
   return (

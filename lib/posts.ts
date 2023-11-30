@@ -8,7 +8,8 @@ import Video from "@/components/Video";
 import CustomImage from "@/components/CustomImage";
 import { DailyDevotional, Meta } from "@/types";
 import { partitionFilter } from "./utils";
-import { env } from "@/env.mjs"
+import { env } from "@/env.mjs";
+import { db } from "./db";
 
 type Filetree = {
   tree: [
@@ -143,8 +144,6 @@ export async function getPostsMeta({
 
   const allPosts = await Promise.all(promises);
 
-  
-
   // Filter out undefined posts
   const filteredPosts = allPosts.filter((post): post is Meta => !!post);
   // Sort all posts
@@ -167,5 +166,103 @@ export async function getPostsMeta({
   } else {
     const paginatedPosts = filteredPosts.slice(startIdx, endIdx);
     return paginatedPosts;
+  }
+}
+
+export async function likePost({
+  userId,
+  postId,
+}: {
+  userId: string;
+  postId: string;
+}) {
+  try {
+    const existingLike = await db.likedPost.findUnique({
+      where: {
+        userId: userId,
+        postId: postId,
+      },
+    });
+
+    let response;
+
+    if (existingLike) {
+      response = await db.likedPost.delete({
+        where: {
+          userId: userId,
+          postId: postId,
+        },
+        select: {
+          postId: true,
+        },
+      });
+    } else {
+      response = await db.likedPost.upsert({
+        where: {
+          userId: userId,
+          postId: postId,
+        },
+        update: {},
+        create: {
+          postId,
+          userId: userId,
+        },
+        select: {
+          postId: true,
+        },
+      });
+    }
+
+    const message = existingLike
+      ? "Post removed from liked posts"
+      : "Post liked successfully";
+
+    return { response, message };
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+export async function countTotalLikes({ postId }: { postId: string }) {
+  try {
+    const totalLikesCount = await db.likedPost.count({
+      where: {
+        postId: postId,
+      },
+    });
+
+    const message = "Returned total number of likes for a post";
+
+    return { totalLikesCount, message };
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+export async function getLikedPost({
+  postId,
+  userId,
+}: {
+  postId: string;
+  userId: string;
+}) {
+  try {
+    const isLiked = await db.likedPost.findUnique({
+      where: {
+        postId: postId,
+        userId: userId,
+      },
+      select: {
+        postId: true,
+      },
+    });
+
+    if (!isLiked) {
+      return { isLked: false, message: "Post not liked" };
+    }
+
+    return { isLiked: true, message: "Post is liked" };
+  } catch (error) {
+    console.error("Error: ", error);
   }
 }

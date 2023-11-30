@@ -8,9 +8,10 @@ import LikeButton from "./LikeButton";
 type Props = {
   post: Meta;
   index: number;
+  userId: string;
 };
 
-export default function PostItem({ post, index }: Props) {
+export default function PostItem({ post, index, userId }: Props) {
   const { title, date, likesCount } = post;  
   const formattedDate = getFormattedDate(date);
   
@@ -40,7 +41,7 @@ export default function PostItem({ post, index }: Props) {
             </p>
           </div>
           <div className="flex gap-2 ">
-            <LikeButton likesCount={likesCount} postId={post.id} />
+            <LikeButton likesCount={likesCount} postId={post.id} userId={userId} />
             <BookmarkButton bookmark={likesCount} title={title} /> 
           </div>
         </div>
