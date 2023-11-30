@@ -54,7 +54,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Error: ", error);
     return NextResponse.json(
-      { error: "Error when trying to like post" },
+      { error: "Error when trying to save post" },
       { status: 500 }
     );
   }
