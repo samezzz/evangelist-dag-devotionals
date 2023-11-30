@@ -18,9 +18,9 @@ export async function fetchPosts({
 }) {
   try {
     const posts = await getPostsMeta({ query: search, page });
-    const user = await getCurrentUser()
-    if(!user) return null
-    
+    const user = await getCurrentUser();
+    if (!user) return null;
+
     if (posts) {
       return posts.map((post, index) => (
         <PostItem userId={user.id} post={post} key={index} index={index} />

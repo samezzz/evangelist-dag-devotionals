@@ -219,7 +219,8 @@ export async function likePost({
 
     return { response, message };
   } catch (error) {
-    console.error("Error: ", error);
+    console.error("Error in likePost: ", error);
+    return { error: "Error occurred while processing likePost" };
   }
 }
 
@@ -235,7 +236,8 @@ export async function countTotalLikes({ postId }: { postId: string }) {
 
     return { totalLikesCount, message };
   } catch (error) {
-    console.error("Error: ", error);
+    console.error("Error in countTotalLikes: ", error);
+    return { error: "Error occurred while counting total likes" };
   }
 }
 
@@ -258,11 +260,12 @@ export async function getLikedPost({
     });
 
     if (!isLiked) {
-      return { isLked: false, message: "Post not liked" };
+      return { isLiked: false, message: "Post not liked" };
     }
 
     return { isLiked: true, message: "Post is liked" };
   } catch (error) {
-    console.error("Error: ", error);
+    console.error("Error in getLikedPost: ", error);
+    return { error: "Error occurred while fetching liked post" };
   }
 }
