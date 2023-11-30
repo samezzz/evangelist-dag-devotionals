@@ -1,7 +1,13 @@
 "use server";
 
 import PostItem from "@/components/PostItem";
-import { getPostsMeta } from "@/lib/posts";
+import {
+  getPostsMeta,
+  countTotalLikes,
+  getLikedPost,
+  likePost,
+} from "@/lib/posts";
+import { getCurrentUser } from "@/lib/session";
 
 export async function fetchPosts({
   page = 1,
@@ -12,9 +18,12 @@ export async function fetchPosts({
 }) {
   try {
     const posts = await getPostsMeta({ query: search, page });
+    const user = await getCurrentUser()
+    if(!user) return null
+    
     if (posts) {
       return posts.map((post, index) => (
-        <PostItem post={post} key={index} index={index} />
+        <PostItem userId={user.id} post={post} key={index} index={index} />
       ));
     }
   } catch (error) {
@@ -23,3 +32,54 @@ export async function fetchPosts({
   }
 }
 
+export async function fetchLikePost({
+  postId,
+  userId,
+}: {
+  userId: string;
+  postId: string;
+}) {
+  try {
+    const likedPost = await likePost({ userId, postId });
+    if (likedPost?.response) {
+      return likedPost.response;
+    } else {
+      console.log("Couldn't like post");
+    }
+  } catch (error) {
+    console.error("Error liking post: ", error);
+    return null;
+  }
+}
+
+export async function fetchCountTotalLikes({ postId }: { postId: string }) {
+  try {
+    const totalLikes = await countTotalLikes({ postId });
+    if (totalLikes) {
+      return totalLikes.totalLikesCount;
+    } else {
+      console.log("Couldn't count total likes");
+    }
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+export async function fetchGetLikedPost({
+  postId,
+  userId,
+}: {
+  postId: string;
+  userId: string;
+}) {
+  try {
+    const likedPost = await getLikedPost({ postId, userId });
+    if (likedPost) {
+      return likedPost.isLiked;
+    } else {
+      console.log("Couldn't get liked post.");
+    }
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
