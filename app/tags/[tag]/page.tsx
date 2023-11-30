@@ -52,8 +52,8 @@ export default async function TagPostList({ params: { tag }}: Props) {
       <section className="mt-6 mx-auto max-w-2xl">
         <ul className="w-full list-none p-0">
           {
-            tagPosts.map(post => (
-              <PostItem key={post.id} post={post} />
+            tagPosts.map((post, index) => (
+              <PostItem key={post.id} post={post} index={index} />
             ))
           }
         </ul>

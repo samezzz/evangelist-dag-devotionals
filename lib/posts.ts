@@ -8,6 +8,7 @@ import Video from "@/components/Video";
 import CustomImage from "@/components/CustomImage";
 import { DailyDevotional, Meta } from "@/types";
 import { partitionFilter } from "./utils";
+import { db } from "./db";
 
 type Filetree = {
   tree: [
@@ -48,7 +49,6 @@ export async function getPostByName(
       title: string;
       date: string;
       tags: string[];
-      //   imgSrc: string;
     }>({
       source: rawMDX,
       components: {
@@ -82,12 +82,12 @@ export async function getPostByName(
         title: frontmatter.title,
         date: frontmatter.date,
         tags: frontmatter.tags,
-        // imgSrc: frontmatter.imgSrc,
+        likesCount: 0,
       },
       content,
     };
 
-    // postCache.set(fileName, DailyDevotionalObj);
+    postCache.set(fileName, DailyDevotionalObj);
 
     return DailyDevotionalObj;
   } catch (error) {
@@ -100,7 +100,7 @@ export async function getPostByName(
 export async function getPostsMeta({
   query,
   page = 1,
-  perPage = 20,
+  perPage = 24,
 }: {
   query?: string;
   page?: number;
@@ -143,6 +143,8 @@ export async function getPostsMeta({
 
   const allPosts = await Promise.all(promises);
 
+  
+
   // Filter out undefined posts
   const filteredPosts = allPosts.filter((post): post is Meta => !!post);
   // Sort all posts
@@ -163,7 +165,6 @@ export async function getPostsMeta({
     const partitionedPosts = partitionFilter(filteredPosts, condition);
     return partitionedPosts;
   } else {
-    // Get the posts for the requested page
     const paginatedPosts = filteredPosts.slice(startIdx, endIdx);
     return paginatedPosts;
   }

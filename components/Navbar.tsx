@@ -8,13 +8,19 @@ import React, { useEffect, useState } from "react";
 import { Icons } from "./Icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
+import { UserAccountNav } from "./UserAccountNav";
+import { useSession } from "next-auth/react";
 
 export default function Navbar() {
-  const pathname = usePathname()
+  const { data, status } = useSession();
+  if (status !== "authenticated") {
+  }
+  const pathname = usePathname();
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const isMobile = typeof window !== 'undefined' && /Mobi|Android/i.test(navigator.userAgent);
+  const isMobile =
+    typeof window !== "undefined" && /Mobi|Android/i.test(navigator.userAgent);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,9 +31,9 @@ export default function Navbar() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []); // Empty dependency array to execute this effect only once
 
@@ -36,7 +42,11 @@ export default function Navbar() {
   };
 
   return (
-    <nav className={`flex items-center justify-between mx-auto px-6 lg:px-20 3xl:px-0 py-2 md:py-3 sticky top-0 z-50 ${pathname !== "/" && isMobile && isScrolled && "glassmorphism"} ${pathname !== "/" && !isMobile && isScrolled && "glassmorphism" }`}>
+    <nav
+      className={`flex items-center justify-between mx-auto px-6 lg:px-12 2xl:px-[320px] py-2 md:py-3 sticky top-0 z-50 ${
+        pathname !== "/" && isMobile && isScrolled && "glassmorphism"
+      } ${pathname !== "/" && !isMobile && isScrolled && "glassmorphism"}`}
+    >
       <Avatar>
         <AvatarImage src="/quietTime.jpeg" alt="@evangelistdagdevotionals" />
         <AvatarFallback>DC</AvatarFallback>
@@ -56,28 +66,38 @@ export default function Navbar() {
 
       <div className="md:flex items-center justify-center hidden gap-x-3">
         <ModeToggle />
+        <UserAccountNav
+          user={{
+            name: data?.user.name,
+            image: data?.user.image,
+            email: data?.user.email,
+          }}
+        />
         {/* <Button>Posts</Button> */}
       </div>
       <div className="md:hidden flex items-center gap-x-3">
         <ModeToggle />
+        <UserAccountNav
+          user={{
+            name: data?.user.name,
+            image: data?.user.image,
+            email: data?.user.email,
+          }}
+        />
         <button
           className="flex items-center space-x-2 md:hidden"
           onClick={() => setShowMobileMenu((prev) => !prev)}
         >
-          {showMobileMenu ? <Icons.close className="border border-border p-1 rounded-md h-[36px] w-[36px] hover:bg-secondary"  /> : <Icons.menu className="border border-border p-1 rounded-md h-[36px] w-[36px] hover:bg-secondary transition-all" />}
+          {showMobileMenu ? (
+            <Icons.close className="border border-border p-1 rounded-md h-[36px] w-[36px] hover:bg-secondary" />
+          ) : (
+            <Icons.menu className="border border-border p-1 rounded-md h-[36px] w-[36px] hover:bg-secondary transition-all" />
+          )}
         </button>
         {showMobileMenu && nav && (
           <MobileNav items={nav} closeMenu={handleClick} />
         )}
       </div>
-
-      {/* <Image 
-        src="menu.svg"
-        alt="menu"
-        width={32}
-        height={32}
-        className="inline-block cursor-pointer lg:hidden"
-      /> */}
     </nav>
   );
 }
@@ -105,4 +125,14 @@ export default function Navbar() {
           <FaTwitter className="w-5 h-5 text-[#1DA1F2] dark:text-gray-100" />
         </Link>
       </div> */
+}
+
+{
+  /* <Image 
+        src="menu.svg"
+        alt="menu"
+        width={32}
+        height={32}
+        className="inline-block cursor-pointer lg:hidden"
+      /> */
 }

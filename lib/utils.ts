@@ -29,6 +29,4 @@ export function partitionFilter<T>(arr: T[], condition: Condition<T>): T[] {
   }
 
   return arr.slice(0, left);
-} 
-
-
+}

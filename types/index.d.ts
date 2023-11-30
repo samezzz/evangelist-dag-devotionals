@@ -23,10 +23,10 @@ export type Meta = {
     title: string,
     date: string,
     tags: string[],
-    // imgSrc?: string,
+    likesCount: number,
   }
   
 export type DailyDevotional = {
     meta: Meta,
     content: ReactElement<any, string | JSXElementConstructor<any>>,
-  }
+}
