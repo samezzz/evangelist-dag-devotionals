@@ -3,10 +3,11 @@ import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
+import { env } from "@/env.mjs"
 
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const url = "https://evangelist-dag-devotionals.vercel.app/api/login" || "http://localhost:3000/api/login"
+const url = env.NEXT_PUBLIC_APP_URL
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -18,14 +19,14 @@ export const authOptions: NextAuthOptions = {
   providers: [
     EmailProvider({
       server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
+        host: env.EMAIL_SERVER_HOST,
+        port: env.EMAIL_SERVER_PORT,
         auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD
+          user: env.EMAIL_SERVER_USER,
+          pass: env.EMAIL_SERVER_PASSWORD
         }
       },
-      from: process.env.EMAIL_FROM,
+      from: env.EMAIL_FROM,
     }),
     CredentialsProvider({
       name: "credentials",
@@ -61,8 +62,8 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: env.GOOGLE_CLIENT_ID as string,
+      clientSecret: env.GOOGLE_CLIENT_SECRET as string,
       allowDangerousEmailAccountLinking: true,
       profile(profile) {
         return {

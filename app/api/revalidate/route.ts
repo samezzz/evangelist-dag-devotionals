@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
+import { env } from "@/env.mjs"
 
 export async function GET(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get('secret')
   
-  if (secret !== process.env.MY_SECRET_TOKEN) {
+  if (secret !== env.MY_SECRET_TOKEN) {
     return new NextResponse(JSON.stringify({ message: 'Invalid Token' }), {
       status: 401,
       statusText: 'Unauthorized',
