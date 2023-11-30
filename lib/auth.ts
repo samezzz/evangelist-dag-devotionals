@@ -6,7 +6,7 @@ import { db } from "@/lib/db";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const url = "http://localhost:3000/api/login" || "https://evangelist-dag-devotionals.vercel.app/api/login"
+const url = "https://evangelist-dag-devotionals.vercel.app/api/login" || "http://localhost:3000/api/login"
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
