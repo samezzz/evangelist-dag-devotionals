@@ -17,34 +17,39 @@ export async function PATCH(
 ) {
   try {
     // Validate the route context.
-    const { params } = routeContextSchema.parse(context)
+    const { params } = routeContextSchema.parse(context);
 
-    // Ensure user is authentication and has access to this user.
-    const session = await getServerSession(authOptions)
+    // Ensure user is authenticated and has access to this user.
+    const session = await getServerSession(authOptions);
     if (!session?.user || params.userId !== session?.user.id) {
-      return new Response(null, { status: 403 })
+      return new Response(null, { status: 403 });
     }
 
     // Get the request body and validate it.
-    const body = await req.json()
-    const payload = userNameSchema.parse(body)
+    const body = await req.json();
+    const payload = userNameSchema.safeParse(body);
 
-    // Update the user.
+    if (!payload.success) {
+      return new Response(JSON.stringify(payload.error), { status: 422 });
+    }
+
+    // Update the user's name.
     await db.user.update({
       where: {
         id: session.user.id,
       },
       data: {
-        name: payload.name,
+        name: payload.data.name,
       },
-    })
+    });
 
-    return new Response(null, { status: 200 })
+    return new Response(null, { status: 200 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+      return new Response(JSON.stringify(error.issues), { status: 422 });
     }
 
-    return new Response(null, { status: 500 })
+    console.error("Error: ", error);
+    return new Response(null, { status: 500 });
   }
 }

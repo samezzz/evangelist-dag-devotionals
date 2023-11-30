@@ -8,8 +8,8 @@ export async function POST(req: Request) {
 
     const emailLower = email.toLowerCase();
 
-    // check if email already exisits
-    const existingUserByEmail = await db.user.findUnique({
+    // Check if the user already exists by email
+    let existingUserByEmail = await db.user.findUnique({
       where: { email: emailLower },
       select: {
         id: true,
@@ -20,30 +20,25 @@ export async function POST(req: Request) {
       },
     });
 
-    if (existingUserByEmail) {
-      await db.user.upsert({
-        where: {
-          email: email,
+    // If user doesn't exist, create a new one
+    if (!existingUserByEmail) {
+      existingUserByEmail = await db.user.create({
+        data: {
+          email: emailLower,
         },
-        create: {
-          email: email,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          emailVerified: true,
+          image: true,
         },
-        update: {
-          email: email,
-        },
-      })
+      });
     }
 
-    if (existingUserByEmail) {
-      return NextResponse.json(
-        { ...existingUserByEmail, },
-        { status: 201 }
-      );
-    }
+    return NextResponse.json(existingUserByEmail, { status: 201 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Invalid data received." },
-      { status: 500 }
-    );
+    console.error("Error: ", error);
+    return NextResponse.json({ error: "Invalid data received." }, { status: 500 });
   }
 }

@@ -28,8 +28,6 @@ const LikeButton = ({ likesCount, postId }: LikeButtonProps) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ postId }),
-        next: { revalidate: 0 },
-        cache: "no-store",
       });
 
       if (!res.ok) {
@@ -51,8 +49,6 @@ const LikeButton = ({ likesCount, postId }: LikeButtonProps) => {
     try {
       const res = await fetch(`/api/posts/${postId}`, {
         method: "GET",
-        next: { revalidate: 0 },
-        cache: "no-store",
       });
 
       if (res.ok) {
@@ -73,8 +69,6 @@ const LikeButton = ({ likesCount, postId }: LikeButtonProps) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ postId }),
-        next: { revalidate: 0 },
-        cache: "no-store",
       });
 
       if (res.ok) {
