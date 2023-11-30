@@ -9,7 +9,7 @@ const nextConfig = {
         pathname: '/samezzz/daily-devotionals/main/images/**'
       }
     ]
-  }
+  },
 }
 
 module.exports = nextConfig

@@ -4,6 +4,13 @@ import Link from "next/link";
 import { MotionDiv } from "./MotionDiv";
 import BookmarkButton from "./BookmarkButton";
 import LikeButton from "./LikeButton";
+import {
+  fetchCountTotalLikes,
+  fetchGetLikedPost,
+  fetchLikePost,
+} from "@/app/posts/actions";
+
+import { fetchGetSavedPost, fetchSavePost } from "@/app/posts/actions";
 
 type Props = {
   post: Meta;
@@ -12,9 +19,9 @@ type Props = {
 };
 
 export default function PostItem({ post, index, userId }: Props) {
-  const { title, date, likesCount } = post;  
+  const { title, date, likesCount } = post;
   const formattedDate = getFormattedDate(date);
-  
+
   const variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
@@ -41,8 +48,21 @@ export default function PostItem({ post, index, userId }: Props) {
             </p>
           </div>
           <div className="flex gap-2 ">
-            <LikeButton likesCount={likesCount} postId={post.id} userId={userId} />
-            <BookmarkButton bookmark={likesCount} title={title} /> 
+            <LikeButton
+              fetchCountTotalLikes={fetchCountTotalLikes}
+              fetchGetLikedPost={fetchGetLikedPost}
+              fetchLikePost={fetchLikePost}
+              likesCount={likesCount}
+              postId={post.id}
+              userId={userId}
+            />
+            <BookmarkButton
+              fetchGetSavedPost={fetchGetSavedPost}
+              fetchSavePost={fetchSavePost}
+              title={title}
+              postId={post.id}
+              userId={userId}
+            />
           </div>
         </div>
       </Link>
