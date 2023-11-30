@@ -185,6 +185,7 @@ export async function likePost({
     });
 
     let response;
+    let message;
 
     if (existingLike) {
       response = await db.likedPost.delete({
@@ -196,14 +197,10 @@ export async function likePost({
           postId: true,
         },
       });
+      message = "Post removed from liked posts";
     } else {
-      response = await db.likedPost.upsert({
-        where: {
-          userId: userId,
-          postId: postId,
-        },
-        update: {},
-        create: {
+      response = await db.likedPost.create({
+        data: {
           postId,
           userId: userId,
         },
@@ -211,11 +208,8 @@ export async function likePost({
           postId: true,
         },
       });
+      message = "Post liked successfully";
     }
-
-    const message = existingLike
-      ? "Post removed from liked posts"
-      : "Post liked successfully";
 
     return { response, message };
   } catch (error) {
