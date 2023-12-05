@@ -6,11 +6,11 @@ import BookmarkButton from "./BookmarkButton";
 import LikeButton from "./LikeButton";
 import {
   fetchCountTotalLikes,
-  fetchGetLikedPost,
+  fetchIsLiked,
   fetchLikePost,
 } from "@/app/posts/actions";
 
-import { fetchGetSavedPost, fetchSavePost } from "@/app/posts/actions";
+import { fetchIsSaved, fetchSavePost } from "@/app/posts/actions";
 
 type Props = {
   post: Meta;
@@ -50,14 +50,14 @@ export default function PostItem({ post, index, userId }: Props) {
           <div className="flex gap-2 ">
             <LikeButton
               fetchCountTotalLikes={fetchCountTotalLikes}
-              fetchGetLikedPost={fetchGetLikedPost}
+              fetchIsLiked={fetchIsLiked}
               fetchLikePost={fetchLikePost}
               likesCount={likesCount}
               postId={post.id}
               userId={userId}
             />
             <BookmarkButton
-              fetchGetSavedPost={fetchGetSavedPost}
+              fetchIsSaved={fetchIsSaved}
               fetchSavePost={fetchSavePost}
               title={title}
               postId={post.id}

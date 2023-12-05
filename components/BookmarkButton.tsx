@@ -10,7 +10,7 @@ interface BookmarkButtonProps {
   title: string;
   postId: string;
   userId: string;
-  fetchGetSavedPost: ({
+  fetchIsSaved: ({
     postId,
     userId,
   }: {
@@ -31,7 +31,7 @@ interface BookmarkButtonProps {
 }
 
 const BookmarkButton = ({
-  fetchGetSavedPost,
+  fetchIsSaved,
   fetchSavePost,
   postId,
   userId,
@@ -69,9 +69,9 @@ const BookmarkButton = ({
     }
   };
 
-  const isLiked = useCallback(async () => {
+  const isSaved = useCallback(async () => {
     try {
-      const getSavedPost = await fetchGetSavedPost({ postId, userId });
+      const getSavedPost = await fetchIsSaved({ postId, userId });
       if (getSavedPost) {
         setBookmarked(getSavedPost);
       }
@@ -80,13 +80,13 @@ const BookmarkButton = ({
     }
   }, [postId, userId]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await Promise.all([isLiked()]);
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await Promise.all([isSaved()]);
+  //   };
 
-    fetchData();
-  }, [pathname, isLiked]);
+  //   fetchData();
+  // }, [pathname, isSaved]);
 
   return (
     <Button

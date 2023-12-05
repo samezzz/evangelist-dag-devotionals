@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Icons } from "./Icons";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 interface LikeButtonProps {
   likesCount: number;
@@ -11,10 +12,10 @@ interface LikeButtonProps {
   userId: string;
   fetchLikePost: ({ postId, userId, }: { userId: string; postId: string; }) => Promise<{ postId: string; } | null | undefined>
   fetchCountTotalLikes: ({ postId }: { postId: string; }) => Promise<number | null | undefined>
-  fetchGetLikedPost: ({ postId, userId, }: { userId: string; postId: string; }) => Promise<boolean | null | undefined>
+  fetchIsLiked: ({ postId, userId, }: { userId: string; postId: string; }) => Promise<boolean | null | undefined>
 }
 
-const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotalLikes, fetchGetLikedPost }: LikeButtonProps) => {
+const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotalLikes, fetchIsLiked }: LikeButtonProps) => {
   const [liked, setLiked] = useState(false);
   const [countLikes, setCountLikes] = useState(likesCount);
   const pathname = usePathname();
@@ -39,13 +40,12 @@ const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotal
       console.log("Post Liked Successfully: ", likedPost.postId);
     } catch (error) {
       console.error("Error liking post: ", error);
-      // Handle error or provide user feedback
     }
   };
 
   const isLiked = useCallback(async () => {
     try {
-      const getLikedPost = await fetchGetLikedPost({ postId, userId });
+      const getLikedPost = await fetchIsLiked({ postId, userId });
       if (getLikedPost) {
         setLiked(getLikedPost);
       }
@@ -65,13 +65,13 @@ const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotal
     }
   }, [postId]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await Promise.all([isLiked(), fetchTotalLikes()]);
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await Promise.all([isLiked(), fetchTotalLikes()]);
+  //   };
 
-    fetchData();
-  }, [pathname, isLiked, fetchTotalLikes]);
+  //   fetchData();
+  // }, [pathname, isLiked, fetchTotalLikes]);
 
   return (
     <Button

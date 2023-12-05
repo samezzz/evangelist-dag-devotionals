@@ -4,10 +4,10 @@ import PostItem from "@/components/PostItem";
 import {
   getPostsMeta,
   countTotalLikes,
-  getLikedPost,
+  isLiked,
   likePost,
   savePost,
-  getSavedPost,
+  isSaved,
 } from "@/lib/posts";
 import { getCurrentUser } from "@/lib/session";
 
@@ -67,7 +67,7 @@ export async function fetchCountTotalLikes({ postId }: { postId: string }) {
   }
 }
 
-export async function fetchGetLikedPost({
+export async function fetchIsLiked({
   postId,
   userId,
 }: {
@@ -75,7 +75,7 @@ export async function fetchGetLikedPost({
   userId: string;
 }) {
   try {
-    const likedPost = await getLikedPost({ postId, userId });
+    const likedPost = await isLiked({ postId, userId });
     if (likedPost) {
       return likedPost.isLiked;
     } else {
@@ -107,7 +107,7 @@ export async function fetchSavePost({
   }
 }
 
-export async function fetchGetSavedPost({
+export async function fetchIsSaved({
   postId,
   userId,
 }: {
@@ -115,7 +115,7 @@ export async function fetchGetSavedPost({
   userId: string;
 }) {
   try {
-    const savedPost = await getSavedPost({ postId, userId });
+    const savedPost = await isSaved({ postId, userId });
     if (savedPost) {
       return savedPost.isSaved;
     } else {

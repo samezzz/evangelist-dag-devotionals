@@ -10,7 +10,6 @@ const SearchInput = ({ search }: { search?: string }) => {
   const router = useRouter();
   const [text, setText] = useState(search);
   const [query] = useDebounce(text, 100);
-
   const initialRender = useRef(true);
 
   useEffect(() => {
@@ -27,7 +26,7 @@ const SearchInput = ({ search }: { search?: string }) => {
   }, [query, router]);
   return (
     <div className="flex">
-      <Icons.refresh className=" ml-4 mr-2 mt-2 cursor-pointer" onClick={() => {router.refresh}} />
+      <Icons.refresh className={`ml-4 mr-2 mt-2 cursor-pointer hover:rotate-90 transition-all duration-500`} onClick={() => {router.refresh()}} />
       <Input
         className="max-w-[430px]"
         placeholder="search"
