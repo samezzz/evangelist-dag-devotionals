@@ -179,8 +179,11 @@ export async function likePost({
   try {
     const existingLike = await db.likedPost.findUnique({
       where: {
-        userId: userId,
-        postId: postId,
+        // @ts-ignore
+        userId_postId: {
+          userId: userId,
+          postId: postId,
+        },
       },
     });
 
@@ -190,8 +193,11 @@ export async function likePost({
     if (existingLike) {
       response = await db.likedPost.delete({
         where: {
-          userId: userId,
-          postId: postId,
+          // @ts-ignore
+          userId_postId: {
+            userId: userId,
+            postId: postId,
+          },
         },
         select: {
           postId: true,
@@ -245,8 +251,11 @@ export async function getLikedPost({
   try {
     const isLiked = await db.likedPost.findUnique({
       where: {
-        postId: postId,
-        userId: userId,
+        // @ts-ignore
+        userId_postId: {
+          userId: userId,
+          postId: postId,
+        },
       },
       select: {
         postId: true,
@@ -264,7 +273,6 @@ export async function getLikedPost({
   }
 }
 
-
 export async function savePost({
   userId,
   postId,
@@ -275,8 +283,11 @@ export async function savePost({
   try {
     const existingPost = await db.savedPost.findUnique({
       where: {
-        userId: userId,
-        postId: postId,
+        // @ts-ignore
+        userId_postId: {
+          userId: userId,
+          postId: postId,
+        },
       },
     });
 
@@ -285,8 +296,11 @@ export async function savePost({
     if (existingPost) {
       response = await db.savedPost.delete({
         where: {
-          userId: userId,
-          postId: postId,
+          // @ts-ignore
+          userId_postId: {
+            userId: userId,
+            postId: postId,
+          },
         },
         select: {
           postId: true,
@@ -295,8 +309,11 @@ export async function savePost({
     } else {
       response = await db.savedPost.upsert({
         where: {
-          userId: userId,
-          postId: postId,
+          // @ts-ignore
+          userId_postId: {
+            userId: userId,
+            postId: postId,
+          },
         },
         update: {},
         create: {
@@ -330,8 +347,11 @@ export async function getSavedPost({
   try {
     const isSaved = await db.savedPost.findUnique({
       where: {
-        postId: postId,
-        userId: userId,
+        // @ts-ignore
+        userId_postId: {
+          userId: userId,
+          postId: postId,
+        },
       },
       select: {
         postId: true,
