@@ -23,7 +23,11 @@ interface BookmarkButtonProps {
   }: {
     userId: string;
     postId: string;
-  }) => Promise<{ postId: string } | null | undefined>;
+  }) => Promise<
+    | { response: { postId: string }; message: string; error?: undefined }
+    | null
+    | undefined
+  >;
 }
 
 const BookmarkButton = ({
@@ -46,18 +50,22 @@ const BookmarkButton = ({
         setBookmarked(!newBookMark);
         return null;
       }
+
+      if(savedPost.message === "Post removed from saved posts") {
+        return toast({
+          title: "Removed",
+          description: `${title} has been removed from your saved collection.`,
+          variant: "default",
+        });
+      }
+      
       return toast({
         title: "Saved",
         description: `${title} has been added to your saved collection.`,
         variant: "default",
       });
     } catch (error) {
-      return toast({
-        title: "Removed",
-        description: `${title} has been removed from your saved collection.`,
-        variant: "default",
-      });
-      // Handle error or provide user feedback
+      console.error("Error: ", error)
     }
   };
 

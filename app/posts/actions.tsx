@@ -97,7 +97,7 @@ export async function fetchSavePost({
   try {
     const savedPost = await savePost({ userId, postId });
     if (savedPost?.response) {
-      return savedPost.response;
+      return savedPost;
     } else {
       console.log("Couldn't save post");
     }

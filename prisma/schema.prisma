@@ -62,19 +62,21 @@ model VerificationToken {
 }
 
 model LikedPost {
-  id     String @id @default(cuid())
   userId String
   postId String 
   user   User   @relation(fields: [userId], references: [id])
 
-  @@unique([postId])
+  @@id([userId, postId])
+  @@index([userId])
+  @@index([postId])
 }
 
 model SavedPost {
-  id     String @id @default(cuid())
   userId String
   postId String 
   user   User   @relation(fields: [userId], references: [id])
 
-  @@unique([postId])
+  @@id([userId, postId])
+  @@index([userId])
+  @@index([postId])
 }

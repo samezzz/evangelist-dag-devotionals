@@ -48,7 +48,7 @@ export default function PostItem({ post, index, userId }: Props) {
             </p>
           </div>
           <div className="flex gap-2 ">
-            {/* <LikeButton
+            <LikeButton
               fetchCountTotalLikes={fetchCountTotalLikes}
               fetchGetLikedPost={fetchGetLikedPost}
               fetchLikePost={fetchLikePost}
@@ -62,7 +62,7 @@ export default function PostItem({ post, index, userId }: Props) {
               title={title}
               postId={post.id}
               userId={userId}
-            /> */}
+            />
           </div>
         </div>
       </Link>
