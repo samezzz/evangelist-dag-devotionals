@@ -4,21 +4,20 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Icons } from "./Icons";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { fetchCountTotalLikes } from "@/app/posts/actions";
 
 interface LikeButtonProps {
-  likesCount: number;
-  postId: string;
-  userId: string;
+  likesCount: number
+  postId: string
+  userId: string
+  fetchIsLike: boolean | undefined
+  fetchTotalLikeCount:  number | undefined
   fetchLikePost: ({ postId, userId, }: { userId: string; postId: string; }) => Promise<{ postId: string; } | null | undefined>
-  fetchCountTotalLikes: ({ postId }: { postId: string; }) => Promise<number | null | undefined>
-  fetchIsLiked: ({ postId, userId, }: { userId: string; postId: string; }) => Promise<boolean | null | undefined>
 }
 
-const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotalLikes, fetchIsLiked }: LikeButtonProps) => {
+const LikeButton = ({ likesCount, postId, userId, fetchIsLike, fetchTotalLikeCount, fetchLikePost }: LikeButtonProps) => {
   const [liked, setLiked] = useState(false);
   const [countLikes, setCountLikes] = useState(likesCount);
-  const pathname = usePathname();
 
   const handleLike = async () => {
     try {
@@ -45,9 +44,8 @@ const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotal
 
   const isLiked = useCallback(async () => {
     try {
-      const getLikedPost = await fetchIsLiked({ postId, userId });
-      if (getLikedPost) {
-        setLiked(getLikedPost);
+      if (fetchIsLike) {
+        setLiked(fetchIsLike);
       }
     } catch (error) {
       console.error("Error checking if liked: ", error);
@@ -56,22 +54,21 @@ const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotal
 
   const fetchTotalLikes = useCallback(async () => {
     try {
-      const totalLikes = await fetchCountTotalLikes({ postId });
-      if (totalLikes) {
-        setCountLikes(totalLikes);
+      if (fetchTotalLikeCount) {
+        setCountLikes(fetchTotalLikeCount);
       }
     } catch (error) {
       console.error("Error fetching total likes: ", error);
     }
   }, [postId]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await Promise.all([isLiked(), fetchTotalLikes()]);
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      await Promise.all([isLiked(), fetchTotalLikes()]);
+    };
 
-  //   fetchData();
-  // }, [pathname, isLiked, fetchTotalLikes]);
+    fetchData();
+  }, [isLiked, fetchTotalLikes]);
 
   return (
     <Button

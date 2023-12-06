@@ -5,20 +5,21 @@ import { MotionDiv } from "./MotionDiv";
 import BookmarkButton from "./BookmarkButton";
 import LikeButton from "./LikeButton";
 import {
-  fetchCountTotalLikes,
-  fetchIsLiked,
   fetchLikePost,
 } from "@/app/posts/actions";
 
-import { fetchIsSaved, fetchSavePost } from "@/app/posts/actions";
+import { fetchSavePost } from "@/app/posts/actions";
 
 type Props = {
   post: Meta;
   index: number;
   userId: string;
+  isLiked: boolean | undefined;
+  totalLikesCount: number | undefined;
+  isSaved: boolean | undefined;
 };
 
-export default function PostItem({ post, index, userId }: Props) {
+export default function PostItem({ post, index, userId, isLiked, totalLikesCount, isSaved }: Props) {
   const { title, date, likesCount } = post;
   const formattedDate = getFormattedDate(date);
 
@@ -49,16 +50,16 @@ export default function PostItem({ post, index, userId }: Props) {
           </div>
           <div className="flex gap-2 ">
             <LikeButton
-              fetchCountTotalLikes={fetchCountTotalLikes}
-              fetchIsLiked={fetchIsLiked}
               fetchLikePost={fetchLikePost}
+              fetchIsLike={isLiked}
+              fetchTotalLikeCount={totalLikesCount}
               likesCount={likesCount}
               postId={post.id}
               userId={userId}
             />
             <BookmarkButton
-              fetchIsSaved={fetchIsSaved}
               fetchSavePost={fetchSavePost}
+              fetchIsSaved={isSaved}
               title={title}
               postId={post.id}
               userId={userId}

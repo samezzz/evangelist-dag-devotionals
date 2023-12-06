@@ -10,13 +10,7 @@ interface BookmarkButtonProps {
   title: string;
   postId: string;
   userId: string;
-  fetchIsSaved: ({
-    postId,
-    userId,
-  }: {
-    userId: string;
-    postId: string;
-  }) => Promise<boolean | null | undefined>;
+  fetchIsSaved: boolean | undefined
   fetchSavePost: ({
     postId,
     userId,
@@ -31,15 +25,14 @@ interface BookmarkButtonProps {
 }
 
 const BookmarkButton = ({
-  fetchIsSaved,
   fetchSavePost,
+  fetchIsSaved,
   postId,
   userId,
   title,
 }: BookmarkButtonProps) => {
   const [bookmarked, setBookmarked] = useState(false);
   const { toast } = useToast();
-  const pathname = usePathname();
 
   const handleBookmark = async () => {
     try {
@@ -71,22 +64,21 @@ const BookmarkButton = ({
 
   const isSaved = useCallback(async () => {
     try {
-      const getSavedPost = await fetchIsSaved({ postId, userId });
-      if (getSavedPost) {
-        setBookmarked(getSavedPost);
+      if (fetchIsSaved) {
+        setBookmarked(fetchIsSaved);
       }
     } catch (error) {
       console.error("Error checking if saved: ", error);
     }
   }, [postId, userId]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await Promise.all([isSaved()]);
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      await Promise.all([isSaved()]);
+    };
 
-  //   fetchData();
-  // }, [pathname, isSaved]);
+    fetchData();
+  }, [isSaved]);
 
   return (
     <Button

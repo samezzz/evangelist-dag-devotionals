@@ -19,14 +19,40 @@ export async function fetchPosts({
   search?: string | undefined;
 }) {
   try {
-    const posts = await getPostsMeta({ query: search, page });
     const user = await getCurrentUser();
     if (!user) return null;
 
+    const posts = await getPostsMeta({ query: search, page });
     if (posts) {
-      return posts.map((post, index) => (
-        <PostItem userId={user.id} post={post} key={index} index={index} />
-      ));
+      const postItemsPromises = posts.map(async (post, index) => {
+        const getLikedPost = fetchIsLiked({ postId: post.id, userId: user.id });
+        const totalLikes = fetchCountTotalLikes({ postId: post.id });
+        const savedData = fetchIsSaved({
+          postId: post.id,
+          userId: user.id,
+        });
+
+        const [isLiked, likesCount, isSaved] = await Promise.all([
+          getLikedPost,
+          totalLikes,
+          savedData,
+        ]);
+
+        return (
+          <PostItem
+            userId={user.id}
+            post={post}
+            key={index}
+            index={index}
+            isLiked={isLiked}
+            totalLikesCount={likesCount}
+            isSaved={isSaved}
+          />
+        );
+      });
+
+      const postItems = await Promise.all(postItemsPromises);
+      return postItems;
     }
   } catch (error) {
     console.error("Error fetching data: ", error);
@@ -85,7 +111,6 @@ export async function fetchIsLiked({
     console.error("Error: ", error);
   }
 }
-
 
 export async function fetchSavePost({
   postId,
