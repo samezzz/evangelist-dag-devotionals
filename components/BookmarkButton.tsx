@@ -87,7 +87,7 @@ const BookmarkButton = ({
         e.stopPropagation();
         handleBookmark();
       }}
-      className="flex items-center text-center gap-x-2 text-xs p-0 border border-none hover:bg-transparent"
+      className="flex items-center text-center gap-x-2 text-xs p-0 border border-none hover:bg-transparent shadow-none"
       variant="outline"
     >
       <Icons.bookmark

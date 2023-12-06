@@ -57,7 +57,7 @@
 
 
 .card:hover .link {
-  @apply text-red-500 dark:text-red-300 transition-all duration-500 ease-in-out
+  @apply text-blue-500 dark:text-blue-300 transition-all duration-500 ease-in-out
 }
 
 .glassmorphism {

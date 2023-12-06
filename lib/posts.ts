@@ -84,6 +84,8 @@ export async function getPostByName(
         date: frontmatter.date,
         tags: frontmatter.tags,
         likesCount: 0,
+        viewsCount: 0,
+        timeToRead: 0,
       },
       content,
     };
@@ -99,10 +101,12 @@ export async function getPostByName(
 }
 
 export async function getPostsMeta({
+  date,
   query,
   page = 1,
   perPage = 24,
 }: {
+  date?: string;
   query?: string;
   page?: number;
   perPage?: number;
@@ -161,6 +165,10 @@ export async function getPostsMeta({
     const formattedQuery = query.trim().toLowerCase();
     const condition = (post: Meta) =>
       post.title.toLowerCase().includes(formattedQuery);
+    const partitionedPosts = partitionFilter(filteredPosts, condition);
+    return partitionedPosts;
+  } else if (date) {
+    const condition = (post: Meta) => post.date === date;
     const partitionedPosts = partitionFilter(filteredPosts, condition);
     return partitionedPosts;
   } else {

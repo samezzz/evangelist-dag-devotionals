@@ -9,7 +9,7 @@ import { Icons } from "./Icons";
 const SearchInput = ({ search }: { search?: string }) => {
   const router = useRouter();
   const [text, setText] = useState(search);
-  const [query] = useDebounce(text, 100);
+  const [query] = useDebounce(text, 50);
   const initialRender = useRef(true);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const SearchInput = ({ search }: { search?: string }) => {
     <div className="flex">
       <Icons.refresh className={`ml-4 mr-2 mt-2 cursor-pointer hover:rotate-90 transition-all duration-500`} onClick={() => {router.refresh()}} />
       <Input
-        className="max-w-[430px]"
+        className="md:min-w-[330px] lg:min-w-[450px]"
         placeholder="search"
         onChange={(e) => setText(e.target.value)}
       />

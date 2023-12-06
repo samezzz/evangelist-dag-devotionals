@@ -7,11 +7,13 @@ import { BookOpenCheck, Loader2 } from "lucide-react";
 
 type InfiniteScrollPostsProps = {
   search: string | undefined;
+  date: string | undefined;
   initialPosts: JSX.Element[];
 };
 
 const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
   search,
+  date,
   initialPosts,
 }) => {
   const [posts, setPosts] = useState(initialPosts);
