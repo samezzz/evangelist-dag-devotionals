@@ -4,20 +4,20 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Icons } from "./Icons";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
+import { fetchCountTotalLikes } from "@/app/posts/actions";
 
 interface LikeButtonProps {
-  likesCount: number;
-  postId: string;
-  userId: string;
+  likesCount: number
+  postId: string
+  userId: string
+  fetchIsLike: boolean | undefined
+  fetchTotalLikeCount:  number | undefined
   fetchLikePost: ({ postId, userId, }: { userId: string; postId: string; }) => Promise<{ postId: string; } | null | undefined>
-  fetchCountTotalLikes: ({ postId }: { postId: string; }) => Promise<number | null | undefined>
-  fetchGetLikedPost: ({ postId, userId, }: { userId: string; postId: string; }) => Promise<boolean | null | undefined>
 }
 
-const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotalLikes, fetchGetLikedPost }: LikeButtonProps) => {
+const LikeButton = ({ likesCount, postId, userId, fetchIsLike, fetchTotalLikeCount, fetchLikePost }: LikeButtonProps) => {
   const [liked, setLiked] = useState(false);
   const [countLikes, setCountLikes] = useState(likesCount);
-  const pathname = usePathname();
 
   const handleLike = async () => {
     try {
@@ -39,15 +39,13 @@ const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotal
       console.log("Post Liked Successfully: ", likedPost.postId);
     } catch (error) {
       console.error("Error liking post: ", error);
-      // Handle error or provide user feedback
     }
   };
 
   const isLiked = useCallback(async () => {
     try {
-      const getLikedPost = await fetchGetLikedPost({ postId, userId });
-      if (getLikedPost) {
-        setLiked(getLikedPost);
+      if (fetchIsLike) {
+        setLiked(fetchIsLike);
       }
     } catch (error) {
       console.error("Error checking if liked: ", error);
@@ -56,9 +54,8 @@ const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotal
 
   const fetchTotalLikes = useCallback(async () => {
     try {
-      const totalLikes = await fetchCountTotalLikes({ postId });
-      if (totalLikes) {
-        setCountLikes(totalLikes);
+      if (fetchTotalLikeCount) {
+        setCountLikes(fetchTotalLikeCount);
       }
     } catch (error) {
       console.error("Error fetching total likes: ", error);
@@ -71,7 +68,7 @@ const LikeButton = ({ likesCount, postId, userId, fetchLikePost, fetchCountTotal
     };
 
     fetchData();
-  }, [pathname, isLiked, fetchTotalLikes]);
+  }, [isLiked, fetchTotalLikes]);
 
   return (
     <Button

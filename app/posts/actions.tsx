@@ -4,10 +4,10 @@ import PostItem from "@/components/PostItem";
 import {
   getPostsMeta,
   countTotalLikes,
-  getLikedPost,
+  isLiked,
   likePost,
   savePost,
-  getSavedPost,
+  isSaved,
 } from "@/lib/posts";
 import { getCurrentUser } from "@/lib/session";
 
@@ -19,14 +19,40 @@ export async function fetchPosts({
   search?: string | undefined;
 }) {
   try {
-    const posts = await getPostsMeta({ query: search, page });
     const user = await getCurrentUser();
     if (!user) return null;
 
+    const posts = await getPostsMeta({ query: search, page });
     if (posts) {
-      return posts.map((post, index) => (
-        <PostItem userId={user.id} post={post} key={index} index={index} />
-      ));
+      const postItemsPromises = posts.map(async (post, index) => {
+        const getLikedPost = fetchIsLiked({ postId: post.id, userId: user.id });
+        const totalLikes = fetchCountTotalLikes({ postId: post.id });
+        const savedData = fetchIsSaved({
+          postId: post.id,
+          userId: user.id,
+        });
+
+        const [isLiked, likesCount, isSaved] = await Promise.all([
+          getLikedPost,
+          totalLikes,
+          savedData,
+        ]);
+
+        return (
+          <PostItem
+            userId={user.id}
+            post={post}
+            key={index}
+            index={index}
+            isLiked={isLiked}
+            totalLikesCount={likesCount}
+            isSaved={isSaved}
+          />
+        );
+      });
+
+      const postItems = await Promise.all(postItemsPromises);
+      return postItems;
     }
   } catch (error) {
     console.error("Error fetching data: ", error);
@@ -67,7 +93,7 @@ export async function fetchCountTotalLikes({ postId }: { postId: string }) {
   }
 }
 
-export async function fetchGetLikedPost({
+export async function fetchIsLiked({
   postId,
   userId,
 }: {
@@ -75,7 +101,7 @@ export async function fetchGetLikedPost({
   userId: string;
 }) {
   try {
-    const likedPost = await getLikedPost({ postId, userId });
+    const likedPost = await isLiked({ postId, userId });
     if (likedPost) {
       return likedPost.isLiked;
     } else {
@@ -85,7 +111,6 @@ export async function fetchGetLikedPost({
     console.error("Error: ", error);
   }
 }
-
 
 export async function fetchSavePost({
   postId,
@@ -107,7 +132,7 @@ export async function fetchSavePost({
   }
 }
 
-export async function fetchGetSavedPost({
+export async function fetchIsSaved({
   postId,
   userId,
 }: {
@@ -115,7 +140,7 @@ export async function fetchGetSavedPost({
   userId: string;
 }) {
   try {
-    const savedPost = await getSavedPost({ postId, userId });
+    const savedPost = await isSaved({ postId, userId });
     if (savedPost) {
       return savedPost.isSaved;
     } else {

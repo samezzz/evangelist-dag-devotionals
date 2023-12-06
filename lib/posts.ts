@@ -169,6 +169,9 @@ export async function getPostsMeta({
   }
 }
 
+
+
+// Function to add a post to the likedPosts table hence liking it
 export async function likePost({
   userId,
   postId,
@@ -224,6 +227,7 @@ export async function likePost({
   }
 }
 
+// Counts all the likes associated with a particular user
 export async function countTotalLikes({ postId }: { postId: string }) {
   try {
     const totalLikesCount = await db.likedPost.count({
@@ -241,7 +245,9 @@ export async function countTotalLikes({ postId }: { postId: string }) {
   }
 }
 
-export async function getLikedPost({
+
+// Checks if a post affiliated to a particular user is in the likedPosts table
+export async function isLiked({
   postId,
   userId,
 }: {
@@ -273,6 +279,7 @@ export async function getLikedPost({
   }
 }
 
+// Function to add a post to the savedPosts table hence saving it
 export async function savePost({
   userId,
   postId,
@@ -337,7 +344,9 @@ export async function savePost({
   }
 }
 
-export async function getSavedPost({
+
+// Checks if a post affiliated to a particular user is in the savedPost table
+export async function isSaved({
   postId,
   userId,
 }: {

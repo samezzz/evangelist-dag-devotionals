@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { fetchPosts } from "@/app/posts/actions";
 import { useInView } from "react-intersection-observer";
 import { BookOpenCheck, Loader2 } from "lucide-react";
@@ -16,40 +16,39 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
 }) => {
   const [posts, setPosts] = useState(initialPosts);
   const [page, setPage] = useState(1);
-  const [ref, inView] = useInView();
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [initialLoad, setInitialLoad] = useState(true);
+  const [ref, inView] = useInView();
 
-  const loadMorePosts = async () => {
-    setIsLoading(true);
-    const next = page + 1;
-    const newPosts = await fetchPosts({ search, page: next });
-    setIsLoading(false);
+  const loadMorePosts = useCallback(async () => {
+    if (!isLoading && hasMore) {
+      setIsLoading(true);
+      const nextPage = page + 1;
+      const newPosts = await fetchPosts({ search, page: nextPage });
+      setIsLoading(false);
 
-    if (newPosts?.length) {
-      setPage(next);
-      setPosts((prev: JSX.Element[] | undefined) => [
-        ...(prev?.length ? prev : []),
-        ...newPosts,
-      ]);
-    } else {
-      setHasMore(false); // No more posts to load after initial load
+      if (newPosts?.length) {
+        setPage(nextPage);
+        setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+      } else {
+        setHasMore(false);
+      }
     }
-  };
+  }, [isLoading, hasMore, page, search]);
 
   useEffect(() => {
     if (initialLoad && !search) {
       loadMorePosts();
       setInitialLoad(false);
     }
-  }, [initialLoad, search]);
+  }, [initialLoad, loadMorePosts, search]);
 
   useEffect(() => {
-    if (!initialLoad && inView && !isLoading && hasMore) {
+    if (!initialLoad && inView) {
       loadMorePosts();
     }
-  }, [inView, isLoading, hasMore, initialLoad]);
+  }, [inView, initialLoad, loadMorePosts]);
 
   useEffect(() => {
     if (search) {
@@ -62,9 +61,11 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
 
   return (
     <>
-      {posts}
+      {posts.map((post, index) => (
+        <div key={index}>{post}</div>
+      ))}
       {!search && hasMore && (
-        <div
+        <div    
           ref={ref}
           className="flex justify-center items-center pb-4 col-span-2 sm:col-span-3 lg:col-span-4"
         >
@@ -75,14 +76,14 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
       )}
       {!hasMore && (
         <div
-        ref={ref}
-        className="flex justify-center items-center pb-4 col-span-2 sm:col-span-3 lg:col-span-4"
-      >
-        <div className="text-center flex gap-x-4">
-          <BookOpenCheck className="h-8 w-8"/>
-        <h1 className="text-xl font-semibold">No more posts to load 😦😬</h1>
+          ref={ref}
+          className="flex justify-center items-center pb-4 col-span-2 sm:col-span-3 lg:col-span-4 my-12"
+        >
+          <div className="text-center flex gap-x-4">
+            <BookOpenCheck className="h-8 w-8" />
+            <h1 className="text-xl font-semibold">No more posts to load</h1>
+          </div>
         </div>
-      </div>
       )}
     </>
   );
