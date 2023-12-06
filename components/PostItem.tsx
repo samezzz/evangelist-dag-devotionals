@@ -4,11 +4,11 @@ import Link from "next/link";
 import { MotionDiv } from "./MotionDiv";
 import BookmarkButton from "./BookmarkButton";
 import LikeButton from "./LikeButton";
-import {
-  fetchLikePost,
-} from "@/app/posts/actions";
+import { fetchLikePost } from "@/app/posts/actions";
 
 import { fetchSavePost } from "@/app/posts/actions";
+import ViewsButton from "./ViewsButton";
+import ReadingTimeButton from "./ReadingTimeButton";
 
 type Props = {
   post: Meta;
@@ -19,8 +19,15 @@ type Props = {
   isSaved: boolean | undefined;
 };
 
-export default function PostItem({ post, index, userId, isLiked, totalLikesCount, isSaved }: Props) {
-  const { title, date, likesCount } = post;
+export default function PostItem({
+  post,
+  index,
+  userId,
+  isLiked,
+  totalLikesCount,
+  isSaved,
+}: Props) {
+  const { title, date, likesCount, viewsCount, timeToRead } = post;
   const formattedDate = getFormattedDate(date);
 
   const variants = {
@@ -44,26 +51,32 @@ export default function PostItem({ post, index, userId, isLiked, totalLikesCount
         <div className="rounded-xl overflow-hidden group card">
           <div className="">
             <h3 className="font-semibold">{title}</h3>
-            <p className={`text-sm mb-6 text-gray-700 dark:text-gray-300 link`}>
+            <p className={`text-sm mb-6 text-muted-foreground link`}>
               {formattedDate}
             </p>
           </div>
-          <div className="flex gap-2 ">
-            <LikeButton
-              fetchLikePost={fetchLikePost}
-              fetchIsLike={isLiked}
-              fetchTotalLikeCount={totalLikesCount}
-              likesCount={likesCount}
-              postId={post.id}
-              userId={userId}
-            />
-            <BookmarkButton
-              fetchSavePost={fetchSavePost}
-              fetchIsSaved={isSaved}
-              title={title}
-              postId={post.id}
-              userId={userId}
-            />
+          <div className="md:flex justify-between items-center text-center">
+            <div className="flex gap-x-6">
+              <LikeButton
+                fetchLikePost={fetchLikePost}
+                fetchIsLike={isLiked}
+                fetchTotalLikeCount={totalLikesCount}
+                likesCount={likesCount}
+                postId={post.id}
+                userId={userId}
+              />
+              <BookmarkButton
+                fetchSavePost={fetchSavePost}
+                fetchIsSaved={isSaved}
+                title={title}
+                postId={post.id}
+                userId={userId}
+              />
+            </div>
+            <div className="flex gap-x-4">
+              <ReadingTimeButton timeToRead={timeToRead} postId={post.id} />
+              <ViewsButton viewsCount={viewsCount} postId={post.id} />
+            </div>
           </div>
         </div>
       </Link>

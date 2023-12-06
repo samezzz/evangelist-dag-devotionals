@@ -24,6 +24,9 @@ export default async function Posts({
   
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
+  const date =
+    typeof searchParams.date === "string" ? searchParams.date : undefined;
+
   const posts = await fetchPosts({ search });
 
   if (!posts) {
@@ -76,7 +79,7 @@ export default async function Posts({
           key={Math.random()}
           className="grid grid-cols-2 sm:grid-cols-3 items-center lg:grid-cols-4 relative"
         >
-          <InfiniteScrollPosts initialPosts={posts} search={search} />
+          <InfiniteScrollPosts initialPosts={posts} search={search} date={date} />
         </div>
       </div>
     </section>

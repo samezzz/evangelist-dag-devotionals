@@ -14,15 +14,17 @@ import { getCurrentUser } from "@/lib/session";
 export async function fetchPosts({
   page = 1,
   search,
+  date,
 }: {
   page?: number;
   search?: string | undefined;
+  date?: string | undefined;
 }) {
   try {
     const user = await getCurrentUser();
     if (!user) return null;
 
-    const posts = await getPostsMeta({ query: search, page });
+    const posts = await getPostsMeta({ query: search, date: date, page });
     if (posts) {
       const postItemsPromises = posts.map(async (post, index) => {
         const getLikedPost = fetchIsLiked({ postId: post.id, userId: user.id });

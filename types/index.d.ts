@@ -24,6 +24,8 @@ export type Meta = {
     date: string,
     tags: string[],
     likesCount: number,
+    viewsCount: number,
+    timeToRead: number,
   }
   
 export type DailyDevotional = {
