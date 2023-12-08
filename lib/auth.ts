@@ -89,6 +89,7 @@ export const authOptions: NextAuthOptions = {
           create: {
             email: profile.email,
             name: profile.name,
+            image: profile.image,
           },
           update: {
             name: profile.name,
