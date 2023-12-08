@@ -104,7 +104,7 @@ export async function getPostsMeta({
   date,
   query,
   page = 1,
-  perPage = 24,
+  perPage = 12,
 }: {
   date?: string;
   query?: string;
