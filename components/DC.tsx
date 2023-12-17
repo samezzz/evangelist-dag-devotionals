@@ -1,29 +1,31 @@
 "use client";
 
 import React from "react";
-import { useState, useEffect } from "react";
-import { useTypewriter, Cursor } from 'react-simple-typewriter'
+import { useTypewriter } from 'react-simple-typewriter'
 
 const DC = () => {
-  // const [gradientIndex, setGradientIndex] = useState(0);
-  // const gradients = [
-  //   'text-gradient_blue-purple',
-  //   'pink-text-gradient',
-  //   'text-gradient_blue',
-  //   'green-text-gradient',
-  //   'text-gradient_purple-blue',
-  //   'orange-text-gradient',
-  //   'blue-text-gradient',
-  // ];
-  
   const [typeEffect] = useTypewriter({
     words: ['Counsel', 'Advice', 'Keys', 'Solutions'],
     loop: true,
-    typeSpeed: 50,
-    deleteSpeed: 100,
-    
+    typeSpeed: 70,
+    deleteSpeed: 90,
   });
-  
+
+  return (
+    <h1
+      className="pb-4 font-extrabold tracking-tight text-7xl md:text-9xl lg:text-[200px] bg-clip-text min-h-[180px] md:min-h-[300px] lg:min-h-[420px]"
+      data-aos="fade-down"
+    >
+      Daily <br /> {typeEffect}
+    </h1>
+  );
+};
+
+export default DC;
+
+
+
+
   // const words = `Daily ${typeEffect}`.split(' ');
 
   // useEffect(() => {
@@ -42,15 +44,3 @@ const DC = () => {
   //     </span>
   //   );
   // });
-
-  return (
-    <h1
-      className="pb-4 font-extrabold tracking-tight text-7xl md:text-9xl lg:text-[200px] bg-clip-text min-h-[180px] md:min-h-[300px] lg:min-h-[420px]"
-      data-aos="fade-down"
-    >
-      Daily <br /> {typeEffect}
-    </h1>
-  );
-};
-
-export default DC;

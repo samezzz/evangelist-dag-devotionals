@@ -25,19 +25,34 @@ export default async function RootLayout({
 }) {
   const session = await getServerSession(authOptions);
   return (
-    <html lang="en">
-      <body className={cn(GeistSans.className, "min-h-screen antialiased")}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Provider session={session}>{children}</Provider>
-          <Analytics />
-          <Toaster />
-        </ThemeProvider>
-      </body>
-    </html>
+		<html lang="en">
+			<head>
+				<link rel="icon" href="/favicon.ico" sizes="any" />
+				<link
+					rel="icon"
+					href="/icon?<generated>"
+					type="image/<generated>"
+					sizes="<generated>"
+				/>
+				<link
+					rel="apple-touch-icon"
+					href="/apple-icon?<generated>"
+					type="image/<generated>"
+					sizes="<generated>"
+				/>
+			</head>
+			<body className={cn(GeistSans.className, "min-h-screen antialiased")}>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<Provider session={session}>{children}</Provider>
+					<Analytics />
+					<Toaster />
+				</ThemeProvider>
+			</body>
+		</html>
   );
 }
