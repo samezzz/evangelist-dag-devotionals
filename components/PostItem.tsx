@@ -9,6 +9,7 @@ import { fetchLikePost } from "@/app/posts/actions";
 import { fetchSavePost } from "@/app/posts/actions";
 import ViewsButton from "./ViewsButton";
 import ReadingTimeButton from "./ReadingTimeButton";
+import ShareButton from "./ShareButton";
 
 type Props = {
   post: Meta;
@@ -36,50 +37,49 @@ export default function PostItem({
   };
 
   return (
-    <MotionDiv
-      variants={variants}
-      initial="hidden"
-      animate="visible"
-      transition={{
-        delay: index * 0.03,
-        ease: "easeInOut",
-        duration: 0.5,
-      }}
-      viewport={{ amount: 0 }}
-    >
-      <Link href={`/posts/${post.id}`} className="">
-        <div className="rounded-xl overflow-hidden group card">
-          <div className="">
-            <h3 className="font-semibold">{title}</h3>
-            <p className={`text-sm mb-6 text-muted-foreground link`}>
-              {formattedDate}
-            </p>
-          </div>
-          <div className="md:flex justify-between items-center text-center">
-            <div className="flex gap-x-6">
-              <LikeButton
-                fetchLikePost={fetchLikePost}
-                fetchIsLike={isLiked}
-                fetchTotalLikeCount={totalLikesCount}
-                likesCount={likesCount}
-                postId={post.id}
-                userId={userId}
-              />
-              <BookmarkButton
-                fetchSavePost={fetchSavePost}
-                fetchIsSaved={isSaved}
-                title={title}
-                postId={post.id}
-                userId={userId}
-              />
-            </div>
-            <div className="flex gap-x-4">
-              <ReadingTimeButton timeToRead={timeToRead} postId={post.id} />
-              <ViewsButton viewsCount={viewsCount} postId={post.id} />
-            </div>
-          </div>
-        </div>
-      </Link>
-    </MotionDiv>
+		<MotionDiv
+			variants={variants}
+			initial="hidden"
+			animate="visible"
+			transition={{
+				delay: index * 0.03,
+				ease: "easeInOut",
+				duration: 0.5,
+			}}
+			viewport={{ amount: 0 }}
+		>
+			<Link href={`/posts/${post.id}`} className="">
+				<div className="rounded-xl overflow-hidden group card">
+					<div className="">
+						<h3 className="font-semibold">{title}</h3>
+						<p className={`text-sm mb-6 text-muted-foreground link`}>{formattedDate}</p>
+					</div>
+					<div className="md:flex justify-between items-center text-center">
+						<div className="flex gap-x-2">
+							<LikeButton
+								fetchLikePost={fetchLikePost}
+								fetchIsLike={isLiked}
+								fetchTotalLikeCount={totalLikesCount}
+								likesCount={likesCount}
+								postId={post.id}
+								userId={userId}
+							/>
+							<BookmarkButton
+								fetchSavePost={fetchSavePost}
+								fetchIsSaved={isSaved}
+								title={title}
+								postId={post.id}
+								userId={userId}
+							/>
+							<ShareButton id={post.id} />
+						</div>
+						<div className="flex gap-x-4">
+							{/* <ReadingTimeButton timeToRead={timeToRead} postId={post.id} />
+              <ViewsButton viewsCount={viewsCount} postId={post.id} /> */}
+						</div>
+					</div>
+				</div>
+			</Link>
+		</MotionDiv>
   );
 }
