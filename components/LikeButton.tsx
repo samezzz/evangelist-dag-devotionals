@@ -81,11 +81,11 @@ const LikeButton = ({ likesCount, postId, userId, fetchIsLike, fetchTotalLikeCou
       variant="outline"
     >
       <Icons.heart
-        className={`h-4 w-4 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 ${
+        className={`h-4 w-4 text-red-500 ${
           liked && "fill-red-500"
         }`}
       />
-      <div>{countLikes}</div>
+      <div className={`text-red-500 ${!liked && "hidden"}`}>{countLikes}</div>
     </Button>
   );
 };
