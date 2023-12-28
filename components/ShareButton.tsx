@@ -53,7 +53,7 @@ function ShareDialog({ id }: ShareDialogProp) {
 		<AlertDialog>
 			<AlertDialogTrigger asChild>
 				<button className="p-0 m-0">
-					<Share className="h-4 w-4 text-green-500" />
+					<Share className="h-4 w-4 text-[#71767B] hover:text-gray-90 hover:dark:text-gray-20" />
 				</button>
 			</AlertDialogTrigger>
 			<AlertDialogContent>
