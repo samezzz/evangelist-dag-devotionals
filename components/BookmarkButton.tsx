@@ -91,7 +91,7 @@ const BookmarkButton = ({
       variant="outline"
     >
       <Icons.bookmark
-        className={`h-4 w-4 text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100 ${
+        className={`h-4 w-4 text-sky-500 ${
           bookmarked && "fill-sky-500"
         }`}
       />
