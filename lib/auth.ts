@@ -81,7 +81,7 @@ export const authOptions: NextAuthOptions = {
         if (!profile?.email) {
           throw new Error("No profile");
         }
-        
+
         await db.user.upsert({
           where: {
             email: profile.email,
@@ -89,7 +89,9 @@ export const authOptions: NextAuthOptions = {
           create: {
             email: profile.email,
             name: profile.name,
-            image: profile.image,
+            // @ts-expect-error
+            image: profile.picture,
+            emailVerified: new Date
           },
           update: {
             name: profile.name,

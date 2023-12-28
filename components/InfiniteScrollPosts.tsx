@@ -4,6 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { fetchPosts } from "@/app/posts/actions";
 import { useInView } from "react-intersection-observer";
 import { BookOpenCheck, Loader2 } from "lucide-react";
+import { LoaderIcon } from "./Icons";
 
 type InfiniteScrollPostsProps = {
   search: string | undefined;
@@ -32,6 +33,7 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
 
       if (newPosts?.length) {
         setPage(nextPage);
+        // @ts-expect-error
         setPosts((prevPosts) => [...prevPosts, ...newPosts]);
       } else {
         setHasMore(false);
@@ -64,7 +66,7 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
   return (
     <>
       {posts.map((post, index) => (
-        <div key={index}>{post}</div>
+        <div key={index} className="m-2">{post}</div>
       ))}
       {!search && hasMore && (
         <div    
@@ -72,7 +74,7 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
           className="flex justify-center items-center pb-4 col-span-2 sm:col-span-3 lg:col-span-4"
         >
           <div className="text-center">
-            <Loader2 className="h-6 w-6 md:h-10 md:w-10 animate-spin" />
+            <LoaderIcon className="h-6 w-6 animate-spin" />
           </div>
         </div>
       )}

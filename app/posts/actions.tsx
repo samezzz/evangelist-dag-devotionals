@@ -12,54 +12,56 @@ import {
 import { getCurrentUser } from "@/lib/session";
 
 export async function fetchPosts({
-  page = 1,
-  search,
-  date,
+	page = 1,
+	search,
+	date,
 }: {
-  page?: number;
-  search?: string | undefined;
-  date?: string | undefined;
+	page?: number;
+	search?: string | undefined;
+	date?: string | undefined;
 }) {
-  try {
-    const user = await getCurrentUser();
-    if (!user) return null;
+	try {
+		const user = await getCurrentUser();
+		if (!user) return null;
 
-    const posts = await getPostsMeta({ query: search, date: date, page });
-    if (posts) {
-      const postItemsPromises = posts.map(async (post, index) => {
-        const getLikedPost = fetchIsLiked({ postId: post.id, userId: user.id });
-        const totalLikes = fetchCountTotalLikes({ postId: post.id });
-        const savedData = fetchIsSaved({
-          postId: post.id,
-          userId: user.id,
-        });
+		const posts = await getPostsMeta({ query: search, date: date, page });
+		if (posts) {
+			const postItems = await Promise.all(
+				posts.map(async (post, index) => {
+					try {
+						const [isLiked, likesCount, isSaved] = await Promise.all([
+							fetchIsLiked({ postId: post.id, userId: user.id }),
+							fetchCountTotalLikes({ postId: post.id }),
+							fetchIsSaved({ postId: post.id, userId: user.id }),
+						]);
 
-        const [isLiked, likesCount, isSaved] = await Promise.all([
-          getLikedPost,
-          totalLikes,
-          savedData,
-        ]);
+						return (
+							<PostItem
+								userId={user.id}
+								post={post}
+								key={index}
+								index={index}
+								isLiked={isLiked}
+								totalLikesCount={likesCount}
+								isSaved={isSaved}
+							/>
+						);
+					} catch (error) {
+						console.error(`Error processing post ${post.id}: `, error);
+						// Optionally handle specific post fetching errors here
+						// Return null or a placeholder for failed posts
+						return null;
+					}
+				})
+			);
 
-        return (
-          <PostItem
-            userId={user.id}
-            post={post}
-            key={index}
-            index={index}
-            isLiked={isLiked}
-            totalLikesCount={likesCount}
-            isSaved={isSaved}
-          />
-        );
-      });
-
-      const postItems = await Promise.all(postItemsPromises);
-      return postItems;
-    }
-  } catch (error) {
-    console.error("Error fetching data: ", error);
-    return null;
-  }
+			return postItems.filter(Boolean); // Remove any potential null values from failed posts
+		}
+	} catch (error) {
+		console.error("Error fetching data: ", error);
+		// Optionally handle the main data fetching error here
+		return null;
+	}
 }
 
 export async function fetchLikePost({
