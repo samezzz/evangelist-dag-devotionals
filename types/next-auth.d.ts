@@ -13,6 +13,8 @@ declare module "next-auth" {
   interface Session {
     user: User & {
       id: UserId
+      likedPosts: User.likedPosts
+      savedPosts: User.savedPosts
     }
   }
 }

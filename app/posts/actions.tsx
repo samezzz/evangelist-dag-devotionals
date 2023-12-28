@@ -22,30 +22,34 @@ export async function fetchPosts({
 }) {
 	try {
 		const user = await getCurrentUser();
-		if (!user) return null;
-
 		const posts = await getPostsMeta({ query: search, date: date, page });
+
 		if (posts) {
 			const postItems = await Promise.all(
 				posts.map(async (post, index) => {
 					try {
-						const [isLiked, likesCount, isSaved] = await Promise.all([
-							fetchIsLiked({ postId: post.id, userId: user.id }),
-							fetchCountTotalLikes({ postId: post.id }),
-							fetchIsSaved({ postId: post.id, userId: user.id }),
-						]);
+						if (user) {
+							const [isLiked, likesCount, isSaved] = await Promise.all([
+								fetchIsLiked({ postId: post.id, userId: user.id }),
+								fetchCountTotalLikes({ postId: post.id }),
+								fetchIsSaved({ postId: post.id, userId: user.id }),
+							]);
 
-						return (
-							<PostItem
-								userId={user.id}
-								post={post}
-								key={index}
-								index={index}
-								isLiked={isLiked}
-								totalLikesCount={likesCount}
-								isSaved={isSaved}
-							/>
-						);
+							return (
+								<PostItem
+									userId={user.id}
+									post={post}
+									key={post.id}
+									index={index}
+									isLiked={isLiked}
+									totalLikesCount={likesCount}
+									isSaved={isSaved}
+								/>
+							);
+            } else {
+              const likesCount = await fetchCountTotalLikes({postId:post.id})
+							return <PostItem post={post} key={post.id} index={index} totalLikesCount={likesCount}/>;
+						}
 					} catch (error) {
 						console.error(`Error processing post ${post.id}: `, error);
 						// Optionally handle specific post fetching errors here

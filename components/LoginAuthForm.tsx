@@ -29,7 +29,7 @@ interface Props {
 }
 
 export default function LoginAuthForm(props: Props) {
-  const router = useRouter();
+  // const router = useRouter();
   const searchParams = useSearchParams();
   const callBackUrl = searchParams?.get("from") || "/posts";
 

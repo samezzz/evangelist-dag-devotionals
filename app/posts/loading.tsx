@@ -6,6 +6,13 @@ export default function PostsPageSkeleton() {
   return (
     <div className="max-w-[1280px] mx-auto px-4 mt-28">
       <div className="max-w-[800px]">
+        <nav className='flex justify-between'>
+          <Skeleton className='rounded-full h-4 w-4' />
+          <div>
+            <Skeleton className='h-4 w-1/8'/>
+            <Skeleton className='h-4 w-1/4' />
+          </div>
+      </nav>
       <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-2">
           Discover Daily Inspirations
         </h1>

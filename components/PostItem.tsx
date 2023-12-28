@@ -12,31 +12,31 @@ import ReadingTimeButton from "./ReadingTimeButton";
 import ShareButton from "./ShareButton";
 
 type Props = {
-  post: Meta;
-  index: number;
-  userId: string;
-  isLiked: boolean | undefined;
-  totalLikesCount: number | undefined;
-  isSaved: boolean | undefined;
+	post: Meta;
+	index: number;
+	userId?: string;
+	isLiked?: boolean | undefined;
+	totalLikesCount: number | undefined;
+	isSaved?: boolean | undefined;
 };
 
 export default function PostItem({
-  post,
-  index,
-  userId,
-  isLiked,
-  totalLikesCount,
-  isSaved,
+	post,
+	index,
+	userId,
+	isLiked,
+	totalLikesCount,
+	isSaved,
 }: Props) {
-  const { title, date, likesCount, viewsCount, timeToRead } = post;
-  const formattedDate = getFormattedDate(date);
+	const { title, date, likesCount, viewsCount, timeToRead } = post;
+	const formattedDate = getFormattedDate(date);
 
-  const variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-  };
+	const variants = {
+		hidden: { opacity: 0 },
+		visible: { opacity: 1 },
+	};
 
-  return (
+	return (
 		<MotionDiv
 			variants={variants}
 			initial="hidden"
@@ -62,14 +62,14 @@ export default function PostItem({
 								fetchTotalLikeCount={totalLikesCount}
 								likesCount={likesCount}
 								postId={post.id}
-								userId={userId}
+								userId={userId as string}
 							/>
 							<BookmarkButton
 								fetchSavePost={fetchSavePost}
 								fetchIsSaved={isSaved}
 								title={title}
 								postId={post.id}
-								userId={userId}
+								userId={userId as string}
 							/>
 							<ShareButton id={post.id} />
 						</div>
@@ -81,5 +81,5 @@ export default function PostItem({
 				</div>
 			</Link>
 		</MotionDiv>
-  );
+	);
 }

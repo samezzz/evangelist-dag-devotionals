@@ -5,6 +5,8 @@ import { Icons } from "./Icons";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 interface BookmarkButtonProps {
   title: string;
@@ -33,6 +35,8 @@ const BookmarkButton = ({
 }: BookmarkButtonProps) => {
   const [bookmarked, setBookmarked] = useState(false);
   const { toast } = useToast();
+  const { data } = useSession()
+  const router = useRouter()
 
   const handleBookmark = async () => {
     try {
@@ -85,7 +89,11 @@ const BookmarkButton = ({
 			onClick={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
-				handleBookmark();
+				if (!data) {
+					router.push("/register");
+				} else {
+					handleBookmark();
+				}
 			}}
 			className="ml-1 flex items-center text-center gap-x-2 text-xs p-0 border border-none hover:bg-transparent shadow-none"
 			variant="outline"

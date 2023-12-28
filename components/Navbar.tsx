@@ -10,100 +10,111 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import { UserAccountNav } from "./UserAccountNav";
 import { useSession } from "next-auth/react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
-  const { data, status } = useSession();
-  if (status !== "authenticated") {
-  }
-  const pathname = usePathname();
-  const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+	const { data, status } = useSession();
+	if (status !== "authenticated") {
+	}
+	const pathname = usePathname();
+	const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
+	const [isScrolled, setIsScrolled] = useState(false);
 
-  const isMobile =
-    typeof window !== "undefined" && /Mobi|Android/i.test(navigator.userAgent);
+	const isMobile = typeof window !== "undefined" && /Mobi|Android/i.test(navigator.userAgent);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
+	useEffect(() => {
+		const handleScroll = () => {
+			if (window.scrollY > 0) {
+				setIsScrolled(true);
+			} else {
+				setIsScrolled(false);
+			}
+		};
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []); // Empty dependency array to execute this effect only once
+		window.addEventListener("scroll", handleScroll);
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	}, []); // Empty dependency array to execute this effect only once
 
-  const handleClick = () => {
-    setShowMobileMenu((prev) => !prev); // Close the mobile menu when a link is clicked
-  };
+	const handleClick = () => {
+		setShowMobileMenu((prev) => !prev); // Close the mobile menu when a link is clicked
+	};
 
-  return (
-    <nav
-      className={`flex items-center justify-between mx-auto px-6 lg:px-12 2xl:px-[320px] py-2 md:py-3 sticky top-0 z-50 ${
-        pathname !== "/" && isMobile && isScrolled && "glassmorphism"
-      } ${pathname !== "/" && !isMobile && isScrolled && "glassmorphism"}`}
-    >
-      <Avatar>
-        <AvatarImage src="/quietTime.jpeg" alt="@evangelistdagdevotionals" />
-        <AvatarFallback>DC</AvatarFallback>
-      </Avatar>
+	return (
+		<nav
+			className={`flex items-center justify-between mx-auto px-6 lg:px-12 2xl:px-[320px] py-2 md:py-3 sticky top-0 z-50 ${
+				pathname !== "/" && isMobile && isScrolled && "glassmorphism"
+			} ${pathname !== "/" && !isMobile && isScrolled && "glassmorphism"}`}
+		>
+			<Avatar>
+				<AvatarImage src="/quietTime.jpeg" alt="@evangelistdagdevotionals" />
+				<AvatarFallback>DC</AvatarFallback>
+			</Avatar>
 
-      <ul className="hidden h-full gap-12 md:flex">
-        {nav.map((link, index) => (
-          <Link
-            href={link.href}
-            key={index}
-            className=" text-gray-50 flex items-center justify-center cursor-pointer pb-1.5 transition-all hover:font-bold duration-300 ease-in-out hover:dark:text-gray-200 hover:text-gray-800"
-          >
-            {link.name}
-          </Link>
-        ))}
-      </ul>
+			<ul className="hidden h-full gap-12 md:flex">
+				{nav.map((link, index) => (
+					<Link
+						href={link.href}
+						key={index}
+						className=" text-gray-50 flex items-center justify-center cursor-pointer pb-1.5 transition-all hover:font-bold duration-300 ease-in-out hover:dark:text-gray-200 hover:text-gray-800"
+					>
+						{link.name}
+					</Link>
+				))}
+			</ul>
 
-      <div className="md:flex items-center justify-center hidden gap-x-3">
-        <ModeToggle />
-        <UserAccountNav
-          user={{
-            name: data?.user.name,
-            image: data?.user.image,
-            email: data?.user.email,
-          }}
-        />
-        {/* <Button>Posts</Button> */}
-      </div>
-      <div className="md:hidden flex items-center gap-x-3">
-        <ModeToggle />
-        <UserAccountNav
-          user={{
-            name: data?.user.name,
-            image: data?.user.image,
-            email: data?.user.email,
-          }}
-        />
-        <button
-          className="flex items-center space-x-2 md:hidden"
-          onClick={() => setShowMobileMenu((prev) => !prev)}
-        >
-          {showMobileMenu ? (
-            <Icons.close className="border border-border p-1 rounded-md h-[36px] w-[36px] hover:bg-secondary" />
-          ) : (
-            <Icons.menu className="border border-border p-1 rounded-md h-[36px] w-[36px] hover:bg-secondary transition-all" />
-          )}
-        </button>
-        {showMobileMenu && nav && (
-          <MobileNav items={nav} closeMenu={handleClick} />
-        )}
-      </div>
-    </nav>
-  );
+			<div className="md:flex items-center justify-center hidden gap-x-3">
+				<ModeToggle />
+				{data ? (
+					<UserAccountNav
+						user={{
+							name: data?.user.name,
+							image: data?.user.image,
+							email: data?.user.email,
+						}}
+					/>
+				) : (
+					<Link href="/register" className={cn(buttonVariants())}>
+						Sign up
+					</Link>
+				)}
+				{/* <Button>Posts</Button> */}
+			</div>
+			<div className="md:hidden flex items-center gap-x-3">
+				<ModeToggle />
+				<button
+					className="flex items-center space-x-2 md:hidden"
+					onClick={() => setShowMobileMenu((prev) => !prev)}
+				>
+					{showMobileMenu ? (
+						<Icons.close className="border border-border p-1 rounded-md h-[36px] w-[36px] hover:bg-secondary" />
+					) : (
+						<Icons.menu className="border border-border p-1 rounded-md h-[36px] w-[36px] hover:bg-secondary transition-all" />
+					)}
+				</button>
+				{showMobileMenu && nav && <MobileNav items={nav} closeMenu={handleClick} />}
+				{data ? (
+					<UserAccountNav
+						user={{
+							name: data?.user.name,
+							image: data?.user.image,
+							email: data?.user.email,
+						}}
+					/>
+				) : (
+					<Link href="/register" className={cn(buttonVariants())}>
+						Sign up
+					</Link>
+				)}
+			</div>
+		</nav>
+	);
 }
 
 {
-  /* <div className="text-3xl font-bold text-white grid w-[12vw] h-full rounded-lg">
+	/* <div className="text-3xl font-bold text-white grid w-[12vw] h-full rounded-lg">
           <Link href="/" className="block h-8 w-8 overflow-hidden">
           <Image
             src="/quietTime.jpeg"
@@ -128,7 +139,7 @@ export default function Navbar() {
 }
 
 {
-  /* <Image 
+	/* <Image
         src="menu.svg"
         alt="menu"
         width={32}

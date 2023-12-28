@@ -41,5 +41,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/posts/:path*", "/login", "/register"],
+  matcher: ["/collections/:path*", "/login", "/register"],
 };
