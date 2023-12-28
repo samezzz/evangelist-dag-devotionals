@@ -71,22 +71,24 @@ const LikeButton = ({ likesCount, postId, userId, fetchIsLike, fetchTotalLikeCou
   }, [isLiked, fetchTotalLikes]);
 
   return (
-    <Button
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleLike();
-      }}
-      className="flex items-center text-center gap-x-2 text-xs p-0 border border-none hover:bg-transparent shadow-none "
-      variant="outline"
-    >
-      <Icons.heart
-        className={`h-4 w-4 text-red-500 ${
-          liked && "fill-red-500"
-        }`}
-      />
-      <div className={`text-red-500 ${!liked && "hidden"}`}>{countLikes}</div>
-    </Button>
+		<Button
+			onClick={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				handleLike();
+			}}
+			className="flex items-center text-center gap-x-2 text-xs p-0 border border-none hover:bg-transparent shadow-none "
+			variant="outline"
+		>
+			<Icons.heart
+				className={`h-4 w-4   ${
+					liked
+						? "fill-red-500 text-red-500"
+						: "text-[#71767B] hover:text-gray-90 hover:dark:text-gray-20"
+				}`}
+			/>
+			<div className={`text-red-500 ${!liked && "hidden"}`}>{countLikes}</div>
+		</Button>
   );
 };
 

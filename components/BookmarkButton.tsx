@@ -81,21 +81,23 @@ const BookmarkButton = ({
   }, [isSaved]);
 
   return (
-    <Button
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        handleBookmark();
-      }}
-      className="ml-1 flex items-center text-center gap-x-2 text-xs p-0 border border-none hover:bg-transparent shadow-none"
-      variant="outline"
-    >
-      <Icons.bookmark
-        className={`h-4 w-4 text-sky-500 ${
-          bookmarked && "fill-sky-500"
-        }`}
-      />
-    </Button>
+		<Button
+			onClick={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				handleBookmark();
+			}}
+			className="ml-1 flex items-center text-center gap-x-2 text-xs p-0 border border-none hover:bg-transparent shadow-none"
+			variant="outline"
+		>
+			<Icons.bookmark
+				className={`h-4 w-4 ${
+					bookmarked
+						? "text-sky-500 fill-sky-500"
+						: "text-[#71767B] hover:text-gray-90 hover:dark:text-gray-20 "
+				}`}
+			/>
+		</Button>
   );
 };
 
