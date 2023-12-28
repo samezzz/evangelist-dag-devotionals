@@ -16,12 +16,12 @@ export default async function Posts({
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
-	const user = await getCurrentUser();
+	// const user = await getCurrentUser();
 
-	if (!user) {
-		notFound();
-		return; // Stop further execution if user doesn't exist
-	}
+	// if (!user) {
+	// 	notFound();
+	// 	return; // Stop further execution if user doesn't exist
+	// }
 
 	const { search, date } = searchParams;
 	const isValidString = (value: string | string[] | undefined) => typeof value === "string";

@@ -108,6 +108,14 @@ export const authOptions: NextAuthOptions = {
         where: {
           email: token.email,
         },
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          email: true,
+          likedPosts: true,
+          savedPosts: true,
+        }
       })
 
       if (!dbUser) {
@@ -122,6 +130,8 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
+        likedPosts: dbUser.likedPosts,
+        savedPosts: dbUser.savedPosts,
       }
     },
     async session({ token, session }) {
@@ -130,6 +140,8 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.image = token.picture;
+        session.user.likedPosts = token.likedPosts
+        session.user.savedPosts = token.savedPosts
       }
       return session;
     },
