@@ -48,7 +48,7 @@ interface ShareDialogProp {
 function ShareDialog({ id }: ShareDialogProp) {
 	let isLightMode;
 
-	const url = "https://qcc.vercel.app";
+	const url = "https://evangelist-dag-devotionals.vercel.app";
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>
