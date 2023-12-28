@@ -78,7 +78,7 @@ export default async function Posts({
 					className="grid grid-cols-2 sm:grid-cols-3 items-center lg:grid-cols-4 relative"
 				>
 					<InfiniteScrollPosts
-						initialPosts={posts}
+						initialPosts={posts as JSX.Element[]}
 						search={searchValue as string}
 						date={dateValue as string}
 					/>
