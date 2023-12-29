@@ -45,7 +45,7 @@ export async function GET(req: Request) {
 							mode === "dark" ? "linear-gradient(90deg, #000 0%, #111 100%)" : "white",
 					}}
 				>
-					<img width={64} height={64} src={imageData} />
+					{/* <img width={64} height={64} src={imageData} /> */}
 					<div tw="flex flex-col flex-1 py-10">
 						<div
 							tw="flex text-xl uppercase font-bold tracking-tight"
