@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { TelegramIcon, WhatsappIcon, XIconDark, XIconLight } from "./Icons";
 import { ThemeProvider } from "./ThemeProvider";
+import { env } from "@/env.mjs";
 
 interface ShareButtonProps {
 	id: string;
@@ -48,7 +49,7 @@ interface ShareDialogProp {
 function ShareDialog({ id }: ShareDialogProp) {
 	let isLightMode;
 
-	const url = "https://evangelist-dag-devotionals.vercel.app";
+	const url = env.NEXT_PUBLIC_APP_URL;
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>
