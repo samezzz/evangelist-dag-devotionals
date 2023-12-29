@@ -49,14 +49,14 @@ export async function GET(req: Request) {
 					<div tw="flex flex-col flex-1 py-10">
 						<div
 							tw="flex text-xl uppercase font-bold tracking-tight"
-							style={{ fontFamily: "Inter", fontWeight: "normal" }}
+							style={{ fontFamily: "Geist", fontWeight: "normal" }}
 						>
 							QUIET TIME
 						</div>
 						<div
 							tw="flex leading-[1.1] text-[80px] font-bold"
 							style={{
-								fontFamily: "Cal Sans",
+								fontFamily: "Geist",
 								fontWeight: "bold",
 								marginLeft: "-3px",
 								fontSize,
@@ -64,10 +64,19 @@ export async function GET(req: Request) {
 						>
 							{heading}
 						</div>
-						im
+						<div
+							tw="flex"
+							style={{
+								fontFamily: "Geist",
+								fontWeight: "normal",
+								fontSize,
+							}}
+						>
+							{values.type}
+						</div>
 					</div>
 					<div tw="flex items-center w-full justify-between">
-						<div tw="flex text-xl" style={{ fontFamily: "Inter", fontWeight: "normal" }}>
+						<div tw="flex text-xl" style={{ fontFamily: "Geist", fontWeight: "normal" }}>
 							evangelist-dag-devotionals.vercel.app
 						</div>
 						<div
