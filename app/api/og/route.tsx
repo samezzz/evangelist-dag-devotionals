@@ -65,7 +65,7 @@ export async function GET(req: Request) {
 							{heading}
 						</div>
 						<div
-							tw="flex"
+							tw="flex text-xl font-bold"
 							style={{
 								fontFamily: "Geist",
 								fontWeight: "normal",
@@ -81,7 +81,7 @@ export async function GET(req: Request) {
 						</div>
 						<div
 							tw="flex items-center text-xl"
-							style={{ fontFamily: "Inter", fontWeight: "normal" }}
+							style={{ fontFamily: "Geist", fontWeight: "normal" }}
 						>
 							<svg width="32" height="32" viewBox="0 0 48 48" fill="none">
 								<path
