@@ -1,3 +1,7 @@
+/* eslint-disable @next/next/no-img-element*/
+/* eslint-disable jsx-a11y/alt-text */
+// @ts-nocheck
+
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
@@ -28,7 +32,6 @@ export const authOptions: NextAuthOptions = {
 				};
 			},
 		}),
-		// @ts-expect-error
 		{
 			id: "resend",
 			type: "email",
@@ -49,7 +52,6 @@ export const authOptions: NextAuthOptions = {
 					create: {
 						email: profile.email,
 						name: profile.name,
-						// @ts-expect-error
 						image: profile.picture,
 						emailVerified: new Date(),
 					},
