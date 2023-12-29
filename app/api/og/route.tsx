@@ -41,10 +41,10 @@ export async function GET(req: Request) {
 							mode === "dark" ? "linear-gradient(90deg, #000 0%, #111 100%)" : "white",
 					}}
 				>
-					<div tw="flex flex-row px-2 gap-x-2">
+					<div tw="flex flex-row px-2 gap-x-8">
 						<svg
-							width="212"
-							height="212"
+							width="100"
+							height="100"
 							viewBox="0 0 24 24"
 							fill={paint}
 							xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +62,7 @@ export async function GET(req: Request) {
 									fill-rule="evenodd"
 									clip-rule="evenodd"
 									d="M15.6809 5.34814C14.0521 5.34814 12.7265 6.66395 12.7265 8.29353C12.7265 9.92311 14.0521 11.2389 15.6809 11.2389C17.3097 11.2389 18.6353 9.92311 18.6353 8.29353C18.6353 6.66395 17.3097 5.34814 15.6809 5.34814ZM14.2265 8.29353C14.2265 7.49816 14.8748 6.84814 15.6809 6.84814C16.487 6.84814 17.1353 7.49816 17.1353 8.29353C17.1353 9.0889 16.487 9.73891 15.6809 9.73891C14.8748 9.73891 14.2265 9.0889 14.2265 8.29353Z"
-									fill="#1C274C"
+									fill={paint}
 								></path>{" "}
 								<path
 									fill-rule="evenodd"
@@ -74,8 +74,8 @@ export async function GET(req: Request) {
 						</svg>
 						<svg
 							fill={paint}
-							width="212"
-							height="212"
+							width="100"
+							height="100"
 							viewBox="0 0 32 32"
 							version="1.1"
 							xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +96,7 @@ export async function GET(req: Request) {
 
 					<div tw="flex flex-col flex-1 py-10">
 						<div
-							tw="flex text-xl uppercase font-bold tracking-tight"
+							tw="flex text-[40px] uppercase font-bold tracking-tight"
 							style={{ fontFamily: "Geist", fontWeight: "normal" }}
 						>
 							QUIET TIME
@@ -113,7 +113,7 @@ export async function GET(req: Request) {
 							{heading}
 						</div>
 						<div
-							tw="flex text-lg font-bold"
+							tw="flex text-lg font-bold text-[#71767B] "
 							style={{
 								fontFamily: "Geist",
 								fontWeight: "normal",
