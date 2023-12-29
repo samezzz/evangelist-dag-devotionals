@@ -8,14 +8,40 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Provider from "@/components/Provider";
 import { Analytics } from "@/components/Analytics";
+import { siteConfig } from "@/constants";
 
 export const metadata: Metadata = {
-  title: "Daily Counsel",
-  description:
-    "Immerse yourself in daily devotionals by renowned evangelist Dag Heward Mills, offering profound insights and inspirational messages for your spiritual growth. Explore a rich collection of thought-provoking reflections, biblical teachings, and practical guidance to deepen your faith, foster personal transformation, and draw closer to God. Join our community and embark on a meaningful journey of spiritual enlightenment and empowerment.",
-  icons: {
-    icon: "/favicon.ico",
-  },
+	title: {
+		default: siteConfig.name,
+		template: `%s | ${siteConfig.name}`,
+	},
+	description: siteConfig.description,
+	keywords: [
+		"Daily Counsel",
+		"Evangelist Dag",
+		"Bishop Dag",
+		"FirstLove",
+		"Qodesh",
+		"Quiet Time",
+	],
+	authors: [
+		{
+			name: "samess",
+			url: "https://samess.tech",
+		},
+	],
+	creator: "samess",
+	openGraph: {
+		type: "website",
+		locale: "en_US",
+		url: siteConfig.url,
+		title: siteConfig.name,
+		description: siteConfig.description,
+		siteName: siteConfig.name,
+	},
+	icons: {
+		icon: "/favicon.ico",
+	},
 };
 
 export default async function RootLayout({

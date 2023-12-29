@@ -17,14 +17,14 @@ export const nav: NavItem[] = [
 ];
 
 export const siteConfig: SiteConfig = {
-	name: "Evangelist Dag Devotionals",
+	name: "Daily Counsel",
 	description:
-		"An open source application built using the new router, server components and everything new in Next.js 14.",
+		"Immerse yourself in daily devotionals by renowned evangelist Dag Heward Mills, offering profound insights and inspirational messages for your spiritual growth. Explore a rich collection of thought-provoking reflections, biblical teachings, and practical guidance to deepen your faith, foster personal transformation, and draw closer to God. Join our community and embark on a meaningful journey of spiritual enlightenment and empowerment.",
 	url: `${env.NEXT_PUBLIC_APP_URL}`,
 	ogImage: "",
 	links: {
-		twitter: "https://",
+		twitter: "https://twitter.com/_Samess",
 		github: "https://github.com/samezzzz",
-		linkedIn: "",
+		linkedIn: "https://www.linkedin.com/in/samuel-essilfie-274684252/",
 	},
 };

@@ -52,7 +52,7 @@ export default function PostItem({
 				<div className="rounded-xl overflow-hidden group card">
 					<div className="">
 						<h3 className="font-semibold">{title}</h3>
-						<p className={`text-sm mb-6 text-muted-foreground link`}>{formattedDate}</p>
+						<p className={`text-xs md:text-sm mb-6 text-muted-foreground link`}>{formattedDate}</p>
 					</div>
 					<div className="md:flex justify-between items-center text-center">
 						<div className="flex gap-x-2">

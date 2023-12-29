@@ -72,7 +72,7 @@ export async function GET(req: Request) {
 							tw="flex text-xl uppercase font-bold tracking-tight"
 							style={{ fontFamily: "Inter", fontWeight: "normal" }}
 						>
-							{values.type}
+							QUIET TIME
 						</div>
 						<div
 							tw="flex leading-[1.1] text-[80px] font-bold"
