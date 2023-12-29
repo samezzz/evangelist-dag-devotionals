@@ -4,3 +4,6 @@ Allow: /
 
 # Host
 Host: https://evangelist-dag-devotionals.vercel.app
+
+# Sitemaps
+Sitemap: https://evangelist-dag-devotionals.vercel.app/sitemap.xml
