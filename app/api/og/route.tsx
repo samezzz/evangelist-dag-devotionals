@@ -41,13 +41,14 @@ export async function GET(req: Request) {
 							mode === "dark" ? "linear-gradient(90deg, #000 0%, #111 100%)" : "white",
 					}}
 				>
-					<div tw="flex flex-row px-2 gap-x-12">
+					<div tw="flex flex-row">
 						<svg
 							width="100"
 							height="100"
 							viewBox="0 0 24 24"
 							fill={paint}
 							xmlns="http://www.w3.org/2000/svg"
+							tw="mr-4"
 						>
 							<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
 							<g
@@ -79,6 +80,7 @@ export async function GET(req: Request) {
 							viewBox="0 0 32 32"
 							version="1.1"
 							xmlns="http://www.w3.org/2000/svg"
+							tw="ml-4"
 						>
 							<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
 							<g
@@ -96,7 +98,7 @@ export async function GET(req: Request) {
 
 					<div tw="flex flex-col flex-1 py-10">
 						<div
-							tw="flex text-[40px] uppercase font-bold tracking-tight mb-2"
+							tw="flex text-[40px] uppercase font-bold tracking-tight mb-4"
 							style={{ fontFamily: "Geist", fontWeight: "normal" }}
 						>
 							QUIET TIME
@@ -113,7 +115,7 @@ export async function GET(req: Request) {
 							{heading}
 						</div>
 						<div
-							tw="flex text-lg font-bold text-[#71767B] mt-2"
+							tw="flex font-bold text-[#71767B] mt-4"
 							style={{
 								fontFamily: "Geist",
 								fontWeight: "normal",
