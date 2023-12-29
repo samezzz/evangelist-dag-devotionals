@@ -14,7 +14,7 @@ const geistBold = fetch(new URL("../../../assets/fonts/Geist-Bold.otf", import.m
 	(res) => res.arrayBuffer()
 );
 
-const imageData = fetch(new URL("../../../assets/quietTime-64x64.jpg", import.meta.url)).then(
+const imageData = fetch(new URL("../../../public/logo.jpg", import.meta.url)).then(
 	(res) => res.arrayBuffer()
 );
 
@@ -45,7 +45,7 @@ export async function GET(req: Request) {
 							mode === "dark" ? "linear-gradient(90deg, #000 0%, #111 100%)" : "white",
 					}}
 				>
-					{/* <img width={64} height={64} src={imageData} /> */}
+					<img width={64} height={64} src={imageData} />
 					<div tw="flex flex-col flex-1 py-10">
 						<div
 							tw="flex text-xl uppercase font-bold tracking-tight"
@@ -65,7 +65,7 @@ export async function GET(req: Request) {
 							{heading}
 						</div>
 						<div
-							tw="flex text-xl font-bold"
+							tw="flex text-lg font-bold"
 							style={{
 								fontFamily: "Geist",
 								fontWeight: "normal",
