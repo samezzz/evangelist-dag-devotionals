@@ -115,7 +115,7 @@ export async function GET(req: Request) {
 							{heading}
 						</div>
 						<div
-							tw="flex font-bold text-[#71767B] mt-4"
+							tw="flex text-xs font-bold text-[#71767B] mt-4"
 							style={{
 								fontFamily: "Geist",
 								fontWeight: "normal",
