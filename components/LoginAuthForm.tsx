@@ -60,13 +60,16 @@ export default function LoginAuthForm(props: Props) {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await signIn("email", {
-        email: data.email,
-        redirect: false,
-        callBackUrl,
-      });
-
-      if (!res?.error) {
+      const res = signIn('resend', { email: data.email, callBackUrl })
+      
+      if (!res) {
+        setIsLoading(false);
+			return toast({
+				title: "Something went wrong",
+        description: "We sent you a login link. Be sure to check your spam too.",
+        variant: "destructive"
+			});
+      } else {
         setIsLoading(false);
         return toast({
           title: "Check your email",
