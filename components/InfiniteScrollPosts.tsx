@@ -33,7 +33,6 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
 
       if (newPosts?.length) {
         setPage(nextPage);
-        // @ts-expect-error
         setPosts((prevPosts) => [...prevPosts, ...newPosts]);
       } else {
         setHasMore(false);
