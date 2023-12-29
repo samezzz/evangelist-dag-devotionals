@@ -76,8 +76,8 @@ export default function Navbar() {
 						}}
 					/>
 				) : (
-					<Link href="/register" className={cn(buttonVariants())}>
-						Sign up
+					<Link href="/login" className={cn(buttonVariants())}>
+						Login
 					</Link>
 				)}
 				{/* <Button>Posts</Button> */}
@@ -104,8 +104,8 @@ export default function Navbar() {
 						}}
 					/>
 				) : (
-					<Link href="/register" className={cn(buttonVariants())}>
-						Sign up
+					<Link href="/login" className={cn(buttonVariants())}>
+						Login
 					</Link>
 				)}
 			</div>
