@@ -4,8 +4,8 @@ import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
 import { env } from "@/env.mjs"
-
 import CredentialsProvider from "next-auth/providers/credentials";
+import { sendVerificationRequest } from "@/app/posts/actions";
 
 const url = env.NEXT_PUBLIC_APP_URL
 
@@ -74,6 +74,12 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
+     // @ts-expect-error 
+    {
+      id: 'resend', 
+      type: 'email',
+      sendVerificationRequest,
+    }
   ],
   callbacks: {
     async signIn({ account, profile, user }) {

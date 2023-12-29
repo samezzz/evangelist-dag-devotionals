@@ -32,7 +32,7 @@ interface Props {
 export default function RegisterAuthForm(props: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  // const callBackUrl = searchParams?.get("from") || "/posts";
+  const callBackUrl = searchParams?.get("from") || "/posts";
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false);
@@ -63,40 +63,22 @@ export default function RegisterAuthForm(props: Props) {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-        }),
-      });
-      setIsLoading(false);
+      const res = signIn("resend", { email: data.email, callBackUrl });
 
-      if (response.status == 409) {
-        return toast({
-          title: "User with this email already exists.",
-          description: "Please Log in",
-          variant: "default",
-        });
-      }
-
-      if (!response.ok) {
-        return toast({
-          title: "Something went wrong.",
-          description: "Your sign-in request failed. Please try again.",
-          variant: "destructive",
-        });
-      } else {
-        form.reset();
-        router.push("/login");
-        return toast({
-          title: "Thank you!",
-          description: "We really appreciate you for joining us",
-        });
-      }
+		if (!res) {
+			setIsLoading(false);
+			return toast({
+				title: "Something went wrong",
+				description: "We sent you a login link. Be sure to check your spam too.",
+				variant: "destructive",
+			});
+		} else {
+			setIsLoading(false);
+			return toast({
+				title: "Check your email",
+				description: "We sent you a login link. Be sure to check your spam too.",
+			});
+		}
     } catch (error: any) {
       console.error("Error:", error);
       return toast({
