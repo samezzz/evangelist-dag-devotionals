@@ -18,6 +18,8 @@ type Props = {
 	isLiked?: boolean | undefined;
 	totalLikesCount: number | undefined;
 	isSaved?: boolean | undefined;
+	fetchedIsLiked?: Map<string, boolean>;
+	fetchedIsSaved?: Map<string, boolean>;
 };
 
 export default function PostItem({
@@ -27,6 +29,8 @@ export default function PostItem({
 	isLiked,
 	totalLikesCount,
 	isSaved,
+	fetchedIsLiked,
+	fetchedIsSaved,
 }: Props) {
 	const { title, date, likesCount, viewsCount, timeToRead } = post;
 	const formattedDate = getFormattedDate(date);
@@ -63,6 +67,7 @@ export default function PostItem({
 								likesCount={likesCount}
 								postId={post.id}
 								userId={userId as string}
+								fetchedIsLiked={fetchedIsLiked}
 							/>
 							<BookmarkButton
 								fetchSavePost={fetchSavePost}
@@ -70,6 +75,7 @@ export default function PostItem({
 								title={title}
 								postId={post.id}
 								userId={userId as string}
+								fetchedIsSaved={fetchedIsSaved}
 							/>
 							<ShareButton id={post.id} />
 						</div>

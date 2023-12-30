@@ -11,7 +11,7 @@ import {
 	isSaved,
 } from "@/lib/posts";
 import { getCurrentUser } from "@/lib/session";
-import { Meta } from "@/types";
+import { revalidatePath } from "next/cache";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -38,12 +38,20 @@ function text({ url, host }: { url: string | null; host: string }) {
 	return `Sign in to ${host}\n${url}\n\n`;
 }
 
-interface FetchedPosts {
-	[key: string]: (React.JSX.Element | null)[] // Define an index signature
-}
-
-// Store fetched posts in memory
-let fetchedPosts: FetchedPosts = {};
+let fetchedPosts: Map<string, React.JSX.Element[]> = new Map();
+let likePostCache: Map<string, { postId: string }> = new Map();
+let savePostCache: Map<
+	string,
+	{
+		response: {
+			postId: string;
+		};
+		message: string;
+		error?: undefined;
+	}
+> = new Map();
+let fetchedIsLiked: Map<string, boolean> = new Map();
+let fetchedIsSaved: Map<string, boolean> = new Map();
 
 export async function fetchPosts({
 	page = 1,
@@ -54,22 +62,25 @@ export async function fetchPosts({
 	search?: string | undefined;
 	date?: string | undefined;
 }) {
-	const cacheKey = JSON.stringify({ page, search, date });
-	if (fetchedPosts[cacheKey]) {
-		return fetchedPosts[cacheKey];
+	const cacheKey = `${page}-${search}-${date}`;
+
+	if (fetchedPosts.has(cacheKey)) {
+		return fetchedPosts.get(cacheKey);
 	}
 
 	try {
 		const posts = await getPostsMeta({ query: search, date, page });
 
-		if (posts) {
+		if (posts && posts.length > 0) {
+			const currentUser = await getCurrentUser();
+
 			const postItems = await Promise.all(
 				posts.map(async (post, index) => {
 					try {
 						let user = null;
-						let isLiked, likesCount, isSaved;
-
-						const currentUser = await getCurrentUser();
+						let isLiked: boolean | undefined = false;
+						let likesCount: number | undefined = 0;
+						let isSaved: boolean | undefined = false;
 
 						if (currentUser) {
 							user = currentUser;
@@ -91,6 +102,8 @@ export async function fetchPosts({
 								isLiked={isLiked}
 								totalLikesCount={likesCount}
 								isSaved={isSaved}
+								fetchedIsLiked={fetchedIsLiked}
+								fetchedIsSaved={fetchedIsSaved}
 							/>
 						);
 
@@ -103,7 +116,7 @@ export async function fetchPosts({
 			);
 
 			const filteredPostItems = postItems.filter(Boolean); // Remove failed posts
-			fetchedPosts[cacheKey] = filteredPostItems; // Store fetched posts in memory
+			fetchedPosts.set(cacheKey, filteredPostItems as JSX.Element[]);
 			return filteredPostItems;
 		}
 	} catch (error) {
@@ -112,15 +125,17 @@ export async function fetchPosts({
 	}
 }
 
-// Function to clear cached posts
-async function clearPostCache() {
-	fetchedPosts = {};
-}
-
 export async function fetchLikePost({ postId, userId }: { userId: string; postId: string }) {
+	const cacheKey = `${postId}-${userId}`;
+	// Check if the value exists in the cache
+	if (likePostCache.has(cacheKey)) {
+		const likePost = likePostCache.get(cacheKey);
+		return likePost;
+	}
 	try {
 		const likedPost = await likePost({ userId, postId });
 		if (likedPost?.response) {
+			likePostCache.set(cacheKey, likedPost.response);
 			return likedPost.response;
 		} else {
 			console.log("Couldn't like post");
@@ -129,6 +144,7 @@ export async function fetchLikePost({ postId, userId }: { userId: string; postId
 		console.error("Error liking post: ", error);
 		return null;
 	}
+	revalidatePath("/posts");
 }
 
 export async function fetchCountTotalLikes({ postId }: { postId: string }) {
@@ -145,23 +161,44 @@ export async function fetchCountTotalLikes({ postId }: { postId: string }) {
 }
 
 export async function fetchIsLiked({ postId, userId }: { postId: string; userId: string }) {
+	const cacheKey = `${postId}-${userId}`;
+
+	// Check if the value exists in the cache
+	if (fetchedIsLiked.has(cacheKey)) {
+		const isLiked = fetchedIsLiked.get(cacheKey);
+		return isLiked;
+	}
+
 	try {
 		const likedPost = await isLiked({ postId, userId });
+
 		if (likedPost) {
-			clearPostCache()
-			return likedPost.isLiked;
+			const isLiked = likedPost.isLiked;
+
+			// Store in cache
+			fetchedIsLiked.set(cacheKey, isLiked as boolean);
+			return isLiked;
 		} else {
 			console.log("Couldn't get liked post.");
 		}
 	} catch (error) {
 		console.error("Error: ", error);
 	}
+
+	revalidatePath("/posts");
 }
 
 export async function fetchSavePost({ postId, userId }: { userId: string; postId: string }) {
+	const cacheKey = `${postId}-${userId}`;
+	// Check if the value exists in the cache
+	if (savePostCache.has(cacheKey)) {
+		const savePost = savePostCache.get(cacheKey);
+		return savePost;
+	}
 	try {
 		const savedPost = await savePost({ userId, postId });
 		if (savedPost?.response) {
+			savePostCache.set(cacheKey, savedPost);
 			return savedPost;
 		} else {
 			console.log("Couldn't save post");
@@ -170,132 +207,32 @@ export async function fetchSavePost({ postId, userId }: { userId: string; postId
 		console.error("Error saving post: ", error);
 		return null;
 	}
+	revalidatePath("/posts");
 }
 
 export async function fetchIsSaved({ postId, userId }: { postId: string; userId: string }) {
+	const cacheKey = `${postId}-${userId}`;
+
+	// Check if the value exists in the cache
+	if (fetchedIsSaved.has(cacheKey)) {
+		return fetchedIsSaved.get(cacheKey);
+	}
+
 	try {
 		const savedPost = await isSaved({ postId, userId });
+
 		if (savedPost) {
-			clearPostCache()
-			return savedPost.isSaved;
+			const isSaved = savedPost.isSaved;
+
+			// Store in cache
+			fetchedIsSaved.set(cacheKey, isSaved as boolean);
+			return isSaved;
 		} else {
 			console.log("Couldn't get saved post.");
 		}
 	} catch (error) {
 		console.error("Error: ", error);
 	}
+
+	revalidatePath("/posts");
 }
-
-// // Function to update the postCache with newly fetched posts
-// function updatePostCache({ cacheKey, postId }: { cacheKey: string;  postId: string}) {
-// 	postCache.set(cacheKey, postId);
-// }
-
-// // Function to invalidate the postCache for a specific cacheKey
-// function invalidatePostCache(cacheKey: string) {
-// 	postCache.delete(cacheKey);
-// }
-// // Function to update the postCache with newly fetched posts
-// function updatePostCache({ cacheKey, postId }: { cacheKey: string;  postId: string}) {
-// 	postCache.set(cacheKey, postId);
-// }
-
-// // Function to invalidate the postCache for a specific cacheKey
-// function invalidatePostCache(cacheKey: string) {
-// 	postCache.delete(cacheKey);
-// }
-
-// export async function fetchPosts({
-// 	page = 1,
-// 	search,
-// 	date,
-// }: {
-// 	page?: number;
-// 	search?: string | undefined;
-// 	date?: string | undefined;
-// }) {
-// 	try {
-// 		const user = await getCurrentUser();
-// 		const posts = await getPostsMeta({ query: search, date: date, page });
-
-// 		if (posts) {
-// 			const postItems = await Promise.all(
-// 				posts.map(async (post, index) => {
-// 					try {
-// 						if (user) {
-// 							const [isLiked, likesCount, isSaved] = await Promise.all([
-// 								fetchIsLiked({ postId: post.id, userId: user.id }),
-// 								fetchCountTotalLikes({ postId: post.id }),
-// 								fetchIsSaved({ postId: post.id, userId: user.id }),
-// 							]);
-
-// 							return (
-// 								<PostItem
-// 									userId={user.id}
-// 									post={post}
-// 									key={post.id}
-// 									index={index}
-// 									isLiked={isLiked}
-// 									totalLikesCount={likesCount}
-// 									isSaved={isSaved}
-// 								/>
-// 							);
-//             } else {
-//               const likesCount = await fetchCountTotalLikes({postId:post.id})
-// 							return <PostItem post={post} key={post.id} index={index} totalLikesCount={likesCount}/>;
-// 						}
-// 					} catch (error) {
-// 						console.error(`Error processing post ${post.id}: `, error);
-// 						// Optionally handle specific post fetching errors here
-// 						// Return null or a placeholder for failed posts
-// 						return null;
-// 					}
-// 				})
-// 			);
-
-// 			return postItems.filter(Boolean); // Remove any potential null values from failed posts
-// 		}
-// 	} catch (error) {
-// 		console.error("Error fetching data: ", error);
-// 		// Optionally handle the main data fetching error here
-// 		return null;
-// 	}
-// }
-
-// const updateLikesCache = ({
-// 	postId,
-// 	isLiked,
-// 	cacheKey,
-// }: {
-// 	postId: string;
-// 	isLiked: boolean;
-// 	cacheKey: string | undefined;
-// }) => {
-// 	// Update the cache for the specific post with the new like status
-// 	const updatedPosts = postCache.get(cacheKey).map((post: any) => {
-// 		if (post.id === postId) {
-// 			post.isLiked = isLiked;
-// 			// Update other relevant fields as needed
-// 		}
-// 		return post;
-// 	});
-
-// 	postCache.set(cacheKey, updatedPosts);
-// };
-
-// // Similarly, implement a function to invalidate the cache for a specific post
-// const invalidatePostCache = (cacheKey: string, postId: string) => {
-// 	// Invalidate the cache for the specific post
-// 	const updatedPosts = postCache.get(cacheKey).filter((post: any) => post.id !== postId);
-// 	postCache.set(cacheKey, updatedPosts);
-// };
-
-// // Function to update the postCache with newly fetched posts
-// function updatePostCache({ cacheKey, postId }: { cacheKey: string;  postId: string}) {
-//   postCache.set(cacheKey, postId);
-// }
-
-// // Function to invalidate the postCache for a specific cacheKey
-// function invalidatePostCache(cacheKey: string) {
-//   postCache.delete(cacheKey);
-// }
