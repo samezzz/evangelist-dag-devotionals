@@ -20,6 +20,7 @@ interface LikeButtonProps {
 		userId: string;
 		postId: string;
 	}) => Promise<{ postId: string } | null | undefined>;
+	fetchedIsLiked: Map<string, boolean> | undefined
 }
 
 const LikeButton = ({
@@ -29,6 +30,7 @@ const LikeButton = ({
 	fetchIsLike,
 	fetchTotalLikeCount,
 	fetchLikePost,
+	fetchedIsLiked,
 }: LikeButtonProps) => {
 	const [liked, setLiked] = useState(false);
 	const [countLikes, setCountLikes] = useState(likesCount);
@@ -37,7 +39,9 @@ const LikeButton = ({
 
 	const handleLike = async () => {
 		try {
-      
+			const cacheKey = `${postId}-${userId}`;
+			if (fetchedIsLiked) { fetchedIsLiked.set(cacheKey, liked); }
+
 			const newLiked = !liked;
 			setLiked(newLiked);
 			setCountLikes((prevCountLikes) =>

@@ -24,6 +24,7 @@ interface BookmarkButtonProps {
     | null
     | undefined
   >;
+  fetchedIsSaved: Map<string, boolean> | undefined
 }
 
 const BookmarkButton = ({
@@ -32,6 +33,7 @@ const BookmarkButton = ({
   postId,
   userId,
   title,
+  fetchedIsSaved,
 }: BookmarkButtonProps) => {
   const [bookmarked, setBookmarked] = useState(false);
   const { toast } = useToast();
@@ -40,6 +42,11 @@ const BookmarkButton = ({
 
   const handleBookmark = async () => {
     try {
+
+        const cacheKey = `${postId}-${userId}`;
+      if (fetchedIsSaved) {
+        fetchedIsSaved.set(cacheKey, bookmarked)
+      }
       const newBookMark = !bookmarked;
       setBookmarked(newBookMark);
       const savedPost = await fetchSavePost({ postId, userId });
