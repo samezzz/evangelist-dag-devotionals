@@ -3,9 +3,9 @@ import InfiniteScrollPosts from "@/components/InfiniteScrollPosts";
 import { DatePicker } from "@/components/DatePicker";
 import SearchInput from "@/components/SearchInput";
 import { getCurrentUser } from "@/lib/session";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { createId } from "@paralleldrive/cuid2"
+import { createId } from "@paralleldrive/cuid2";
 
 export const metadata = {
 	title: "Posts",
@@ -19,14 +19,12 @@ export default async function Posts({
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
-	// const user = await getCurrentUser();
+	const user = await getCurrentUser();
 
-	// if (!user) {
-	// 	notFound();
-	// 	return; // Stop further execution if user doesn't exist
-	// }
-
-	
+	if (!user) {
+		redirect("/login");
+		return; // Stop further execution if user doesn't exist
+	}
 
 	const { search, date } = searchParams;
 	const isValidString = (value: string | string[] | undefined) => typeof value === "string";

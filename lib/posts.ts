@@ -131,22 +131,12 @@ export async function getPostsMeta({
     .filter((path) => path.endsWith(".mdx"));
 
   // Fetch posts concurrently
-  const promises: Promise<Meta | undefined>[] = [];
-
-  for (let i = 0; i < filesArray.length; i++) {
-    const file = filesArray[i];
-    promises.push(
-      (async () => {
-        const post = await getPostByName(file);
-        if (post) {
-          return post.meta;
-        }
-        return undefined;
-      })()
-    );
-  }
-
-  const allPosts = await Promise.all(promises);
+  const allPosts = await Promise.all(
+		filesArray.map(async (file) => {
+			const post = await getPostByName(file);
+			return post ? post.meta : undefined;
+		})
+  );
   // Filter out undefined posts
   const filteredPosts = allPosts.filter((post): post is Meta => !!post);
   // Sort all posts

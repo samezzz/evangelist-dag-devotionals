@@ -35,28 +35,31 @@ const LikeButton = ({
 	const { data } = useSession();
 	const router = useRouter();
 
-	const handleLike = async () => {
+	const handleLike = useCallback(async () => {
 		try {
 			const newLiked = !liked;
+			const updatedCount = newLiked ? countLikes + 1 : countLikes - 1;
+
 			setLiked(newLiked);
-			setCountLikes((prevCountLikes) =>
-				newLiked ? prevCountLikes + 1 : prevCountLikes - 1
-			);
+			setCountLikes(updatedCount);
 
 			const likedPost = await fetchLikePost({ postId, userId });
+
 			if (!likedPost) {
+				// Revert the state changes if the API call fails
 				setLiked(!newLiked);
-				setCountLikes((prevCountLikes) =>
-					newLiked ? prevCountLikes - 1 : prevCountLikes + 1
-				);
+				setCountLikes(updatedCount - (newLiked ? 1 : -1));
 				return null;
 			}
 
 			console.log("Post Liked Successfully: ", likedPost.postId);
 		} catch (error) {
 			console.error("Error liking post: ", error);
+			// Revert the state changes if there's an error
+			setLiked(!liked);
+			setCountLikes(liked ? countLikes - 1 : countLikes + 1);
 		}
-	};
+	}, [postId, userId, liked, countLikes, fetchLikePost]);
 
 	const isLiked = useCallback(async () => {
 		try {
