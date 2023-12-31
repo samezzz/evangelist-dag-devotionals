@@ -37,6 +37,11 @@ export async function sendVerificationRequest(params: any) {
 function text({ url, host }: { url: string | null; host: string }) {
 	return `Sign in to ${host}\n${url}\n\n`;
 }
+interface UserRelatedData {
+	isLiked?: boolean;
+	likesCount?: number;
+	isSaved?: boolean;
+}
 
 export async function fetchPosts({
 	page = 1,
@@ -56,37 +61,27 @@ export async function fetchPosts({
 			const postItems = await Promise.all(
 				posts.map(async (post, index) => {
 					try {
-						let user = null;
-						let isLiked: boolean | undefined = false;
-						let likesCount: number | undefined = 0;
-						let isSaved: boolean | undefined = false;
-
-						if (currentUser) {
-							user = currentUser;
-							[isLiked, likesCount, isSaved] = await Promise.all([
-								fetchIsLiked({ postId: post.id, userId: user.id }),
-								fetchCountTotalLikes({ postId: post.id }),
-								fetchIsSaved({ postId: post.id, userId: user.id }),
-							]);
-						} else {
-							likesCount = await fetchCountTotalLikes({ postId: post.id });
-						}
+						const userRelatedData: UserRelatedData = await fetchPostDetails(
+							post.id,
+							currentUser?.id
+						);
 
 						const postItem = (
 							<PostItem
-								userId={user?.id}
+								userId={currentUser?.id}
 								post={post}
 								key={post.id}
 								index={index}
-								isLiked={isLiked}
-								totalLikesCount={likesCount}
-								isSaved={isSaved}
+								isLiked={userRelatedData.isLiked}
+								totalLikesCount={userRelatedData.likesCount}
+								isSaved={userRelatedData.isSaved}
 							/>
 						);
 
 						return postItem;
 					} catch (error) {
 						console.error(`Error processing post ${post.id}: `, error);
+						// Handle specific error scenarios here
 						return null;
 					}
 				})
@@ -97,8 +92,28 @@ export async function fetchPosts({
 		}
 	} catch (error) {
 		console.error("Error fetching data: ", error);
+		// Handle different types of errors in a more granular way if needed
 		return null;
 	}
+}
+
+async function fetchPostDetails(postId: string, userId?: string): Promise<UserRelatedData> {
+	const userRelatedData: UserRelatedData = {};
+
+	if (userId) {
+		const [isLiked, likesCount, isSaved] = await Promise.all([
+			fetchIsLiked({ postId, userId }),
+			fetchCountTotalLikes({ postId }),
+			fetchIsSaved({ postId, userId }),
+		]);
+		userRelatedData.isLiked = isLiked;
+		userRelatedData.likesCount = likesCount;
+		userRelatedData.isSaved = isSaved;
+	} else {
+		userRelatedData.likesCount = await fetchCountTotalLikes({ postId });
+	}
+
+	return userRelatedData;
 }
 
 export async function fetchLikePost({ postId, userId }: { userId: string; postId: string }) {
