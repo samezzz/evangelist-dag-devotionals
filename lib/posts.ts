@@ -147,7 +147,6 @@ export async function getPostsMeta({
   }
 
   const allPosts = await Promise.all(promises);
-
   // Filter out undefined posts
   const filteredPosts = allPosts.filter((post): post is Meta => !!post);
   // Sort all posts

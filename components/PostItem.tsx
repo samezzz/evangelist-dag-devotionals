@@ -18,8 +18,6 @@ type Props = {
 	isLiked?: boolean | undefined;
 	totalLikesCount: number | undefined;
 	isSaved?: boolean | undefined;
-	fetchedIsLiked?: Map<string, boolean>;
-	fetchedIsSaved?: Map<string, boolean>;
 };
 
 export default function PostItem({
@@ -29,8 +27,6 @@ export default function PostItem({
 	isLiked,
 	totalLikesCount,
 	isSaved,
-	fetchedIsLiked,
-	fetchedIsSaved,
 }: Props) {
 	const { title, date, likesCount, viewsCount, timeToRead } = post;
 	const formattedDate = getFormattedDate(date);
@@ -56,7 +52,9 @@ export default function PostItem({
 				<div className="rounded-xl overflow-hidden group card">
 					<div className="">
 						<h3 className="font-semibold">{title}</h3>
-						<p className={`text-xs md:text-sm mb-6 text-muted-foreground link`}>{formattedDate}</p>
+						<p className={`text-xs md:text-sm mb-6 text-muted-foreground link`}>
+							{formattedDate}
+						</p>
 					</div>
 					<div className="md:flex justify-between items-center text-center">
 						<div className="flex gap-x-2">
@@ -67,7 +65,6 @@ export default function PostItem({
 								likesCount={likesCount}
 								postId={post.id}
 								userId={userId as string}
-								fetchedIsLiked={fetchedIsLiked}
 							/>
 							<BookmarkButton
 								fetchSavePost={fetchSavePost}
@@ -75,7 +72,6 @@ export default function PostItem({
 								title={title}
 								postId={post.id}
 								userId={userId as string}
-								fetchedIsSaved={fetchedIsSaved}
 							/>
 							<ShareButton id={post.id} />
 						</div>

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Icons } from "./Icons";
 import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
-import { fetchCountTotalLikes } from "@/app/posts/actions";
+
 import { useSession } from "next-auth/react";
 
 interface LikeButtonProps {
@@ -20,7 +20,6 @@ interface LikeButtonProps {
 		userId: string;
 		postId: string;
 	}) => Promise<{ postId: string } | null | undefined>;
-	fetchedIsLiked: Map<string, boolean> | undefined
 }
 
 const LikeButton = ({
@@ -30,18 +29,14 @@ const LikeButton = ({
 	fetchIsLike,
 	fetchTotalLikeCount,
 	fetchLikePost,
-	fetchedIsLiked,
 }: LikeButtonProps) => {
 	const [liked, setLiked] = useState(false);
 	const [countLikes, setCountLikes] = useState(likesCount);
-  const { data } = useSession();
-  const router = useRouter()
+	const { data } = useSession();
+	const router = useRouter();
 
 	const handleLike = async () => {
 		try {
-			const cacheKey = `${postId}-${userId}`;
-			if (fetchedIsLiked) { fetchedIsLiked.set(cacheKey, liked); }
-
 			const newLiked = !liked;
 			setLiked(newLiked);
 			setCountLikes((prevCountLikes) =>
@@ -96,9 +91,11 @@ const LikeButton = ({
 			onClick={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
-        if (!data) { router.push("/register"); } else {
-          handleLike();
-        }
+				if (!data) {
+					router.push("/register");
+				} else {
+					handleLike();
+				}
 			}}
 			className="flex items-center text-center gap-x-2 text-xs rounded-full p-0 border border-none hover:bg-transparent shadow-none "
 			variant="outline"

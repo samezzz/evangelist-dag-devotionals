@@ -28,7 +28,7 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = ({
     if (!isLoading && hasMore) {
       setIsLoading(true);
       const nextPage = page + 1;
-      const newPosts = await fetchPosts({ search, page: nextPage });
+      const newPosts = await fetchPosts({ search, date, page: nextPage });
       setIsLoading(false);
 
       if (newPosts?.length) {
