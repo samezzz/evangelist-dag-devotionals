@@ -38,21 +38,6 @@ function text({ url, host }: { url: string | null; host: string }) {
 	return `Sign in to ${host}\n${url}\n\n`;
 }
 
-let fetchedPosts: Map<string, React.JSX.Element[]> = new Map();
-let likePostCache: Map<string, { postId: string }> = new Map();
-let savePostCache: Map<
-	string,
-	{
-		response: {
-			postId: string;
-		};
-		message: string;
-		error?: undefined;
-	}
-> = new Map();
-let fetchedIsLiked: Map<string, boolean> = new Map();
-let fetchedIsSaved: Map<string, boolean> = new Map();
-
 export async function fetchPosts({
 	page = 1,
 	search,
@@ -62,12 +47,6 @@ export async function fetchPosts({
 	search?: string | undefined;
 	date?: string | undefined;
 }) {
-	const cacheKey = `${page}-${search}-${date}`;
-
-	if (fetchedPosts.has(cacheKey)) {
-		return fetchedPosts.get(cacheKey);
-	}
-
 	try {
 		const posts = await getPostsMeta({ query: search, date, page });
 
@@ -102,8 +81,6 @@ export async function fetchPosts({
 								isLiked={isLiked}
 								totalLikesCount={likesCount}
 								isSaved={isSaved}
-								fetchedIsLiked={fetchedIsLiked}
-								fetchedIsSaved={fetchedIsSaved}
 							/>
 						);
 
@@ -116,7 +93,6 @@ export async function fetchPosts({
 			);
 
 			const filteredPostItems = postItems.filter(Boolean); // Remove failed posts
-			fetchedPosts.set(cacheKey, filteredPostItems as JSX.Element[]);
 			return filteredPostItems;
 		}
 	} catch (error) {
@@ -126,16 +102,10 @@ export async function fetchPosts({
 }
 
 export async function fetchLikePost({ postId, userId }: { userId: string; postId: string }) {
-	const cacheKey = `${postId}-${userId}`;
-	// Check if the value exists in the cache
-	if (likePostCache.has(cacheKey)) {
-		const likePost = likePostCache.get(cacheKey);
-		return likePost;
-	}
 	try {
 		const likedPost = await likePost({ userId, postId });
 		if (likedPost?.response) {
-			likePostCache.set(cacheKey, likedPost.response);
+			revalidatePath("/posts");
 			return likedPost.response;
 		} else {
 			console.log("Couldn't like post");
@@ -144,7 +114,6 @@ export async function fetchLikePost({ postId, userId }: { userId: string; postId
 		console.error("Error liking post: ", error);
 		return null;
 	}
-	revalidatePath("/posts");
 }
 
 export async function fetchCountTotalLikes({ postId }: { postId: string }) {
@@ -161,22 +130,11 @@ export async function fetchCountTotalLikes({ postId }: { postId: string }) {
 }
 
 export async function fetchIsLiked({ postId, userId }: { postId: string; userId: string }) {
-	const cacheKey = `${postId}-${userId}`;
-
-	// Check if the value exists in the cache
-	if (fetchedIsLiked.has(cacheKey)) {
-		const isLiked = fetchedIsLiked.get(cacheKey);
-		return isLiked;
-	}
-
 	try {
 		const likedPost = await isLiked({ postId, userId });
 
 		if (likedPost) {
 			const isLiked = likedPost.isLiked;
-
-			// Store in cache
-			fetchedIsLiked.set(cacheKey, isLiked as boolean);
 			return isLiked;
 		} else {
 			console.log("Couldn't get liked post.");
@@ -184,21 +142,13 @@ export async function fetchIsLiked({ postId, userId }: { postId: string; userId:
 	} catch (error) {
 		console.error("Error: ", error);
 	}
-
-	revalidatePath("/posts");
 }
 
 export async function fetchSavePost({ postId, userId }: { userId: string; postId: string }) {
-	const cacheKey = `${postId}-${userId}`;
-	// Check if the value exists in the cache
-	if (savePostCache.has(cacheKey)) {
-		const savePost = savePostCache.get(cacheKey);
-		return savePost;
-	}
 	try {
 		const savedPost = await savePost({ userId, postId });
 		if (savedPost?.response) {
-			savePostCache.set(cacheKey, savedPost);
+			revalidatePath("/posts");
 			return savedPost;
 		} else {
 			console.log("Couldn't save post");
@@ -207,25 +157,14 @@ export async function fetchSavePost({ postId, userId }: { userId: string; postId
 		console.error("Error saving post: ", error);
 		return null;
 	}
-	revalidatePath("/posts");
 }
 
 export async function fetchIsSaved({ postId, userId }: { postId: string; userId: string }) {
-	const cacheKey = `${postId}-${userId}`;
-
-	// Check if the value exists in the cache
-	if (fetchedIsSaved.has(cacheKey)) {
-		return fetchedIsSaved.get(cacheKey);
-	}
-
 	try {
 		const savedPost = await isSaved({ postId, userId });
 
 		if (savedPost) {
 			const isSaved = savedPost.isSaved;
-
-			// Store in cache
-			fetchedIsSaved.set(cacheKey, isSaved as boolean);
 			return isSaved;
 		} else {
 			console.log("Couldn't get saved post.");
@@ -233,6 +172,4 @@ export async function fetchIsSaved({ postId, userId }: { postId: string; userId:
 	} catch (error) {
 		console.error("Error: ", error);
 	}
-
-	revalidatePath("/posts");
 }

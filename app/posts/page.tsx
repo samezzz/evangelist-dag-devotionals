@@ -5,11 +5,14 @@ import SearchInput from "@/components/SearchInput";
 import { getCurrentUser } from "@/lib/session";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import { createId } from "@paralleldrive/cuid2"
 
 export const metadata = {
 	title: "Posts",
 	description: "View all Posts",
 };
+
+export const revalidate = 86400;
 
 export default async function Posts({
 	searchParams,
@@ -22,6 +25,8 @@ export default async function Posts({
 	// 	notFound();
 	// 	return; // Stop further execution if user doesn't exist
 	// }
+
+	
 
 	const { search, date } = searchParams;
 	const isValidString = (value: string | string[] | undefined) => typeof value === "string";
@@ -74,7 +79,7 @@ export default async function Posts({
 					<DatePicker />
 				</div>
 				<div
-					key={Math.random()}
+					key={createId()}
 					className="grid grid-cols-2 sm:grid-cols-3 items-center lg:grid-cols-4 relative"
 				>
 					<InfiniteScrollPosts
