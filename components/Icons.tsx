@@ -32,6 +32,7 @@ export const Icons = {
 	refresh: RefreshCcw,
 	views: BarChart2,
 	clock: Clock,
+	love: Heart
 };
 
 export function LoaderIcon(props: any) {

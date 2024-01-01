@@ -60,8 +60,7 @@ export default async function Posts({
 	}
 
 	return (
-		<section className="relative w-full mx-auto">
-			<Navbar />
+		<section className="relative w-full mx-auto">	
 			<div className="max-w-[1280px] mx-auto px-4">
 				<div className="max-w-[800px] mt-12">
 					<h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-2">
