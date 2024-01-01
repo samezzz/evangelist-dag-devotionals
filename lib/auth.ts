@@ -56,7 +56,8 @@ export const authOptions: NextAuthOptions = {
 						emailVerified: new Date(),
 					},
 					update: {
-						name: profile.name,
+						image: profile.image,
+						emailVerified: new Date(),
 					},
 				});
 			} else if (account?.provider === "credentials") {

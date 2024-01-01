@@ -5,21 +5,8 @@ export default function PostsPageSkeleton() {
 	const sectionArray = new Array(24).fill(null);
 	return (
 		<div className="max-w-[1280px] mx-auto px-4">
-			<nav className="flex justify-between mt-4 px-4">
-				<Skeleton className="rounded-full h-12 w-12" />
-				<div className="hidden md:flex flex-row gap-x-4 mt-4">
-					<Skeleton className="h-4 w-[80px]" />
-					<Skeleton className="h-4 w-[80px]" />
-					<Skeleton className="h-4 w-[80px]" />
-				</div>
-				<div className="flex flex-row gap-x-2 items-center text-center">
-					<Skeleton className="h-8 w-8 md:hidden rounded-sm" />
-					<Skeleton className="h-8 w-8 rounded-sm" />
-					<Skeleton className="rounded-full h-10 w-10" />
-				</div>
-			</nav>
 			<div className="max-w-[800px]">
-				<h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-2 mt-24">
+				<h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-2 mt-20">
 					Discover Daily Inspirations
 				</h1>
 				<p className="max-w-[600px] text-gray-700 dark:text-gray-300">

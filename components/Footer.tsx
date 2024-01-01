@@ -1,31 +1,22 @@
-import Link from 'next/link';
+import { cn } from "@/lib/utils";
+import { Icons } from "./Icons";
+import Link from "next/link";
+import { buttonVariants } from "./ui/button";
 
-export default function Footer() {
-  return (
-    <footer className="border-t-[0.1px] border-t-gray-400 dark:border-t-[#302e2e] text-gray-500 dark:text-gray-200">
-      <div className="container flex flex-col-reverse justify-between px-6 pb-5 mx-auto space-y-6 md:flex-row md:space-y-3">
-        {/* Logo and Social links container */}
-        <div className="flex flex-col-reverse items-center justify-between space-y-12 md:flex-col md:space-y-0 md:items-start">
-          <div className="mx-auto my-6 text-center md:hidden">&copy; 2023, DAILY COUNSEL. All rights reserved.</div>
-        </div>
-        {/* List Container */}
-        <div className="flex justify-around space-x-32">
-          <div className="flex flex-col space-y-3">
-            <p>SECTION</p>  
-            <Link href="/" className="hover:text-orange-500 text-blue-500 underline">Home</Link>
-            <Link href="/" className="hover:text-orange-500 text-blue-500 underline">About</Link>
-          </div>
-          <div className="flex flex-col space-y-3">
-            <p>RELATED</p>
-            <Link href="https://www.youtube.com/@FaithDigitalNetwork" className="hover:text-orange-500 text-blue-500 underline">FaithDigital Network</Link>
-            <Link href="https://www.youtube.com/@firstlovecenter" className="hover:text-orange-500 text-blue-500 underline">First Love Center</Link>
-          </div>
-        </div>
-        {/* Input Container */}
-        <div className="flex flex-col justify-between">
-        <div className="hidden md:block">&copy; 2023, DAILY COUNSEL. All rights reserved.</div>
-        </div>
-      </div>
-    </footer>
-  );
+export default function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
+	return (
+		<footer className={cn(className)}>
+			<div className="container flex flex-col items-center justify-center gap-4 py-4 md:h-24 md:flex-row md:py-0">
+				<div className="flex flex-col items-center gap-3 px-8 md:flex-row md:gap-2 md:px-0">
+					<p className="text-center text-sm leading-loose md:text-left text-muted-foreground">
+						Made with <Icons.love className="inline-flex h-4 w-4 fill-muted-foreground" />{" "}
+						by{" "}
+						<Link href="https://www.samess.tech" target="_blank" className={cn(buttonVariants({ variant: "link" }), 'text-muted-foreground mx-0 px-0 underline')}>
+							Samess
+						</Link>
+					</p>
+				</div>
+			</div>
+		</footer>
+	);
 }

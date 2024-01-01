@@ -9,6 +9,8 @@ import { authOptions } from "@/lib/auth";
 import Provider from "@/components/Provider";
 import { Analytics } from "@/components/Analytics";
 import { siteConfig } from "@/constants";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
 	title: {
@@ -44,13 +46,9 @@ export const metadata: Metadata = {
 	},
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const session = await getServerSession(authOptions);
-  return (
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+	const session = await getServerSession(authOptions);
+	return (
 		<html lang="en">
 			<head>
 				<link rel="icon" href="/favicon.ico" sizes="any" />
@@ -74,11 +72,15 @@ export default async function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
-					<Provider session={session}>{children}</Provider>
+					<Provider session={session}>
+						<Navbar />
+						{children}
+						<Footer />
+					</Provider>
 					<Analytics />
 					<Toaster />
 				</ThemeProvider>
 			</body>
 		</html>
-  );
+	);
 }
