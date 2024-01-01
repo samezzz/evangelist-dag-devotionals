@@ -9,14 +9,14 @@ const Hero = () => {
     <section>
       <div className="relative max-w-6xl min-h-screen px-4 mx-auto sm:px-6 ">
         <div className="pt-24 lg:pt-12 pb-16 md:pt-32 md:pb-32">
-        <Particles className="absolute inset-0 -z-10 " />
-        <Particles className="absolute inset-0 -z-10 " />
+        <Particles className="absolute inset-0 -z-10" />
+        <Particles className="absolute inset-0 -z-10" />
           {/* Hero content */}
           <div className="mx-auto text-center ">
             <div className="mb-6" data-aos="fade-down">
               <div className="relative inline-flex before:absolute before:inset-0 ">
                 <Link
-                  className="px-3 py-1 text-sm font-medium inline-flex items-center justify-center border border-transparent rounded-full  text-zinc-300 hover:text-white transition duration-150 ease-in-out w-full group relative before:absolute before:inset-0 before:bg-zinc-800/30 before:rounded-full before:pointer-events-none"
+                  className="px-3 py-1 text-sm font-medium inline-flex items-center justify-center border border-transparent rounded-full text-zinc-500 dark:text-zinc-300 hover:text-zinc-600 transition duration-150 ease-in-out w-full group relative before:absolute before:inset-0 before:bg-zinc-800/30 before:rounded-full before:pointer-events-none"
                   href="https://youtube.com/daghewardmills"
                   target="_blank"
                 >
