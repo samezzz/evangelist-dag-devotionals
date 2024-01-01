@@ -3,12 +3,12 @@
 import React, { useEffect } from "react";
 import { gsap } from "gsap";
 // @ts-expect-error
-import SplitTextJS from 'split-text-js'
+import SplitTextJS from "split-text-js";
 
 const DC = () => {
 	useEffect(() => {
 		const titles = document.querySelectorAll(".text-wrapper p");
-		const tl = gsap.timeline({ repeat: -1, repeatDelay: 0}); // Set repeat and repeat delay
+		const tl = gsap.timeline({ repeat: -1, repeatDelay: 0 }); // Set repeat and repeat delay
 
 		titles.forEach((title) => {
 			const splitTitle = new SplitTextJS(title);
@@ -16,23 +16,26 @@ const DC = () => {
 				splitTitle.chars,
 				{
 					opacity: 0,
+					ease: "power2.inOut",
 					y: 60,
 					rotateX: -90,
-          stagger: 0.02,
-          duration: 0.5
+					stagger: 0.05,
+					duration: 0.5,
 				},
 				"<"
-			).to(
-				splitTitle.chars,
-				{
-					opacity: 0,
-					y: 0,
-					rotateX: 90,
-					stagger: 0.02,
-          duration:0.3
-				},
-				"<1"
-			);
+			)
+				.to(
+					splitTitle.chars,
+					{
+						opacity: 0,
+						ease: "power2.inOut",
+						y: 35,
+						rotateX: 90,
+						stagger: 0.05,
+						duration: 0.3,
+					},
+					"<1"
+				);
 		});
 
 		return () => {
@@ -48,9 +51,9 @@ const DC = () => {
 		>
 			Daily <br />
 			<div className="text-wrapper text-center">
-				<p className="absolutet">Counsel</p>
-				<p className="absolute">Advice</p>
 				<p className="absolute">Keys</p>
+				<p className="absolute">Advice</p>
+				<p className="absolutet">Counsel</p>
 				<p className="absolute">Solutions</p>
 			</div>
 		</div>
