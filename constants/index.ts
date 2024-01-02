@@ -24,7 +24,7 @@ export const siteConfig: SiteConfig = {
 	ogImage: "",
 	links: {
 		twitter: "https://twitter.com/_Samess",
-		github: "https://github.com/samezzzz",
+		github: "https://github.com/samezzz/evangelist-dag-devotionals",
 		linkedIn: "https://www.linkedin.com/in/samuel-essilfie-274684252/",
 	},
 };
