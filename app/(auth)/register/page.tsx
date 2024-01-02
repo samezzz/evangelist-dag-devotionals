@@ -16,7 +16,7 @@ export default function RegisterPage() {
 			<div className="lg:p-8">
 				<div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
 					<div className="flex flex-col space-y-2 items-center">
-						<Avatar>
+						<Avatar className="h-24 w-24">
 							<AvatarImage src="/quietTime.jpeg" alt="@evangelistdagdevotionals" />
 							<AvatarFallback>DC</AvatarFallback>
 						</Avatar>
