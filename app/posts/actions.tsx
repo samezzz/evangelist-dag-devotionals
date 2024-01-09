@@ -11,6 +11,8 @@ import {
 	isSaved,
 } from "@/lib/posts";
 import { getCurrentUser } from "@/lib/session";
+import { UserRelatedData } from "@/types";
+import { revalidatePath } from "next/cache";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -36,10 +38,9 @@ export async function sendVerificationRequest(params: any) {
 function text({ url, host }: { url: string | null; host: string }) {
 	return `Sign in to ${host}\n${url}\n\n`;
 }
-interface UserRelatedData {
-	isLiked?: boolean;
-	likesCount?: number;
-	isSaved?: boolean;
+
+export async function revalidate() {
+	revalidatePath("/posts");
 }
 
 export async function fetchPosts({
