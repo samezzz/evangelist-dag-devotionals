@@ -5,6 +5,7 @@ import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import { Icons } from "./Icons";
+import { revalidatePath } from "next/cache";
 
 const SearchInput = ({ search }: { search?: string }) => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const SearchInput = ({ search }: { search?: string }) => {
   }, [query, router]);
   return (
     <div className="flex">
-      <Icons.refresh className={`ml-4 mr-2 mt-2 cursor-pointer hover:rotate-90 transition-all duration-500`} onClick={() => {router.refresh()}} />
+      <Icons.refresh className={`ml-4 mr-2 mt-2 cursor-pointer hover:rotate-90 transition-all duration-500`} onClick={() => {revalidatePath('/posts')}} />
       <Input
         className="md:min-w-[330px] lg:min-w-[450px]"
         placeholder="search"

@@ -11,7 +11,6 @@ import {
 	isSaved,
 } from "@/lib/posts";
 import { getCurrentUser } from "@/lib/session";
-import { revalidatePath } from "next/cache";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -120,7 +119,6 @@ export async function fetchLikePost({ postId, userId }: { userId: string; postId
 	try {
 		const likedPost = await likePost({ userId, postId });
 		if (likedPost?.response) {
-			revalidatePath("/posts");
 			return likedPost.response;
 		} else {
 			console.log("Couldn't like post");
@@ -163,7 +161,6 @@ export async function fetchSavePost({ postId, userId }: { userId: string; postId
 	try {
 		const savedPost = await savePost({ userId, postId });
 		if (savedPost?.response) {
-			revalidatePath("/posts");
 			return savedPost;
 		} else {
 			console.log("Couldn't save post");

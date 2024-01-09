@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { env } from "@/env.mjs";
-// import "highlight.js/styles/github-dark.css";
+import "highlight.js/styles/github-dark.css";
 
 export const revalidate = 86400;
 
@@ -33,7 +33,7 @@ export async function generateMetadata({ params: { postId } }: Props) {
 		};
 	}
 
-	const url = env.NEXT_PUBLIC_APP_URL
+	const url = env.NEXT_PUBLIC_APP_URL;
 
 	const ogUrl = new URL(`${url}/api/og`);
 	ogUrl.searchParams.set("heading", post?.meta.title);
