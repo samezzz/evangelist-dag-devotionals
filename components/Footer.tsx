@@ -10,7 +10,7 @@ export default function Footer({ className }: React.HTMLAttributes<HTMLElement>)
 			<div className="container flex flex-col items-center justify-center gap-4 py-4 md:h-24 md:flex-row md:py-0">
 				<div className="flex flex-col items-center gap-3 px-8 md:flex-row md:gap-2 md:px-0">
 					<p className="text-center text-sm leading-loose md:text-left text-muted-foreground">
-						Made with <Icons.love className="mx-1 inline-flex h-4 w-4 fill-muted-foreground" />{" "}
+						{/* Made with <Icons.love className="mx-1 inline-flex h-4 w-4 fill-muted-foreground" />{" "}
 						by{" "}
 						<Link
 							href="https://www.samess.tech"
@@ -21,8 +21,9 @@ export default function Footer({ className }: React.HTMLAttributes<HTMLElement>)
 							)}
 						>
 							Samess
-						</Link>
-						. <br/>The source code is available on{" "}
+						</Link> */}
+						<br />
+						The source code is available on{" "}
 						<a
 							href={siteConfig.links.github}
 							target="_blank"
