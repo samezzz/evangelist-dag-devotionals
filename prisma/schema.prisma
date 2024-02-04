@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -64,7 +65,7 @@ model VerificationToken {
 
 model LikedPost {
   userId String
-  postId String 
+  postId String
   user   User   @relation(fields: [userId], references: [id])
 
   @@id([userId, postId])
@@ -74,7 +75,7 @@ model LikedPost {
 
 model SavedPost {
   userId String
-  postId String 
+  postId String
   user   User   @relation(fields: [userId], references: [id])
 
   @@id([userId, postId])
