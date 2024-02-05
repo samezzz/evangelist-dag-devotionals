@@ -57,7 +57,7 @@ export default function PostItem({
 						</p>
 					</div>
 					<div className="md:flex justify-between items-center text-center">
-						<div className="flex gap-x-2">
+						{/* <div className="flex gap-x-2">
 							<LikeButton
 								fetchLikePost={fetchLikePost}
 								fetchIsLike={isLiked}
@@ -74,7 +74,7 @@ export default function PostItem({
 								userId={userId as string}
 							/>
 							<ShareButton id={post.id} />
-						</div>
+						</div> */}
 						<div className="flex gap-x-4">
 							{/* <ReadingTimeButton timeToRead={timeToRead} postId={post.id} />
               <ViewsButton viewsCount={viewsCount} postId={post.id} /> */}
