@@ -1,10 +1,10 @@
 import getFormattedDate from "@/lib/getFormattedDate";
-import { getPostsMeta, getPostByName } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { env } from "@/env.mjs";
 import "highlight.js/styles/github-dark.css";
+import { getPostByName, getPostsMeta } from "../actions";
 
 export const revalidate = 86400;
 
