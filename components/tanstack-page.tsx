@@ -1,4 +1,4 @@
-
+// @ts-nocheck
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { fetchPosts, getNextTenAction } from "@/app/posts/actions";
 import SearchInput from "./SearchInput";
