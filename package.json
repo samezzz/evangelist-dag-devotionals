@@ -28,7 +28,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@react-email/components": "0.0.18",
     "@t3-oss/env-nextjs": "^0.7.1",
-    "@tanstack/react-query": "^5.20.1",
+    "@tanstack/react-query": "^5.37.1",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
