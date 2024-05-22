@@ -199,6 +199,14 @@ export async function getPostsMeta({
 	}
 }
 
+export async function getNextTenAction(cursor: number) {
+	// @ts-expect-error
+	const range = (start: number, stop: number, step: number) => {
+		Array.from({ length: (stop - start) / step + 1 }, (_, i: number) => start + i * step);
+		return { data: range(cursor, cursor + 10, 1), nextCursor: cursor + 10 + 1 };
+	};
+}
+
 // Function to add a post to the likedPosts table hence liking it
 export async function likePost({ userId, postId }: { userId: string; postId: string }) {
 	try {

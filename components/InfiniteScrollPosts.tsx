@@ -3,9 +3,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { fetchPosts } from "@/app/posts/actions";
 import { useInView } from "react-intersection-observer";
-import { BookOpenCheck, Loader2 } from "lucide-react";
+import {
+	BookOpenCheck,
+	// Loader2
+} from "lucide-react";
 import { LoaderIcon } from "./Icons";
-import { useDebouncedCallback } from "use-debounce";
+// import { useDebouncedCallback } from "use-debounce";
 
 type InfiniteScrollPostsProps = {
 	search: string | undefined;
