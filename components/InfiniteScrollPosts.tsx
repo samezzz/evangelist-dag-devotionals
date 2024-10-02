@@ -70,7 +70,7 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = React.memo(
 
 		return (
 			<>
-				{posts.map((post, index) => (
+				{posts && posts.map((post, index) => (
 					<div key={index} className="m-2">
 						{post}
 					</div>
