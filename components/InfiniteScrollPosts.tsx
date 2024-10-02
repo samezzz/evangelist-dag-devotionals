@@ -34,7 +34,12 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = React.memo(
 
 				if (newPosts?.length) {
 					setPage(nextPage);
-					setPosts((prevPosts) => { prevPosts.concat(newPosts as JSX.Element[] || null) });
+					setPosts((prevPosts) => {
+						if (!prevPosts) {
+							return newPosts as JSX.Element[]; // If prevPosts is null, just return newPosts
+						}
+						return prevPosts.concat(newPosts as JSX.Element[]); // Otherwise, concatenate
+					});
 				} else {
 					setHasMore(false);
 				}
