@@ -2,13 +2,13 @@ import getFormattedDate from "@/lib/getFormattedDate";
 import { Meta } from "@/types";
 import Link from "next/link";
 import { MotionDiv } from "./MotionDiv";
-import BookmarkButton from "./BookmarkButton";
-import LikeButton from "./LikeButton";
-import { fetchLikePost } from "@/app/posts/actions";
-
-import { fetchSavePost } from "@/app/posts/actions";
-import ViewsButton from "./ViewsButton";
-import ReadingTimeButton from "./ReadingTimeButton";
+// import BookmarkButton from "./BookmarkButton";
+// import LikeButton from "./LikeButton";
+// import { fetchLikePost } from "@/app/posts/actions";
+//
+// import { fetchSavePost } from "@/app/posts/actions";
+// import ViewsButton from "./ViewsButton";
+// import ReadingTimeButton from "./ReadingTimeButton";
 import ShareButton from "./ShareButton";
 
 type Props = {
@@ -23,12 +23,17 @@ type Props = {
 export default function PostItem({
 	post,
 	index,
-	userId,
-	isLiked,
-	totalLikesCount,
-	isSaved,
+	// userId,
+	// isLiked,
+	// totalLikesCount,
+	// isSaved,
 }: Props) {
-	const { title, date, likesCount, viewsCount, timeToRead } = post;
+	const { title,
+		date,
+		// likesCount, 
+		// viewsCount, 
+		// timeToRead 
+	} = post;
 	const formattedDate = getFormattedDate(date);
 
 	const variants = {
@@ -58,6 +63,7 @@ export default function PostItem({
 					</div>
 					<div className="md:flex justify-between items-center text-center">
 						<div className="flex gap-x-2">
+							{/*
 							<LikeButton
 								fetchLikePost={fetchLikePost}
 								fetchIsLike={isLiked}
@@ -73,6 +79,7 @@ export default function PostItem({
 								postId={post.id}
 								userId={userId as string}
 							/>
+							*/}
 							<ShareButton id={post.id} />
 						</div>
 						<div className="flex gap-x-4">

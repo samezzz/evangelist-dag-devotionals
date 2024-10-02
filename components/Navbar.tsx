@@ -44,9 +44,8 @@ export default function Navbar() {
 
 	return (
 		<nav
-			className={`flex items-center justify-between mx-auto px-6 lg:px-12 2xl:px-[320px] py-2 md:py-3 sticky top-0 z-50 ${
-				pathname !== "/" && isMobile && isScrolled && "glassmorphism"
-			} ${pathname !== "/" && !isMobile && isScrolled && "glassmorphism"}`}
+			className={`flex items-center justify-between mx-auto px-6 lg:px-12 2xl:px-[320px] py-2 md:py-3 sticky top-0 z-50 ${pathname !== "/" && isMobile && isScrolled && "glassmorphism"
+				} ${pathname !== "/" && !isMobile && isScrolled && "glassmorphism"}`}
 		>
 			<Avatar>
 				<AvatarImage src="/quietTime.jpeg" alt="@evangelistdagdevotionals" />
@@ -76,9 +75,9 @@ export default function Navbar() {
 						}}
 					/>
 				) : (
-					<Link href="/login" className={cn(buttonVariants())}>
+					/*<Link href="/login" className={cn(buttonVariants())}>
 						Login
-					</Link>
+					</Link>*/ null
 				)}
 				{/* <Button>Posts</Button> */}
 			</div>
@@ -104,9 +103,10 @@ export default function Navbar() {
 						}}
 					/>
 				) : (
-					<Link href="/login" className={cn(buttonVariants())}>
+					/* <Link href="/login" className={cn(buttonVariants())}>
 						Login
-					</Link>
+					</Link> */
+					null
 				)}
 			</div>
 		</nav>
@@ -115,35 +115,35 @@ export default function Navbar() {
 
 {
 	/* <div className="text-3xl font-bold text-white grid w-[12vw] h-full rounded-lg">
-          <Link href="/" className="block h-8 w-8 overflow-hidden">
-          <Image
-            src="/quietTime.jpeg"
-            alt="Quiet Time"
-            width={26}
-            height={26}
-            className="h-full w-full object-cover rounded-full border-2 border-gray-500 dark:border-gray-400 focus:outline-none focus:border-white"
-          />
-          </Link>
-      </div>
-      <div className="flex flex-row justify-center items-center align-middle gap-4 text-4xl lg:text-5xl">
-        <Link href="https://www.youtube.com/@DagHewardMillsvideos">
-          <FaYoutube className="w-6 h-6 text-[#c4302b] dark:text-gray-100" />
-        </Link>
-        <Link href="https://facebook.com/daghewardmills.org">
-          <FaFacebook className="w-5 h-5 text-[#3b5998] dark:text-gray-100" />
-        </Link>
-        <Link href="https://twitter.com/EvangelistDag">
-          <FaTwitter className="w-5 h-5 text-[#1DA1F2] dark:text-gray-100" />
-        </Link>
-      </div> */
+					<Link href="/" className="block h-8 w-8 overflow-hidden">
+					<Image
+						src="/quietTime.jpeg"
+						alt="Quiet Time"
+						width={26}
+						height={26}
+						className="h-full w-full object-cover rounded-full border-2 border-gray-500 dark:border-gray-400 focus:outline-none focus:border-white"
+					/>
+					</Link>
+			</div>
+			<div className="flex flex-row justify-center items-center align-middle gap-4 text-4xl lg:text-5xl">
+				<Link href="https://www.youtube.com/@DagHewardMillsvideos">
+					<FaYoutube className="w-6 h-6 text-[#c4302b] dark:text-gray-100" />
+				</Link>
+				<Link href="https://facebook.com/daghewardmills.org">
+					<FaFacebook className="w-5 h-5 text-[#3b5998] dark:text-gray-100" />
+				</Link>
+				<Link href="https://twitter.com/EvangelistDag">
+					<FaTwitter className="w-5 h-5 text-[#1DA1F2] dark:text-gray-100" />
+				</Link>
+			</div> */
 }
 
 {
 	/* <Image
-        src="menu.svg"
-        alt="menu"
-        width={32}
-        height={32}
-        className="inline-block cursor-pointer lg:hidden"
-      /> */
+				src="menu.svg"
+				alt="menu"
+				width={32}
+				height={32}
+				className="inline-block cursor-pointer lg:hidden"
+			/> */
 }
