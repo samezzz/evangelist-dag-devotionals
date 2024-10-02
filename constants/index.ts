@@ -10,10 +10,10 @@ export const nav: NavItem[] = [
 		name: "Posts",
 		href: "/posts",
 	},
-	{
-		name: "Collections",
-		href: "/collections",
-	},
+	// {
+	// 	name: "Collections",
+	// 	href: "/collections",
+	// },
 ];
 
 export const siteConfig: SiteConfig = {
