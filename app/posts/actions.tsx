@@ -54,14 +54,8 @@ type Filetree = {
 		}
 	];
 };
-// Caching to store fetched posts
-const postCache = new Map<string, DailyDevotional>();
 
 export async function getPostByName(fileName: string): Promise<DailyDevotional | undefined> {
-	if (postCache.has(fileName)) {
-		return postCache.get(fileName);
-	}
-
 	try {
 		const res = await fetch(
 			`https://raw.githubusercontent.com/samezzz/daily-devotionals/main/${fileName}`,
@@ -124,11 +118,8 @@ export async function getPostByName(fileName: string): Promise<DailyDevotional |
 			content,
 		};
 
-		postCache.set(fileName, DailyDevotionalObj);
-
 		return DailyDevotionalObj;
 	} catch (error) {
-		// Handle errors gracefully
 		console.error(`Error fetching ${fileName}:`, error);
 		return undefined;
 	}
@@ -146,7 +137,7 @@ export async function getPostsMeta({
 	perPage?: number;
 }): Promise<Meta[] | undefined> {
 	const res = await fetch(
-		`https://api.github.com/repos/samezzz/daily-devotionals/git/trees/main?recursive=1&page=${page}&per_page=${perPage}`,
+		`https://api.github.com/repos/samezzz/daily-devotionals/git/trees/main?recursive=1`,
 		{
 			headers: {
 				Accept: "application/vnd.github+json",
@@ -164,22 +155,18 @@ export async function getPostsMeta({
 		.map((obj) => obj.path)
 		.filter((path) => path.endsWith(".mdx"));
 
-	// Fetch posts concurrently
 	const allPosts = await Promise.all(
 		filesArray.map(async (file) => {
 			const post = await getPostByName(file);
 			return post ? post.meta : undefined;
 		})
 	);
-	// Filter out undefined posts
+
 	const filteredPosts = allPosts.filter((post): post is Meta => !!post);
-	// Sort all posts
 	filteredPosts.sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1));
 
-	// Calculate the start and end indices based on the page and perPage
 	const startIdx = (page - 1) * perPage;
 	let endIdx = startIdx + perPage;
-	// Ensure the endIndex doesn't exceed the number of filtered posts
 	if (page === 1 && endIdx > filteredPosts.length) {
 		endIdx = filteredPosts.length;
 	}
@@ -187,32 +174,19 @@ export async function getPostsMeta({
 	if (query) {
 		const formattedQuery = query.trim().toLowerCase();
 		const condition = (post: Meta) => post.title.toLowerCase().includes(formattedQuery);
-		const partitionedPosts = partitionFilter(filteredPosts, condition);
-		return partitionedPosts;
+		return partitionFilter(filteredPosts, condition);
 	} else if (date) {
 		const condition = (post: Meta) => post.date === date;
-		const partitionedPosts = partitionFilter(filteredPosts, condition);
-		return partitionedPosts;
+		return partitionFilter(filteredPosts, condition);
 	} else {
-		const paginatedPosts = filteredPosts.slice(startIdx, endIdx);
-		return paginatedPosts;
+		return filteredPosts.slice(startIdx, endIdx);
 	}
 }
 
-export async function getNextTenAction(cursor: number) {
-	// @ts-expect-error
-	const range = (start: number, stop: number, step: number) => {
-		Array.from({ length: (stop - start) / step + 1 }, (_, i: number) => start + i * step);
-		return { data: range(cursor, cursor + 10, 1), nextCursor: cursor + 10 + 1 };
-	};
-}
-
-// Function to add a post to the likedPosts table hence liking it
 export async function likePost({ userId, postId }: { userId: string; postId: string }) {
 	try {
 		const existingLike = await db.likedPost.findUnique({
 			where: {
-				// @ts-ignore
 				userId_postId: {
 					userId: userId,
 					postId: postId,
@@ -226,7 +200,6 @@ export async function likePost({ userId, postId }: { userId: string; postId: str
 		if (existingLike) {
 			response = await db.likedPost.delete({
 				where: {
-					// @ts-ignore
 					userId_postId: {
 						userId: userId,
 						postId: postId,
@@ -257,7 +230,6 @@ export async function likePost({ userId, postId }: { userId: string; postId: str
 	}
 }
 
-// Counts all the likes associated with a particular user
 export async function countTotalLikes({ postId }: { postId: string }) {
 	try {
 		const totalLikesCount = await db.likedPost.count({
@@ -266,21 +238,17 @@ export async function countTotalLikes({ postId }: { postId: string }) {
 			},
 		});
 
-		const message = "Returned total number of likes for a post";
-
-		return { totalLikesCount, message };
+		return { totalLikesCount, message: "Returned total number of likes for a post" };
 	} catch (error) {
 		console.error("Error in countTotalLikes: ", error);
 		return { error: "Error occurred while counting total likes" };
 	}
 }
 
-// Checks if a post affiliated to a particular user is in the likedPosts table
 export async function isLiked({ postId, userId }: { postId: string; userId: string }) {
 	try {
-		const isLiked = await db.likedPost.findUnique({
+		const likedPost = await db.likedPost.findUnique({
 			where: {
-				// @ts-ignore
 				userId_postId: {
 					userId: userId,
 					postId: postId,
@@ -291,23 +259,17 @@ export async function isLiked({ postId, userId }: { postId: string; userId: stri
 			},
 		});
 
-		if (!isLiked) {
-			return { isLiked: false, message: "Post not liked" };
-		}
-
-		return { isLiked: true, message: "Post is liked" };
+		return { isLiked: !!likedPost, message: likedPost ? "Post is liked" : "Post not liked" };
 	} catch (error) {
-		console.error("Error in getLikedPost: ", error);
-		return { error: "Error occurred while fetching liked post" };
+		console.error("Error in isLiked: ", error);
+		return { error: "Error occurred while checking if post is liked" };
 	}
 }
 
-// Function to add a post to the savedPosts table hence saving it
 export async function savePost({ userId, postId }: { userId: string; postId: string }) {
 	try {
 		const existingPost = await db.savedPost.findUnique({
 			where: {
-				// @ts-ignore
 				userId_postId: {
 					userId: userId,
 					postId: postId,
@@ -316,11 +278,11 @@ export async function savePost({ userId, postId }: { userId: string; postId: str
 		});
 
 		let response;
+		let message;
 
 		if (existingPost) {
 			response = await db.savedPost.delete({
 				where: {
-					// @ts-ignore
 					userId_postId: {
 						userId: userId,
 						postId: postId,
@@ -330,17 +292,10 @@ export async function savePost({ userId, postId }: { userId: string; postId: str
 					postId: true,
 				},
 			});
+			message = "Post removed from saved posts";
 		} else {
-			response = await db.savedPost.upsert({
-				where: {
-					// @ts-ignore
-					userId_postId: {
-						userId: userId,
-						postId: postId,
-					},
-				},
-				update: {},
-				create: {
+			response = await db.savedPost.create({
+				data: {
 					postId,
 					userId: userId,
 				},
@@ -348,9 +303,8 @@ export async function savePost({ userId, postId }: { userId: string; postId: str
 					postId: true,
 				},
 			});
+			message = "Post saved successfully";
 		}
-
-		const message = existingPost ? "Post removed from saved posts" : "Post saved successfully";
 
 		return { response, message };
 	} catch (error) {
@@ -359,12 +313,10 @@ export async function savePost({ userId, postId }: { userId: string; postId: str
 	}
 }
 
-// Checks if a post affiliated to a particular user is in the savedPost table
 export async function isSaved({ postId, userId }: { postId: string; userId: string }) {
 	try {
-		const isSaved = await db.savedPost.findUnique({
+		const savedPost = await db.savedPost.findUnique({
 			where: {
-				// @ts-ignore
 				userId_postId: {
 					userId: userId,
 					postId: postId,
@@ -375,14 +327,10 @@ export async function isSaved({ postId, userId }: { postId: string; userId: stri
 			},
 		});
 
-		if (!isSaved) {
-			return { isSaved: false, message: "Post not saved" };
-		}
-
-		return { isSaved: true, message: "Post is saved" };
+		return { isSaved: !!savedPost, message: savedPost ? "Post is saved" : "Post not saved" };
 	} catch (error) {
-		console.error("Error in getSavedPost: ", error);
-		return { error: "Error occurred while fetching saved post" };
+		console.error("Error in isSaved: ", error);
+		return { error: "Error occurred while checking if post is saved" };
 	}
 }
 
@@ -409,7 +357,7 @@ export async function fetchPosts({
 							currentUser?.id
 						);
 
-						const postItem = (
+						return (
 							<PostItem
 								userId={currentUser?.id}
 								post={post}
@@ -420,22 +368,17 @@ export async function fetchPosts({
 								isSaved={userRelatedData.isSaved}
 							/>
 						);
-
-						return postItem;
 					} catch (error) {
 						console.error(`Error processing post ${post.id}: `, error);
-						// Handle specific error scenarios here
 						return null;
 					}
 				})
 			);
 
-			const filteredPostItems = postItems.filter(Boolean); // Remove failed posts
-			return filteredPostItems;
+			return postItems.filter(Boolean);
 		}
 	} catch (error) {
 		console.error("Error fetching data: ", error);
-		// Handle different types of errors in a more granular way if needed
 		return null;
 	}
 }
@@ -444,16 +387,17 @@ async function fetchPostDetails(postId: string, userId?: string): Promise<UserRe
 	const userRelatedData: UserRelatedData = {};
 
 	if (userId) {
-		const [isLiked, likesCount, isSaved] = await Promise.all([
-			fetchIsLiked({ postId, userId }),
-			fetchCountTotalLikes({ postId }),
-			fetchIsSaved({ postId, userId }),
+		const [isLikedResult, likesCountResult, isSavedResult] = await Promise.all([
+			isLiked({ postId, userId }),
+			countTotalLikes({ postId }),
+			isSaved({ postId, userId }),
 		]);
-		userRelatedData.isLiked = isLiked;
-		userRelatedData.likesCount = likesCount;
-		userRelatedData.isSaved = isSaved;
+		userRelatedData.isLiked = isLikedResult.isLiked;
+		userRelatedData.likesCount = likesCountResult.totalLikesCount;
+		userRelatedData.isSaved = isSavedResult.isSaved;
 	} else {
-		userRelatedData.likesCount = await fetchCountTotalLikes({ postId });
+		const likesCountResult = await countTotalLikes({ postId });
+		userRelatedData.likesCount = likesCountResult.totalLikesCount;
 	}
 
 	return userRelatedData;
@@ -489,13 +433,7 @@ export async function fetchCountTotalLikes({ postId }: { postId: string }) {
 export async function fetchIsLiked({ postId, userId }: { postId: string; userId: string }) {
 	try {
 		const likedPost = await isLiked({ postId, userId });
-
-		if (likedPost) {
-			const isLiked = likedPost.isLiked;
-			return isLiked;
-		} else {
-			console.log("Couldn't get liked post.");
-		}
+		return likedPost.isLiked;
 	} catch (error) {
 		console.error("Error: ", error);
 	}
@@ -518,13 +456,7 @@ export async function fetchSavePost({ postId, userId }: { userId: string; postId
 export async function fetchIsSaved({ postId, userId }: { postId: string; userId: string }) {
 	try {
 		const savedPost = await isSaved({ postId, userId });
-
-		if (savedPost) {
-			const isSaved = savedPost.isSaved;
-			return isSaved;
-		} else {
-			console.log("Couldn't get saved post.");
-		}
+		return savedPost.isSaved;
 	} catch (error) {
 		console.error("Error: ", error);
 	}

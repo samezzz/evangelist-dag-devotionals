@@ -13,7 +13,7 @@ import { LoaderIcon } from "./Icons";
 type InfiniteScrollPostsProps = {
 	search: string | undefined;
 	date: string | undefined;
-	initialPosts: JSX.Element[];
+	initialPosts: JSX.Element[] | null;
 };
 
 const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = React.memo(
@@ -34,7 +34,7 @@ const InfiniteScrollPosts: React.FC<InfiniteScrollPostsProps> = React.memo(
 
 				if (newPosts?.length) {
 					setPage(nextPage);
-					setPosts((prevPosts) => prevPosts.concat(newPosts as JSX.Element[]));
+					setPosts((prevPosts) => { prevPosts.concat(newPosts as JSX.Element[] || null) });
 				} else {
 					setHasMore(false);
 				}
